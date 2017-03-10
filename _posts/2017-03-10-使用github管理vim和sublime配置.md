@@ -1,6 +1,6 @@
 ---
 title: 使用github备份vim和sublime配置
-category: study/github
+category: github
 excerpt: |
   如何使用github来管理配置文件
 ---

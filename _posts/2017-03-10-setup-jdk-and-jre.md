@@ -1,6 +1,6 @@
 ---
 title: 配置java运行环境和开发环境的配置(Windiws&Linux)
-category: study/java
+category: java
 excerpt: |
   java运行环境的配置教程，包括了windous和linux平台．
 ---
