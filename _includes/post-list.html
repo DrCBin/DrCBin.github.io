@@ -1,29 +1,32 @@
 {% if paginator.posts %}
+
 	<section class="section  typeset">
 		<ul class="list  list--posts">
-			{% for post in paginator.posts %}
-			<h1>total {{ paginator.total_posts }} posts.</h1>>
+			{% for page in paginator.posts %}
 				<li class="item  item--post">
 					<article class="article  article--post">
 
-						<h2><a href="{{ post.url }}" title="Post - {{ post.title }}">{{ post.title }}</a></h2>
+						<h2><a href="{{ page.url }}" title="Post - {{ page.title }}">{{ page.title }}</a></h2>
 						{% include post-meta.html %}
-						{{ post.excerpt | markdownify | truncatewords: 60 }}
+						{{ page.excerpt | markdownify | truncatewords: 60 }}
+
 					</article>
 				</li>
 			{% endfor %}
 		</ul>
 		{% include post-pagination.html %}
 	</section>
+
 {% else %}
 	<h3>Latest blog posts</h3>
 	<ul class="list  list--posts">
-		{% for post in site.posts limit: 4 %}
+		{% for page in site.posts limit: 4 %}
 			<li class="item  item--post">
 				<article class="article  article--post">
-					<h4><a href="{{ post.url }}" title="Post - {{ post.title }}">{{ post.title }}</a></h4>
+
+					<h4><a href="{{ page.url }}" title="Post - {{ page.title }}">{{ page.title }}</a></h4>
 					{% include post-meta.html %}
-					{{ post.excerpt | markdownify | truncatewords: 60 }}
+					{{ page.excerpt | markdownify | truncatewords: 60 }}
 
 				</article>
 			</li>
