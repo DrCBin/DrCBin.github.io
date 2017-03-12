@@ -1,6 +1,6 @@
 ---
 title: django中ModelAdmin.actions用法总结
-catefory: django
+category: django
 excerpt: ModelAdmin.actions的用法总结
 ---
 
