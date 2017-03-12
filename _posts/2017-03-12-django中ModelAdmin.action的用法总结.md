@@ -4,7 +4,7 @@ category: django
 excerpt: ModelAdmin.actions的用法总结
 ---
 
-[参考文档:django documentation](https://docs.djangoproject.com/en/1.10/ref/contrib/admin/actions/)
+[参考文档:django documentation](https://docs.djangoproject.com/en/1.10/ref/contrib/admin/actions/)</br>
 ```ModelAdmin.actions```的作用是提供一系列对Model实例批量处理的可用操作．举个简单例子，当要删除某个Model实例时，先选择实例，然后删除，当要删除一堆实例的时候，就会多选，然后删除．```ModelAdmin.actions```做的就是提供一系列类似于* 删除 *的方法．
 
 #### 用法：
