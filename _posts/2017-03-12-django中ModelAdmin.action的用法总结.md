@@ -67,9 +67,10 @@ admin.site.add_action(count)
 ```
 
 这样，无论你操作那个Model的实例，都会有count的响应可选择.
+
 ```admin.site.add_action```可以选择第二个参数，第二个参数的作用是给这个响应命名，这样以后可以方便的操作这个响应．
 
-```admin.site.add_action(count, 'show item num')```这样就把```count```这个响应命名为* show item num *了．
+```admin.site.add_action(count, 'show item num')```这样就把* count *这个响应命名为* show item num *了．
 
 #### 对某个站点禁用全局响应
 适用```admin.site.disable_adtion```来禁用某个响应，参数为响应的名字．eg:
