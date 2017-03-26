@@ -31,6 +31,17 @@ class ModelAdminName(admin.ModelAdmin):
 ```class Meta```类提供了一个模型的内部的约束和行为管理，其功能只能是对具体的模型进行具体的管理，有点类似于模型的自我管理．而```class ModelAdmin```提供的是模型外部的管理，管理的是一群模型的实例．主要管理的是Model在admin site中的表现行为.
 
 #### ModelAdmin的可用选项
-** ModelAdmin.action **:其值为一个列表，列表内容是响应的函数，作用是定义在admin site中选择多个model实例是，可用的操作．通俗说就是批量处理的行为．
-** ModelAdmin.action_on_top/bottom **:值为布尔(bool),作用是控制action bar 的显示位置.
+` ModelAdmin.action `:其值为一个列表，列表内容是响应的函数，作用是定义在admin site中选择多个model实例是，可用的操作．通俗说就是批量处理的行为．具体见[这里](http://single-thread.me/django/2017/03/12/django%E4%B8%ADModelAdmin.action%E7%9A%84%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/)
+` ModelAdmin.action_on_top/bottom `:值为布尔(bool),作用是控制action bar 的显示位置.
+`ModelAdmin.action_selection_counter`:取值为布尔，作用是是否显示选择计数器．选择计数器，选择的时候，会在下拉响应菜单的旁边实时显示数量．
+`ModelAdmin.date_hierarchy`:取值为字段类型中的DateField/DateTimeField,作用是在列表页面上方生成一个基于时间的导航．
+`ModelAdmin.exclude`:．．．
+`ModelAdmin.fields`:．．．
+`ModelAdmin.list_display`:取值为元祖，　作用是定义在Model列表中要显示的字段．
+`ModelAdmin.list_filter`:取值为元祖，作用按元祖中的选项过滤Model,表现为在页面的右边显示了一系列的过滤选择．
+`ModelAdmin.search_fields`:取值为元祖，　作用是提供一个搜索框，　可以搜索元祖中列举的字段．
+`ModelAdmin.prepopularted_fields`:取值为字典，作用是自动根据字典中的Value生成SlugField填充Key,通常作用是将Key为SlugField,然后通过Value来自动填充，其中Value为元祖．并且Value不支持DateTimeField 和关系字段.
+`ModelAdmin.raw_id_fields`:取值为一个元祖，作用是将Model中ForeignKry由默认的下拉选择框改成文本输入框，使得用户可以直接键入ForeignKey的对象ID便可以，也可以点击选择．
+`ModelAdmin.ordering`:取值为一个列表，　作用是按照列表中所给的字段排序，字段为字符串，加上 '-' 为反向排序．
+
 

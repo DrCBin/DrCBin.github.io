@@ -1,0 +1,97 @@
+---
+title: 读django by example 笔记
+category: django
+excerpt: |
+  django by example 的读书笔记
+---
+## 第一天：
+-  创建第一个站点:
+`django-admin startpreject mysite`
+2. 使用 manage.py 添加建立第一个应用:
+`python3 manage.py startapp blog`
+3. 安装创建的应用:
+> 刚建立的应用需要安装，才能被系统识别，安装方式为在站点的settings.py文件中，　有个　INSTALL_APP 的列表中添加刚创建的应用．
+4. 创建第一个Model:
+> 创建一个应用之后，默认就有model.py模块，只需要编辑该模块，创建Model即可．书中是创建了一个 'Post' Model．如下:
+```python
+	from django.db import models
+	class Post(models.Model):
+		title = models.CharField(max_length=50)
+		publish = models.Datetimefield()
+		class Meta:
+			ordering = ('-publish',)
+		def __str__(self):
+			return self.title
+```
+> - Post 为Model名字，是一个类．
+> - title、publish等是变量，后面的CharField等叫做字段，关于字段的介绍和类型见[这里](http://single-thread.me/django/2017/03/13/django%E5%AD%97%E6%AE%B5%E7%B1%BB%E5%9E%8B%E6%80%BB%E7%BB%93/)
+> - models.CharField(max_length=50),其中max_length叫做字段选项，关于字段选项的作用及类容见[这里](http://single-thread.me/django/2017/03/13/django%E5%AD%97%E6%AE%B5%E7%B1%BB%E5%9E%8B%E6%80%BB%E7%BB%93/)
+> - class Meta:叫做元类，作用是为该Model定义一下不可见的功能，比如排序等，　关于元类的详细介绍在[这里]()．
+> - ordering = ('-publish',):叫做元选项，关于元选项的作用及种类见[这里]()．
+> def __str __:是Model的模型方法，和　python的方法作用一样.
+
+- 生成迁移脚本:
+`python3 manage.py makemigrations`
+作用是将基于当前应用中的Model,生成相对应的数据库生成迁移策略文件．简单说就是根据你的Model,确定怎么生成数据库中的表．
+- 执行迁移：
+`python3 manage.py migrate`
+作用是根据伸长的迁移策略，执行迁移，简单说就是执行在数据库中创建表．
+- 创建管理员用户：
+`python3 manage.py createsuperuser`
+创建一个管理员用户，用于后台登陆管理员界面．
+- 运行开发服务器：
+dango自带了一个简单的开发服务器，运行`mython3 manage.py runserver`便可以运行．然后访问`localhost:8000/admin`，使用管理员账号便可以登陆．
+- 注册Model到admin:
+> 为了在admin界面管理Model,需要将Model先注册到admin站点，方法是在admin.py中注册．
+```python
+	from django.conrrib import admin
+	from .models import Post
+	admin.site.register(Post)
+```
+具体注册方法见[这里](http://single-thread.me/django/2017/03/12/django%E6%B3%A8%E5%86%8Cmodel%E5%88%B0adminSite%E7%9A%84%E6%96%B9%E6%B3%95/).
+
+- 模型API的使用：介绍了API的简单使用，包括了创建，更新，查询，删除等．具体的API使用见[这里]().
+- 自定义模型管理器：
+> 管理器就是用来管理Model的，其提供了对模型的一些操作的接口．
+models默认提供的是objects管理器，但是有时候这个管理器并不是我们期待的样子，这时候我们就可以自己写自己的管理器了．关于自定义管理器的详细，见[这里]()．
+- 建立视图：
+所谓试图，就是接收请求，进行业务逻辑处理并返回一个响应的东西．书中简单的使用了两个请求，一个是post列表，一个是post详情．试图的实质为一个函数．
+- 建立URL路由器．
+上述说了，试图的作用是进行业务逻辑处理并返回一个响应，而URL路由的作用便是解析网址，并将不同的请求分配给对应的View处理，则便是URL路由的作用．
+- URL路由使用include.
+系统给我们提供的URL路由模块是  urls.py,并且只有一个，　但是如果我们将所有应用的工作都交给这个路由来做的话，　势必会造成负担，并且不好维护和管理．　因此我们可以给每个应用都配置一个属于自己的路由．使用include.具体如下：
+```python
+	# in blog/urls.py
+	from django.conf.urls import url
+	from . import views
+	urlpatterns = [
+		url(r'^$', views.post_list, name='post_list'),
+	]
+	
+	# in mysite/urls.py
+	from django.comf.urls import url, include
+	urlpatterns = [
+		url(r'^blog/', include('blog.urls', namespacs='blog', app_name='blog')),
+	]
+```
+这样，post/urls.py文件就只管理post的url, 然后在将子url include到父url路由器统一管理．
+
+- 规范化Model的url:
+当我们想要访问一篇post 的详情的时候，　我们需要通过url访问，所以对于每一篇post,都需要一个唯一的url,所以我们需要按照一定的规范来产生每一个Model对应的url.
+```python
+	from django.core.urlresovers import reverse
+	class Post(modes.Model):
+		# ...
+		return reverse('blog:post_detail',
+						args = [self.publish.year,
+								self.publish.strftime(%m),
+								self.publish.strftime(%d),
+								self.slug])
+```
+- 使用模板：
+django在html页面可以使用模板引擎，具体使用方法见[这里]()．
+
+- 使用分页助手：
+我们在页面中显示post列表的时候，有时候数目过多，　此时可以使用分页的方法显示．具体见[这里]().
+ - 使用通用视图:
+ 有时候我们的视图是没有进行任何的特定逻辑处理，或者某些逻辑处理是很简单且统一的，这时候我们可以将他们简化成一个模板，使用的时候只需要传递几个参数就行．比如显示列表的试图，不管是什么Model，都可以显示成列表．关于django中的通用试图，见[这里]().
