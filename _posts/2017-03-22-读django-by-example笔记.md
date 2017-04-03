@@ -4,7 +4,7 @@ category: django
 excerpt: |
   django by example 的读书笔记
 ---
-## 第一天：
+# 第一天
 -  创建第一个站点:
 `django-admin startpreject mysite`
 2. 使用 manage.py 添加建立第一个应用:
@@ -98,7 +98,7 @@ django在html页面可以使用模板引擎，具体使用方法见[这里]()．
  
  
 --------
-##第二天,终于开始更新第二次了
+#第二天,终于开始更新第二次了
 - 发送邮件：
 简单的讲了一下邮件的发送方式，具体见[这里](),并涉及ModelForm的使用。其中用到了两个Model，`models.ModelForm`,`models.Form`,两个的区别见[这里]().
 
@@ -117,9 +117,48 @@ class Post:
 这样post就有tag属性了, 然后在post_list.html template 中进行标签的显示处理。
 
 - 推荐相似的Post：
-由于使用了 tag标签， 则可以根据文章的标签来推荐具有相同或者相似标签的文章。在这个地方遇到了一个坑，并get了一个技能：由于对正则表达式不是熟，所以在配置url路由器的时候，正则表达式写错了，应该是`(?P<tag_slug>[-/w]+)`, 我硬是写成了`(?P<tag_slug>[-/w+])`,如此便出现了NoReverseMatch的错误。
-通过找资料，get了一个技能，当在模板中需要用到`{% url 'url-name' arg1 arg2 %}`来获取url地址的时候， 可能会出现获取失败的情况，或者这啊那的出问题，则可以将上述需要获取的url地址通过这样设置成一个变量:`{% url 'url-name' arg as varname %}`, 这样在需要用到url路径的地方使用`{{ varname }}`就行了。但各有优缺点
+由于使用了 tag标签， 则可以根据文章的标签来推荐具有相同或者相似标签的文章。在这个地方遇到了一个坑，并get了一个技能：由于对正则表达式不是熟，所以在配置url路由器的时候，正则表达式写错了，应该是```(?P<tag_slug>[-/w]+)```, 我硬是写成了`(?P<tag_slug>[-/w+])`,如此便出现了NoReverseMatch的错误。
+通过找资料，get了一个技能，当在模板中需要用到```{% url 'url-name' arg1 arg2 %}```来获取url地址的时候， 可能会出现获取失败的情况，或者这啊那的出问题，则可以将上述需要获取的url地址通过这样设置成一个变量:```{% url 'url-name' arg as varname %}```, 这样在需要用到url路径的地方使用`{{ varname }}`就行了。但各有优缺点
     - 优点：保证了网站的正常行不会崩溃，导致无法访问等。
     - 缺点：在调试期间无法很好的及时发现错误。比较好的解决办法是在使用`{{ varname }}`的时候先判断试下该变量是否为空。
     
-    
+### 第二天总结
+第二天完事了，这章的内容不多，主要是添加一些功能内容为主，业务逻辑偏多，新技术涉及较少。
+
+--------
+
+# 第三天
+> 这一章的内容不是很多，因为有的用不到，现在也没必要过于深入的折腾，所以过滤了差不多一半的内容。
+
+- 自定义模板标签：
+`django.template.Library()`库提供了自定义模板标签的可能。模板标签需位于指定目录下，默认是和`tamplate`在同一个目录下，目录名字为`tamplatetags`,并且需要用`__init__.py`初始化为模块，然后建立标签文件eg:`post_tag.py`具体用法如下。
+    - 导入Library()库：
+```python
+	# in sitename/appname/templatetags/file_name.py
+	from django.template import Librarry() as register
+```
+编写模板标签函数：
+```python
+    	def total_posts():
+    		return Post.published.count()
+```
+注册函数为模板标签：
+```python
+	@register.simple_tag
+	def total_posts():
+		return Post.published.count()
+```
+其中注册器分三种:
+
+> - simple_tag:模板标签的功能只限于返回简单的字符串
+> - inclusion_tag:可以返回一个`tamplate`，并且使用变量。
+> - assignment_tag:可以返回一个上下文变量。
+
+具体用法见[这里]().
+
+
+- 自定义过滤器：
+自定义过滤器和自定义模板标签的方法一样， 只是在注册的时候使用`register.filter`注册。
+- 添加站点地图：只是大概的了解了一下什么是站点地图，只是知道作用大概是方便网站被搜索引擎检索到。
+- 添加RSS订阅：恩，了解，没使用。
+- 添加站内搜索:了解了一下，也没配置成功。
