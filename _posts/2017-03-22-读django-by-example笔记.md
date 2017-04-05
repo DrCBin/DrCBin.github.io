@@ -182,7 +182,7 @@ class Post:
 ```python
 	profile_form = ProfileEditForm(instance=request.user.profile)
 ```
-** 这个参数是干嘛用的。？ **大概的感觉是这个表单中的数据和这个实例关联，如果实例中有表单中某个数据的字段就将它填充上。
+**这个参数是干嘛用的。？**大概的感觉是这个表单中的数据和这个实例关联，如果实例中有表单中某个数据的字段就将它填充上。
 
 
 
@@ -216,12 +216,12 @@ class Post:
 	def get_user(self, user_id):
 		pass
 ```
-然后在settings.AUTHENTICATE_BACNEND中添加。** 认证的时候会重上到下认证，如果认证成功则不再进行下一个认证。 **
+然后在settings.AUTHENTICATE_BACNEND中添加。**认证的时候会重上到下认证，如果认证成功则不再进行下一个认证.**
 
 - 添加第三方认证登陆的功能:
 这个功能没做。
 
 - blank的作用，表示可以不填。null的作用，表示可以为Null.
 
-** 需要解决：1. 自定义认证出现了问题。2.添加第三方认证登陆。**
+**需要解决：1. 自定义认证出现了问题。2.添加第三方认证登陆**
 
