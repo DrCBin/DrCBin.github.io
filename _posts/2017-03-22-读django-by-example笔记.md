@@ -162,3 +162,66 @@ class Post:
 - 添加站点地图：只是大概的了解了一下什么是站点地图，只是知道作用大概是方便网站被搜索引擎检索到。
 - 添加RSS订阅：恩，了解，没使用。
 - 添加站内搜索:了解了一下，也没配置成功。
+
+
+# 第四天
+
+- 使用内建类`User`和内建认证模块`login`来实现一个用户的登陆，官方文档说明在[这里](http://usyiyi.cn/translate/django_182/topics/auth/default.html#auth-web-requests).
+- 具体的流程为:  验证请求类型(get or post), 验证标单的可用性，获取标单数据，提取标单数据，进行用户认证`login(username='xx', password='xx')`,如果认证成功， 返回用户，认证失败返回**None**。所以**一定要先判断返回值**,在进行操作。
+
+> 在实例化一个标单的时候， 可以使用`request.POST`在作为实例化的参数，这样标单就会自动获取POST值，并赋给表单的对应项。想必这也是html中的表单不用设置action url的原因吧。
+
+- 使用内建的登陆模块:
+除了使用自定义的试图来登陆，django还提供了内置的登陆系统，`django.contrib.auth.views`:提供了`login`,`logout`,等常用认证试图。并且有一些常用参数可选择，如指定模板，指定登陆后重定向等。官方文档见[这里]().
+> 超级BUG，配置 url "xxx:xxx" %} 时，引号之间的字符串就是名字，包括空格，所以不要手残加空格
+ 
+ - 扩展了User类，给User类添加了一个Profile， 关系为和User OneToOne。
+ 
+- 添加了用户注册的功能:
+编写了一个用户注册的表单类。主要用到一个方法，就是判断两次输入的密码，这个表单类基于`model=User`, 在编辑用户注册Views的时候，有一个地没太明白：
+```python
+	profile_form = ProfileEditForm(instance=request.user.profile)
+```
+** 这个参数是干嘛用的。？ **大概的感觉是这个表单中的数据和这个实例关联，如果实例中有表单中某个数据的字段就将它填充上。
+
+
+
+- 添加了用户编辑的功能:
+由于Profile属性是后来添加的，所以在之前创建的User就没有这个属性，所以当尝试访问没有属性的User的profile属性时，会报`RelateObjectDoesNotExist:user has no profile`错误。**所以需要将尝试获取User的profile的代码段用try-except包起来，这是书上没有说明的**。
+
+- 简单的提了一句自定义User类。
+
+- 启用消息通知：
+`django.contrib.message`提供了消息对象，可以返回不同类型的消息。用法：
+```python
+	# in views.py
+	from django.contrib import messages
+	def anyviews(request):
+		messages.success(request, 'Message body')
+```
+```html
+	<!-- in html-->
+	{% if messages %}
+		{% for message in messages %}
+			{{ message|safe }}
+		{% endfor %}
+	{% endif %}
+```
+- 添加了自定义认证系统:
+自定义认证需要实现两个方法:
+```python
+	def authenticate(self, username=None, password=None):
+		pass
+	
+	def get_user(self, user_id):
+		pass
+```
+然后在settings.AUTHENTICATE_BACNEND中添加。** 认证的时候会重上到下认证，如果认证成功则不再进行下一个认证。 **
+
+- 添加第三方认证登陆的功能:
+这个功能没做。
+
+- blank的作用，表示可以不填。null的作用，表示可以为Null.
+
+** 需要解决：1. 自定义认证出现了问题。2.添加第三方认证登陆。**
+
