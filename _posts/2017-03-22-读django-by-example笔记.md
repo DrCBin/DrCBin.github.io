@@ -201,11 +201,11 @@ class Post:
 ```
 ```html
 	<!-- in html-->
-	{% if messages %}
-		{% for message in messages %}
-			{{ message|safe }}
-		{% endfor %}
-	{% endif %}
+	{.% if messages %}
+		{.% for message in messages %}
+			{.{ message|safe }}
+		{.% endfor %}
+	{.% endif %}
 ```
 - 添加了自定义认证系统:
 自定义认证需要实现两个方法:
