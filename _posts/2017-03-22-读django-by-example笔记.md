@@ -4,6 +4,7 @@ category: django
 excerpt: |
   django by example 的读书笔记
 ---
+
 # 第一天
 -  创建第一个站点:
 `django-admin startpreject mysite`
@@ -225,3 +226,72 @@ class Post:
 
 **需要解决：1. 自定义认证出现了问题。2.添加第三方认证登陆**
 
+
+
+# 第五天
+
+终于更新到第五章了。这章开始慢慢变难了，不是说django难了，而是开始涉及到的知识面变广了，很多都是我没有接触过，甚至不知道是干啥用的。一个一个来吧。
+
+- 今天领悟到了一个很重要的问题，django寻找东西的时候只认名字。比如`settings.STATIC_URL = 'static/'`这样的设置，django需要静态文件的时候它就只找叫做static的文件夹，找到了就停，并不会去关心是在哪儿找到的。同样的道理，在使用模板继承的时候，我们写的是`{.% extends "base.html" %}`,django只知道在templates下找这个名字，**找到就用，并不会去管在那个templates找到的**。当然，**会优先搜索同级**。然后从前到后。
+
+- 然后是开始写Image Model了：
+```python
+	class Image(models.Model):
+		url = models.UrlFiels()
+		slug = models.SlugFields()
+		image = models.ImageFields(uplode_to='images/%Y/%m/%d')
+		users_like = models.ManyToManyFields(settings.AUTH_USER_MODEL,related_name='images_liked', blank=True)
+		# 多对多字段，表示点赞的人和被点赞的图片之间的关系
+		
+		def save(self):
+			if not self.slug:
+				self.slug = slugify(self.title) #django.utils.text.slugify
+```
+注意，这里会有两个save.`Image.save()`,`Image.image.save(name,content,save=True)`.前者是Model的save,保存的是所有model的信息， 后者是Field的save,保存的仅仅是image,并且需要两个参数，name 和content,名字和对应的实例。
+
+- 紧接着创建了一个创建Image的表单:
+```python
+	class CreateImageForm(forms.ModelForm):
+		class Meta:
+			model = Image
+			fields = ('title', 'url', 'description')
+			widget = {
+				'url':forms.HiddenInput,
+			}
+```
+这个表单使用的是ModelForm，特点是根据一个Model来生成表单，同时 你可以规定需要填写的字段等。
+
+- 紧接这给这个表单添加了一个获取url数据的方法clean_url:
+```python
+	def clean_url(self):
+		url = self.cheaned_data['url']
+		extension = url.rsplit('.', 1)[1]
+		if extension not in ['jpg', 'jpeg']
+			raise 'url error'
+		return url
+```
+
+- 然后重写了ImageCreateForm.save()方法
+重写的save()方法中，直接调用了Image的save()方法，如果数据都可用的话。这样就直接通过ImageCreateForm.save()将图片保存了，省的还要通过Image来保存。
+
+
+- 接下来就是添加一个基于Jquery的收集功能，大概的实现原理是
+    - 添加一段自动运行的js脚本，并拖到收藏栏
+    - 打开网页的时候，脚本会自动运行，并且检查网页中的网址是否为图片
+    - 将检测到的图片列出来，然后点击其中一张，就会跳到创建图片的页面。
+    - 填写部分信息，结合从其他网站传过来的信息，完成图片创建。
+    
+不会写，照着书写出来是不能跑的， 故暂时放弃。
+
+
+- 接下来还使用了其他的东西，比如AJAX来异步请求等，但是都不会。所以自己用很原始的请求响应来完成了同样的功能，保证网站完整运行。
+
+
+
+# 第六天
+
+- create_action中限制用户重复发动态的方法没有完善，记得完善。
+
+- 有关动态中，用户和被牵连的东西之间的关系，ContentType啥的也没有弄懂。
+
+-  image一直不能保存， 原来是重写save()的时候，缩进弄错了导致没有执行save()

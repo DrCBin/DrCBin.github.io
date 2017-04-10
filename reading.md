@@ -14,6 +14,7 @@ excerpt: "A list of books"
 
 ## 在读
 > - Django By example
+> - 黑客与画家
 
 ## 计划读 
 > - 编程珠玑
