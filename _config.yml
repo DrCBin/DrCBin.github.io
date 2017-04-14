@@ -30,6 +30,7 @@ gems:
 - jemoji
 
 # 3. Gem settings
+media_root: media
 paginate: 5 # jekyll-paginate > items per page
 paginate_path: blog/page:num # jekyll-paginate > blog page
 jekyll-mentions: https://twitter.com # jekyll-mentions > service used when @replying
@@ -96,14 +97,13 @@ navigation_header:
   GitHub: https://github.com/single-thread
 
 navigation_footer:
-  Created by ChenBin: 
+  Created by ChenBin:
 
 social_links:
   GitHub: https://github.com/single-thread
   Twitter: https://twitter.com/
   Google+: https://plus.google.com/
-  
+
 
 sharing_links:
   # Twitter: "#1DA1F2"
-
