@@ -11,16 +11,16 @@ excerpt: |
 ## 注册&登陆
 - 登陆coding.net的官网，很明显的注册和登陆页面，按照要求注册并登陆即可
 
-![ ](https://github.com/single-thread/single-thread.github.io/media/images/1.png  "注册&登陆")
+![ ](https://raw.githubusercontent.com/single-thread/single-thread.github.io/master/media/images/1.png  "注册&登陆")
 
 - 登陆完成后点击工具栏的IDE选项，
 
-![ ](https://github.com/single-thread/single-thread.github.io/media/images/2.png  "IDE")
+![ ](https://raw.githubusercontent.com/single-thread/single-thread.github.io/master/media/images/2.png  "IDE")
 
 - 然后新建工作空间或点击你已经有的工作空间。**不是使用红框中的两个体验**。
     - 所谓工作空间，就是分配给你的linux主机。
 
-![ ](https://github.com/single-thread/single-thread.github.io/media/images/3.png  "新建工作空间")
+![ ](https://raw.githubusercontent.com/single-thread/single-thread.github.io/master/media/images/3.png  "新建工作空间")
 
 - 紧接着选择一个项目来初始化工作空间。
     - 如果你有项目，则1处显示的和图示一样，会出现你的项目.
@@ -29,14 +29,14 @@ excerpt: |
     - 如果你有github, 或者其他git仓库，还可以用git创库来初始化该工作空间.
 
 
-![ ](https://github.com/single-thread/single-thread.github.io/media/images/4.png  "初始化工作空间")
+![ ](https://raw.githubusercontent.com/single-thread/single-thread.github.io/master/media/images/4.png  "初始化工作空间")
 
-![ ](https://github.com/single-thread/single-thread.github.io/media/images/5.png  "配置")
+![ ](https://raw.githubusercontent.com/single-thread/single-thread.github.io/master/media/images/5.png  "配置")
 
 - 紧接着就可以进入你的工作空间
 
-![ ](https://github.com/single-thread/single-thread.github.io/media/images/6.png  "使用工作空间")
+![ ](https://raw.githubusercontent.com/single-thread/single-thread.github.io/master/media/images/6.png  "使用工作空间")
 
 - 然后在工作界面，点击终端，就可以愉快的使用linux了.
 
-![ ](https://github.com/single-thread/single-thread.github.io/media/images/7.png  "使用linux")
+![ ](https://raw.githubusercontent.com/single-thread/single-thread.github.io/master/media/images/7.png  "使用linux")
