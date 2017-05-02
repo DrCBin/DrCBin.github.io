@@ -42,7 +42,7 @@ int main(){
             - pid > 0:等待进程号与pid相等的子进程;
             - pid == 0:等待[进程组](http://baike.baidu.com/item/%E8%BF%9B%E7%A8%8B%E7%BB%84)与其父进程的进程组相同的任意子进程；
             - pid == -1:等待任意子进程,同wait作用一样.
-            - pid < -1: 等待进程组号为|pid|的子进程； 
+            - pid < -1: 等待进程组号为 -pid 的子进程； 
         - int *status; 同wait();
         - int options:
             - WNOHANG: 如果想wait的子进程还没进入退出状态，则返回0，不再继续等待.
@@ -80,7 +80,7 @@ WEXITSTATUS(status)|取得子进程exit()返回的结束代码, 一般会先用W
 |WIFSTOPPED(status)|如果子进程处于暂停执行情况则此宏值为真. 一般只有使用WUNTRACED时才会有此情况.|非0:子进程处于暂停状态|
 |WSTOPSIG(status)|取得引发子进程暂停的信号代码, 一般会先用WIFSTOPPED 来判断后才使用此宏.|暂停的信号代码|
 
-- waitpid的第三个参数可以使用组合的形式，如WIFHANG|WUNTRACED.
+- waitpid的第三个参数可以使用组合的形式，如WIFHANG||WUNTRACED.
 
            
             
