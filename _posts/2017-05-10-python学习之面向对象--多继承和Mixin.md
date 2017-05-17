@@ -2,7 +2,7 @@
 title: python学习之面向对象--使用@property
 category: python
 excerpt: |
-
+    python学习系列笔记！
 ---
 
 

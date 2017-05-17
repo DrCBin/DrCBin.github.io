@@ -2,7 +2,7 @@
 title: python学习之面向对象--使用@property
 category: python
 excerpt: |
-
+    python学习系列笔记！
 ---
 
 通常情况,我们封装属性是为了能更好的限制属性不被任意修改.
@@ -69,7 +69,3 @@ TypeError
 恩，好了，方便多了
 
 `@property`把`score`方法变成了可以直接读的舒心, 然后`score.setter`又可以把另一个方法变成可以设置值的属性.
-
-
-
-
