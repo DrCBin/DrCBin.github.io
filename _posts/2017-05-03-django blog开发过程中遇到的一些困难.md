@@ -26,3 +26,6 @@ excerpt: |
     - STATIC_URL: 是指django映射时候找找的文静目录，比如`STATIC_URL = '/static/'`, 那么django会自动将静态文件映射到所有名为static的文件夹上。
     - STATIC_ROOT:存放静态文件的目录，主要是部署服务器用的。部署服务器的时候需要给静态文件映射一个路径给服务器，由于我们之前的开发都是将静态文件分布在每个app的目录下，这样一个一个的去映射势必会造成一定的不便。这时候我们只需要设置一下STATIA_ROOT， 如`STATIC_ROOT = 'statics'`,这时候运行一下`pytnon manager.py collectstatic`,这样就会自动的把分布于每个app下的静态文件全部集中到statics了，然后再将这个路径映射给服务器就好了。
     - STATICFILES_DIR:告诉django有那些文件夹是静态文件，然后在urls.py里面加上staticfiles_pattern，就能直接输入静态文件的网址访问静态文件了.
+    
+    
+- 表单重复提交的问题:如果一个页面需要提交表单数据，并且请求url也是本页面，即'.', 那么如果刷新页面，将会导致表单重复提交,博客中的评论。 解决方法是将处理表单的视图返回一个重定向.
