@@ -64,4 +64,11 @@ git config user.name "my-name"
 git config user.email "your@email.com"
 ```
 
+对了,你设置的远程仓库别忘了改
+
+```git
+git remote add origin git@xxx.github.com:AccountName/ResName.git
+# git是config里面的User，xxx.github.com就是你的Host
+```
+
 ok! 开始享受两个自己吧.
