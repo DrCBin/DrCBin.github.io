@@ -22,6 +22,7 @@ excerpt: "A list of books"
 > - 从０到１
 > - 创业维艰
 > - java遗传算法编程
+> - SICP
 
 ## 打算重读
 > - 鸟哥的linux私房菜
