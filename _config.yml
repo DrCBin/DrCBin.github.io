@@ -1,5 +1,5 @@
 title: ChenBin 的个人博客
-logo: /hcz-jekyll-blog/static/img/avatar.png
+logo: /static/img/avatar.png
 github: https://github.com/single-thread
 about: IT、学生
 
@@ -9,7 +9,7 @@ url: ""
 allowsearch: true
 
 disqus_shortname: aboutashu
-google_analytics: UA-72862926-1
+google_analytics: UA-93378012-1
 
 share:
   twitter_username: \#

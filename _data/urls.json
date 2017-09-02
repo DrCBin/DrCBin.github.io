@@ -11,19 +11,10 @@
     "icon": "fa-comments"
   },
   {
-    "text": "Projects",
-    "url": "/projects",
-    "icon": "fa-desktop"
-  },
-  {
-    "text": "Resume",
-    "url": "/#",
-    "icon": "fa-graduation-cap",
-  },
-  {
     "text": "Github",
-    "url": "/#",
-    "icon": "fa-github"
+    "url": "github.com/single-thread",
+    "icon": "fa-github",
+    "target": _blank
   },
   {
     "text": "XML Feed",
