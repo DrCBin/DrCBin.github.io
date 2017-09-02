@@ -1,33 +1,16 @@
 <!DOCTYPE html>
-<html lang="en-GB">
-	<head>
-		<!-- General meta -->
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+<html>
+  <head>
+    {% include meta.html %}
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+      <script type="text/javascript">window.baseurl = '{{ site.url }}';</script>
+      {% include css.html %}
+  </head>
 
-		{% if page.indexing == false %}
-			<meta name="robots" content="noindex">
-		{% endif %}
-
-		{% if page.collectionpage %}
-			{% seo title=false %}
-
-			{% assign collectiondata = site.collections | where: "label", page.collectionpage | first %}
-			<title>{{ collectiondata.title }} - {{ site.title }}</title>
-			<meta property="og:title" content="{{ collectiondata.title }}">
-			<meta name="description" content="{{ collectiondata.description }}">
-			<meta property="og:description" content="{{ collectiondata.description }}">
-		{% else %}
-			{% seo %}
-		{% endif %}
-
-    <link rel="stylesheet" href="{{ "/assets/styles.css" | relative_url }}">
-
-		{% include site-favicons.html %}
-	</head>
-	<body class="layout-{{ page.layout }}  {{ page.title | slugify }}">
-		{% include site-icons.svg %}
-
-		{{ content }}
-
-	</body>
+  <body class="home overflow-hidden">
+    {% include header.html %}
+    {% include main.html %}
+    {% include js.html %}
+    {% include analytics.html %}
+  </body>
 </html>
