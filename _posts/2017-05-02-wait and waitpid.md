@@ -1,6 +1,6 @@
 ---
 title: wait 和 waitpid 的用法
-category: c/c++
+category: c\c++
 excerpt: |
   wait和waitpid的用法学习笔记
 ---

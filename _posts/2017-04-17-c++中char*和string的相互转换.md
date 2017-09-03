@@ -1,6 +1,6 @@
 ---
 title: c++中char*和string的相互转换
-category: c/c++
+category: c\c++
 excerpt: |
   有时候需要将char*和string进行相互转换 .
 ---

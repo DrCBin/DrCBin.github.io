@@ -3,7 +3,7 @@ logo: /static/img/avatar.png
 github: https://github.com/single-thread
 about: IT、学生
 
-baseurl: ""
+baseurl: "single-thread.me"
 url: ""
 
 allowsearch: true
