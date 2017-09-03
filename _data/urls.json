@@ -6,6 +6,11 @@
     "layout": "post"
   },
   {
+    "text": "categoryes",
+    "url": "/category/python/",
+    "icon": "desktop"
+  },
+  {
     "text": "About",
     "url": "/about/",
     "icon": "fa-comments"
