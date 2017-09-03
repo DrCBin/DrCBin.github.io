@@ -24,7 +24,9 @@ category: {category}
 CATEGORY_TEMPLATE = """---
 layout: posts_by_category
 categories: {category}
-title: {category} permalink: /category/{category} ---
+title: {category}
+permalink: /category/{category}
+---
 """
 
 
