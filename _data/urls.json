@@ -7,8 +7,9 @@
   },
   {
     "text": "Categoryes",
-    "url": "/category/python/",
-    "icon": "fa-desktop"
+    "url": "/category/python",
+    "icon": "fa-desktop",
+    "layout": "post_by_category"
   },
   {
     "text": "About",
