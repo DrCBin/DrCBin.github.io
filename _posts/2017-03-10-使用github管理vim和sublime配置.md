@@ -1,8 +1,10 @@
 ---
-title: 使用github备份vim和sublime配置
-category: github
-excerpt: |
-  如何使用github来管理配置文件
+layout: post
+title: "使用github备份vim和sublime配置"
+categories: [Tech]
+excerpt: 如何使用github来管理配置文件
+tags:
+  - github
 ---
 
 sublime使用的时间长了，渐渐的就积累了一些有用甚至离不开的插件。但是有时候系统会出点问题，或者换电脑什么的，这时候要想在找回那个曾经的sublime就不那么容易了。好在我们可以把我们的配置备份起来。需要用的时候直接下载就好。

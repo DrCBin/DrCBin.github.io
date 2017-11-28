@@ -1,8 +1,11 @@
 ---
-title: wait 和 waitpid 的用法
-category: c\c++
-excerpt: |
-  wait和waitpid的用法学习笔记
+layout: post
+title: "wait 和 waitpid 的用法"
+categories: [Tech]
+excerpt: wait和waitpid的用法学习笔记
+tags:
+  - c/c++
+  - linux
 ---
 
 OS编写fork()代码的时候用到了wait和waitpid来保证fork()的子进程能被妥善处理，这里总结一下，供日后参考.

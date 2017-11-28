@@ -1,8 +1,11 @@
 ---
-title: Django学习之进阶--多表Model继承时的名字冲突
-category: django
-excerpt: |
-  django学习系列笔记
+layout: post
+title: "Django学习之进阶--多表Model继承时的名字冲突"
+categories: [Tech]
+excerpt: django学习系列笔记
+tags:
+  - django
+  - python
 ---
 
 

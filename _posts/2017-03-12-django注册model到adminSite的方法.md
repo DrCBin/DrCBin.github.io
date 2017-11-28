@@ -1,9 +1,13 @@
 ---
-title: django注册models到admin site的方法总结
-category: django
-excerpt: |
-  介绍了model注册的用法，中介ModelAdmin的选项及作用
+layout: post
+title: "django中ModelAdmin.actions用法总结"
+categories: [Tech]
+excerpt: ModelAdmin.actions的用法总结
+tags:
+  - django
+  - python
 ---
+
 
 ## Model的注册
 如果我们在models.py中创建了模型，但是admin site并不知道我们的这个模型，所以我们需要告诉admin site ，以显示这个模型．这就是注册．

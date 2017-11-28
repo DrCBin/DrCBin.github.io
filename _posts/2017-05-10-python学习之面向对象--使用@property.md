@@ -1,8 +1,11 @@
 ---
-title: python学习之面向对象--使用@property
-category: python
-excerpt: |
-    python学习系列笔记！
+layout: post
+title: "python学习之面向对象--使用@property"
+categories: [Tech]
+excerpt: python学习系列笔记！
+tags:
+  - CS
+  - python
 ---
 
 通常情况,我们封装属性是为了能更好的限制属性不被任意修改.

@@ -1,8 +1,11 @@
 ---
-title: python学习之面向对象--使用@property
-category: python
-excerpt: |
-    python学习系列笔记！
+layout: post
+title: "python学习之面向对象--多继承"
+categories: [Tech]
+excerpt: python学习系列笔记！
+tags:
+  - CS
+  - python
 ---
 
 

@@ -1,8 +1,11 @@
 ---
+layout: post
 title: 配置java运行环境和开发环境的配置(Windiws&Linux)
-category: java
-excerpt: |
-  java运行环境的配置教程，包括了windous和linux平台．
+categories: [Tech]
+excerpt: java运行环境的配置教程，包括了windous和linux平台．
+tags:
+  - java
+  - linux
 ---
 
 本学期开了java课，要运行java程序，或者进行java开发，需要将电脑上的java环境配一下．

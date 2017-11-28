@@ -1,8 +1,11 @@
 ---
-title: c++中char*和string的相互转换
-category: c\c++
-excerpt: |
-  有时候需要将char*和string进行相互转换 .
+layout: post
+title: "c++中char*和string的相互转换"
+categories: [Tech]
+excerpt: 有时候需要将char*和string进行相互转换 .
+tags:
+  - c/c++
+  - linux
 ---
 
 #### char*转成string

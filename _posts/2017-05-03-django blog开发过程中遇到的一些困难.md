@@ -1,8 +1,11 @@
 ---
-title: django博客开发过程中遇到的一些困难
-category: django
-excerpt: |
-  记录下我在开发博客过程中的一些困难
+layout: post
+title: "django博客开发过程中遇到的一些困难"
+categories: [Tech]
+excerpt: 记录下我在开发博客过程中的一些困难
+tags:
+  - django
+  - 总结
 ---
 
 - 将页面解析成markdown:

@@ -1,8 +1,11 @@
 ---
-title: Django学习之基础--关系字段选项`related_name`的用法于作用
-category: django
-excerpt: |
-  django学习系列笔记
+layout: post
+title: "Django学习之基础--关系字段选项`related_name`的用法于作用"
+categories: [Tech]
+excerpt: django学习系列笔记
+tags:
+  - django
+  - python
 ---
 
 

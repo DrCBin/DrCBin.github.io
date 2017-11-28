@@ -1,8 +1,11 @@
 ---
-title: python学习之基础--生成器和迭代器
-category: python
-excerpt: |
-    python学习系列笔记！
+layout: post
+title: "python学习之基础--生成器和迭代器"
+categories: [Tech]
+excerpt: python学习系列笔记！
+tags:
+  - CS
+  - python
 ---
 
 

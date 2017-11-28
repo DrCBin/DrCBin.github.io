@@ -1,7 +1,11 @@
 ---
-title: django中ModelAdmin.actions用法总结
-category: django
+layout: post
+title: "django中ModelAdmin.actions用法总结"
+categories: [Tech]
 excerpt: ModelAdmin.actions的用法总结
+tags:
+  - django
+  - python
 ---
 
 [参考文档:django documentation](https://docs.djangoproject.com/en/1.10/ref/contrib/admin/actions/)</br>

@@ -1,8 +1,11 @@
 ---
-title: Django学习之进阶--使用自定义表管理ManyToMany关系
-category: django
-excerpt: |
-  django学习系列笔记
+layout: post
+title: "Django学习之进阶--使用自定义表管理ManyToMany关系"
+categories: [Tech]
+excerpt: django学习系列笔记
+tags:
+  - django
+  - python
 ---
 
 

@@ -1,6 +1,11 @@
 ---
-title: Django学习之进阶-实例与Model,字符串与Model之间的转换
-category: django
+layout: post
+title: "Django学习之进阶-实例与Model,字符串与Model之间的转换"
+categories: [Tech]
+excerpt: django学习系列笔记
+tags:
+  - django
+  - python
 ---
 
 

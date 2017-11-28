@@ -1,8 +1,11 @@
 ---
-title: 读django by example 笔记
-category: django
-excerpt: |
-  django by example 的读书笔记
+layout: post
+title: "读django by example 笔记"
+categories: [Tech]
+excerpt: django by example 的读书笔记
+tags:
+  - django
+  - python
 ---
 
 # 第一天
