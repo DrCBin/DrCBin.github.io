@@ -1,26 +1,72 @@
-title: ChenBin 的个人博客
-logo: /static/img/avatar.png
-github: https://github.com/single-thread
-about: IT、学生
+#Site
+title: DrCBin-陈斌
+description: 陈斌的个人博客
+logo: favicon.png
+url: DrCBin.com
+rss_url: /feed.xml
 
-baseurl: ""
-url: ""
+# Jekyll
+permalink:          /blog/:title/
+markdown:           kramdown
+highlighter:        rouge
+kramdown:
+  auto_ids:         true
+  footnote_nr:      1
+  entity_output:    as_char
+  toc_levels:       1..6
+  enable_coderay:   false
+sass:
+  sass_dir:         assets/_sass
+  style:            compressed
 
-allowsearch: true
+# Comment
+comment:
+  # disqus: ChenBin...
+  # duoshuo: kongsong
+  # youyan: 2122392
+  # laibili: MTAyMC8yODgzNC81NDA0
 
-disqus_shortname: aboutashu
-google_analytics: UA-93378012-1
+# Website analytics
+# google_analytics: UA-82494501-1
+baidu_analytics: cd1138e3c986773ec07b6dd699f7bec2    #from //hm.baidu.com/hm.js?***
 
-share:
-  twitter_username: \#
-  fb_appid: 000000000000
+# Author information:
+author:
+  #resume: /resume
+  name: ChenBin     #the name of Blog section
+  about_me: 大三老学长了!
+ 
+# Social Links
+email:               drcbin@google.com
+#google.plus:        username
+#twitter:            username
+# facebook:            username
+github:             DrCBin
+# stackoverflow:      6438519/song-kong   #from a "http://stackoverflow.com/users/123456/username" link
+# linkedin:           kongsong
+#xing:              username
+#instagram:          username
+#lastfm:            username
+#tumblr:            username
+#pinterest:         username
+#foursquare:        username
+#steam:              username
+#dribbble:          username
+#youtube:           username
+#soundcloud:        username
+#weibo:             username
+#flickr:            username
+#codepen:           username
+#keybase:           username
+#xmpp:              username@server.com
+#hackernews:        username
+#behance:           username
 
+# Gems
+gems:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-gist
 
-enableTags: true
-tagarray: []
-
-paginate: 20
-per_page: 20
-paginate_path: "/page:num/"
-markdown: kramdown
-gems: [jekyll-paginate, jekyll-gist]
+# Exclude list
+exclude: [README.md, Gemfile, Gemfile.lock, _site, src, vendor, CNAME, LICENSE, Rakefile,.sass-cache,.DS_Store,.idea]

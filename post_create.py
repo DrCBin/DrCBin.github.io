@@ -105,7 +105,7 @@ if __name__ == '__main__':
         path = '{}/{}'.format(POSTS_PATH, POST_NAME)
         print('create post: ' + path)
         with open(path, 'w') as f:
-            f.write(POST_TEMPLATE.format(name=POST_NAME, category=CATEGORY_NAME))
+            f.write(POST_TEMPLATE.format(name=args['NAME'], category=CATEGORY_NAME))
     elif args['-n']:
         raise Exception('option "-n" needs a argument!')
     else:
