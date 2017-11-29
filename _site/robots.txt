@@ -1,1 +1,1 @@
-DrCBin.com/sitemap.xml
+Sitemap: http://drcbin.com/sitemap.xml
