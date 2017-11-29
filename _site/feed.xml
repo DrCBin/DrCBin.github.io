@@ -3,154 +3,11 @@
   <channel>
     <title>DrCBin-陈斌</title>
     <description>陈斌的个人博客</description>
-    <link>DrCBin.com/</link>
-    <atom:link href="DrCBin.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 29 Nov 2017 15:47:23 +0800</pubDate>
-    <lastBuildDate>Wed, 29 Nov 2017 15:47:23 +0800</lastBuildDate>
+    <link>http://drcbin.com/</link>
+    <atom:link href="http://drcbin.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Wed, 29 Nov 2017 16:39:18 +0800</pubDate>
+    <lastBuildDate>Wed, 29 Nov 2017 16:39:18 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
-    
-      <item>
-        <title></title>
-        <description>&lt;p&gt;ubuntu 下装mysql，出现了各种问题，在使用的过程中。 写下来记录一下，避免以后出出问题了早不到。&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;mysql启动的时候提示：Can’t connect to local MySQL server through socket ‘/var/lib/mysql/mysql.sock.’不同发行版的系统路径可能会不一样，但结果是一样的，该路径下没有　mysqld.sock文件．&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- 解决方法当时弄好了就关了，忘记了。
-
-- ########    2017.2.4日更新：########
-
-- 今天又遇到同样问题了，　苦苦寻找，　找到了[解决法方](http://askubuntu.com/questions/90978/mysql-problem-var-run-mysqld-mysqld-sock)之一：
-
-- 进入　cd /etc/init.d/　目录，执行　mysqld_safe，会重新生成文件．
-
-- 执行　sudo find / -type s | grep mysqld.sock　查找生成的文件路径
-
-- 将生成的文件移动到提示错误时标示出来的路径，我的是直接就生成在了那个路径下
-
-- ########  结束2017.2.4　#####
-
-- 注意，mysql装好之后把/var/mysql/mysql.sock 备份一下，创建数据库的时候记得设置编码。我是创建数据库的时候没有设置编码，然后后来重新修改my.conf,然后重启导致mysql.sock丢失。 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;dpkg: error processing mysql-server (–configure）/mysql-common(–configure)&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- 解决，通常这是数据库卸载的时候没有正确卸载导致的。重新执行一下命令，完全卸载数据库，再重新安装。删除mysql前 先删除一下 /var/lib/mysql 还有 /etc/mysql ``` sudo rm /var/lib/mysql/ -R sudo rm /etc/mysql/ -R sudo apt-get autoremove mysql* --purge sudo apt-get remove apparmor ```
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;mysql创建表的时候制定编码：
-    - 用show variables like ‘character_set_%’; 查看编码&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-  create database mydb character set utf8;创建数据库的时候直接制定编码;
-
-   -   修改默认字符集：
-   
-    - 把 //etc/mysql/mysql.conf.d/mysqld.cnf 复制一份到 /etc/mysql/my.cnf
-    
-    - 在[mysqld]下添加：
-    
-    &amp;lt;strong&amp;gt;
-    character-set-server=utf8  
-    collation-server=utf8_general_ci
-    skip-character-set-client-handshake
-    &amp;lt;/strong&amp;gt;&amp;lt;br&amp;gt;
-    
-其中，character_set_client为客户端编码方式；
-
- character_set_connection为建立连接使用的编码；
- 
- character_set_database数据库的编码；
- 
- character_set_results结果集的编码；
- 
- character_set_server数据库服务器的编码；
- 
-只要保证以上四个采用的编码方式一样，就不会出现乱码问题。
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;2017-3-30日更新
-最近有瞎折腾，更换系统，重装mysql的时候又出现了各种各样的问题，很重要的一个还是没能彻底解决找不到mysqld.sock的办法，很多时候在 &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/init.d/&lt;/code&gt;目录下执行&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo mysqld_safe&lt;/code&gt;也不能解决。而且就算当时成功了， 下次重启机器的时候还是会出现这种问题。所以当苦苦弄不好的时候我就会选择重装mysql.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;重装mysql&quot;&gt;重装MysqL&lt;/h2&gt;
-
-&lt;p&gt;&lt;strong&gt;然而重装的坑也不少啊&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;重装遇到的问题：&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;重装的时候根本没有要求输密码，很明显，没有卸载干净。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;重装的时候安装失败，报&lt;code class=&quot;highlighter-rouge&quot;&gt;dpkg: error processing mysql-server (--configure):&lt;/code&gt;错误。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;就算出了输密码的界面，输入了密码，也没法启动mysql,还是会报sock找不到的错误.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h4 id=&quot;原因是没有卸载干净&quot;&gt;原因是没有卸载干净&lt;/h4&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo apt-get autoremove mysql* --purge&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;上面的命令会弹出mysql的卸载界面，　和当初输密码的时候一样的界面。&lt;/p&gt;
-
-&lt;p&gt;然后一定要检查一下&lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/mysql&lt;/code&gt;是否存在，在的话就删。&lt;/p&gt;
-
-&lt;p&gt;接着再安装mysql。&lt;/p&gt;
-
-&lt;h4 id=&quot;妈的还是一样的情况啊啊啊啊啊&quot;&gt;妈的还是一样的情况啊啊啊啊啊…..&lt;/h4&gt;
-
-&lt;p&gt;来狠的&lt;/p&gt;
-
-&lt;p&gt;使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;sudo tree / -f | grep mysql &amp;gt; a.txt&lt;/code&gt;找出所有和mysql相关的文件，写入到a.txt中，　&lt;/p&gt;
-
-&lt;p&gt;然后手动删除那些前面多余的字符，使得每一行都是一个有关mysql的路径，然后在这些路径中删去你需要的。当然你也可以写脚本来完成这一步。&lt;/p&gt;
-
-&lt;p&gt;然后写一个python脚本来删除这些文件&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# in delmysql.py&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;os&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'a.txt'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;lline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;readline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;system&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'rm -rf '&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;readline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;然后&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo python3 delmysql.py&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;终于彻底删除了。　爽，然后接着尝试安装。&lt;/p&gt;
-
-&lt;p&gt;恩，这回没问题了。为了防止再次丢失的情况，我吧原sock做了备份，并且创建了一个链接。&lt;/p&gt;
-
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /var/run/mysqld
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;mv mysqld.sock ../
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;link ../mysqld.sock ./mysqld.sock
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;然后用了一会儿之后关机了，再开机还能正常使用。&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/frinder/article/details/7041723&quot;&gt;参考链接:设置配置&lt;/a&gt;
-&lt;a href=&quot;http://www.jianshu.com/p/8ef7519e5b2d&quot;&gt;参考链接：安装与配置&lt;/a&gt;&lt;/p&gt;
-
-</description>
-        <pubDate>Wed, 29 Nov 2017 15:47:23 +0800</pubDate>
-        <link>DrCBin.com/blog/2017-03-10-mysql%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5-%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E9%9B%86/</link>
-        <guid isPermaLink="true">DrCBin.com/blog/2017-03-10-mysql%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5-%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E9%9B%86/</guid>
-        
-        
-      </item>
     
       <item>
         <title>2017-11-28</title>
@@ -184,8 +41,8 @@
 &lt;p&gt;记得当初课很多的时候,总觉得时间不够,希望没有课,能自己好好学习！如今课没了,时间却又这么一点点浪费了!&lt;/p&gt;
 </description>
         <pubDate>Wed, 29 Nov 2017 00:00:00 +0800</pubDate>
-        <link>DrCBin.com/blog/daily/</link>
-        <guid isPermaLink="true">DrCBin.com/blog/daily/</guid>
+        <link>http://drcbin.com/blog/daily/</link>
+        <guid isPermaLink="true">http://drcbin.com/blog/daily/</guid>
         
         <category>吾日三省吾身</category>
         
@@ -260,8 +117,8 @@
 &lt;p&gt;对于自己不想听或者听不进去的课程， 也是一样…&lt;/p&gt;
 </description>
         <pubDate>Fri, 10 Nov 2017 00:00:00 +0800</pubDate>
-        <link>DrCBin.com/blog/daily/</link>
-        <guid isPermaLink="true">DrCBin.com/blog/daily/</guid>
+        <link>http://drcbin.com/blog/daily/</link>
+        <guid isPermaLink="true">http://drcbin.com/blog/daily/</guid>
         
         <category>吾日三省吾身</category>
         
@@ -275,8 +132,8 @@
         <description>
 </description>
         <pubDate>Tue, 07 Nov 2017 00:00:00 +0800</pubDate>
-        <link>DrCBin.com/blog/daily/</link>
-        <guid isPermaLink="true">DrCBin.com/blog/daily/</guid>
+        <link>http://drcbin.com/blog/daily/</link>
+        <guid isPermaLink="true">http://drcbin.com/blog/daily/</guid>
         
         <category>吾日三省吾身</category>
         
@@ -302,8 +159,8 @@
 &lt;/ul&gt;
 </description>
         <pubDate>Mon, 06 Nov 2017 00:00:00 +0800</pubDate>
-        <link>DrCBin.com/blog/daily/</link>
-        <guid isPermaLink="true">DrCBin.com/blog/daily/</guid>
+        <link>http://drcbin.com/blog/daily/</link>
+        <guid isPermaLink="true">http://drcbin.com/blog/daily/</guid>
         
         <category>吾日三省吾身</category>
         
@@ -373,8 +230,8 @@
 &lt;p&gt;今天去称体重,涨了1.5KG…….&lt;/p&gt;
 </description>
         <pubDate>Sun, 05 Nov 2017 00:00:00 +0800</pubDate>
-        <link>DrCBin.com/blog/daily/</link>
-        <guid isPermaLink="true">DrCBin.com/blog/daily/</guid>
+        <link>http://drcbin.com/blog/daily/</link>
+        <guid isPermaLink="true">http://drcbin.com/blog/daily/</guid>
         
         <category>吾日三省吾身</category>
         
@@ -420,8 +277,8 @@
 &lt;p&gt;而我自己,也希望自己和另一半在上了年纪以后,还能记得年轻时说的,不用那么拼, 花点时间来爱自己,来享受生活. 繁琐事儿得过且过.相信会过得很幸福!&lt;/p&gt;
 </description>
         <pubDate>Sat, 04 Nov 2017 00:00:00 +0800</pubDate>
-        <link>DrCBin.com/blog/daily/</link>
-        <guid isPermaLink="true">DrCBin.com/blog/daily/</guid>
+        <link>http://drcbin.com/blog/daily/</link>
+        <guid isPermaLink="true">http://drcbin.com/blog/daily/</guid>
         
         <category>吾日三省吾身</category>
         
@@ -470,8 +327,8 @@
 
 </description>
         <pubDate>Fri, 03 Nov 2017 00:00:00 +0800</pubDate>
-        <link>DrCBin.com/blog/daily/</link>
-        <guid isPermaLink="true">DrCBin.com/blog/daily/</guid>
+        <link>http://drcbin.com/blog/daily/</link>
+        <guid isPermaLink="true">http://drcbin.com/blog/daily/</guid>
         
         <category>吾日三省吾身</category>
         
@@ -517,8 +374,8 @@
 &lt;p&gt;时间利用严重不足,浪费过多&lt;/p&gt;
 </description>
         <pubDate>Thu, 02 Nov 2017 00:00:00 +0800</pubDate>
-        <link>DrCBin.com/blog/daily/</link>
-        <guid isPermaLink="true">DrCBin.com/blog/daily/</guid>
+        <link>http://drcbin.com/blog/daily/</link>
+        <guid isPermaLink="true">http://drcbin.com/blog/daily/</guid>
         
         <category>吾日三省吾身</category>
         
@@ -565,10 +422,60 @@
 &lt;p&gt;最好在使用之前进行一下判断&lt;/p&gt;
 </description>
         <pubDate>Thu, 28 Sep 2017 00:00:00 +0800</pubDate>
-        <link>DrCBin.com/blog/%E8%BF%91%E6%9C%9F%E5%81%9A%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%BB%E7%BB%93/</link>
-        <guid isPermaLink="true">DrCBin.com/blog/%E8%BF%91%E6%9C%9F%E5%81%9A%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%BB%E7%BB%93/</guid>
+        <link>http://drcbin.com/blog/%E8%BF%91%E6%9C%9F%E5%81%9A%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%BB%E7%BB%93/</link>
+        <guid isPermaLink="true">http://drcbin.com/blog/%E8%BF%91%E6%9C%9F%E5%81%9A%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%BB%E7%BB%93/</guid>
         
         <category>none</category>
+        
+        
+        <category>Tech</category>
+        
+      </item>
+    
+      <item>
+        <title>Django学习之进阶-实例与Model,字符串与Model之间的转换</title>
+        <description>&lt;h1 id=&quot;已知实例-获取model名字&quot;&gt;已知实例, 获取Model名字&lt;/h1&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 假设已知实例为book, Model&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;book&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__class__&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__name&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;'Book'&lt;/span&gt;   &lt;span class=&quot;c&quot;&gt;# 成功获取&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;已知model-获取model名字&quot;&gt;已知Model, 获取Model名字&lt;/h1&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Book&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;'Book'&lt;/span&gt;   &lt;span class=&quot;c&quot;&gt;# 成功获取&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;已知model名字获取model&quot;&gt;已知model名字,获取model&lt;/h1&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# model名字:'Book', app名字:'app'&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# 方法一&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;django.apps&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;apps&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;apps&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;app_label&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'app'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Book'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Book&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'&amp;gt;   # 获取成功&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+
+
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;# 方法二&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;gt;&amp;gt;&amp;gt; from django.contrib.fields import ContentType&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;gt;&amp;gt;&amp;gt; content_model = ContentType.objects.get(app_label='&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;', model='&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;book&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;')   # 一定要小写的model名&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;gt;&amp;gt;&amp;gt; model = content_model.model_class()&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;gt;&amp;gt;&amp;gt; model&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;lt;class '&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Book&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'&amp;gt;   # 获取成功&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;已知model获取app_label&quot;&gt;已知model,获取app_label&lt;/h1&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# model:Book,app名字:app&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Book&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Meta&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;app_label&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;'app'&lt;/span&gt;              &lt;span class=&quot;c&quot;&gt;# 获取成功&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Mon, 18 Sep 2017 00:00:00 +0800</pubDate>
+        <link>http://drcbin.com/blog/Django%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%BF%9B%E9%98%B6-%E5%AE%9E%E4%BE%8B%E4%B8%8EModel,%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%8EModel%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2/</link>
+        <guid isPermaLink="true">http://drcbin.com/blog/Django%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%BF%9B%E9%98%B6-%E5%AE%9E%E4%BE%8B%E4%B8%8EModel,%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%8EModel%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2/</guid>
+        
+        <category>django</category>
         
         
         <category>Tech</category>

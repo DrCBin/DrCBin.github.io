@@ -36,7 +36,6 @@ $(document).ready(function () {
 		$(".page-holder-two").addClass("tab-hidden");
 		$(".page-holder-three").addClass("tab-hidden");
 	}
-	}
 	function showTabTwo () {
 		$(".tab-two").addClass("active");
 		$(".tab-one").removeClass("active");
@@ -63,7 +62,7 @@ $(document).ready(function () {
 		$(".page-holder-one").addClass("tab-hidden");
 		$(".page-holder-two").addClass("tab-hidden");
 	}
-})
+});
 
 /*
  * Pagination

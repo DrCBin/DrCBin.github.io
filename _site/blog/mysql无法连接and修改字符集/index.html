@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>mysql不能启动，修改字符集的注意事项</title>
+  <meta name="description" content="mysql启动提示ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock'的解决办法。dpkg: error processing mysql-server (--con...">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="http://drcbin.com/blog/mysql%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5and%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E9%9B%86/">
+  <link rel="alternate" type="application/rss+xml" title="DrCBin-陈斌" href="http://drcbin.com/feed.xml">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+  <script defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >mysql不能启动，修改字符集的注意事项</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#DB">DB</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">10 Mar 2017</div>
+			</div>
+			<div class="post-content">
+				<p>ubuntu 下装mysql，出现了各种问题，在使用的过程中。 写下来记录一下，避免以后出出问题了早不到。</p>
+
+<ol>
+  <li>mysql启动的时候提示：Can’t connect to local MySQL server through socket ‘/var/lib/mysql/mysql.sock.’不同发行版的系统路径可能会不一样，但结果是一样的，该路径下没有　mysqld.sock文件．</li>
+</ol>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- 解决方法当时弄好了就关了，忘记了。
+
+- ########    2017.2.4日更新：########
+
+- 今天又遇到同样问题了，　苦苦寻找，　找到了[解决法方](http://askubuntu.com/questions/90978/mysql-problem-var-run-mysqld-mysqld-sock)之一：
+
+- 进入　cd /etc/init.d/　目录，执行　mysqld_safe，会重新生成文件．
+
+- 执行　sudo find / -type s | grep mysqld.sock　查找生成的文件路径
+
+- 将生成的文件移动到提示错误时标示出来的路径，我的是直接就生成在了那个路径下
+
+- ########  结束2017.2.4　#####
+
+- 注意，mysql装好之后把/var/mysql/mysql.sock 备份一下，创建数据库的时候记得设置编码。我是创建数据库的时候没有设置编码，然后后来重新修改my.conf,然后重启导致mysql.sock丢失。 
+</code></pre></div></div>
+
+<ol>
+  <li>dpkg: error processing mysql-server (–configure）/mysql-common(–configure)</li>
+</ol>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- 解决，通常这是数据库卸载的时候没有正确卸载导致的。重新执行一下命令，完全卸载数据库，再重新安装。删除mysql前 先删除一下 /var/lib/mysql 还有 /etc/mysql ``` sudo rm /var/lib/mysql/ -R sudo rm /etc/mysql/ -R sudo apt-get autoremove mysql* --purge sudo apt-get remove apparmor ```
+</code></pre></div></div>
+
+<ol>
+  <li>mysql创建表的时候制定编码：
+    - 用show variables like ‘character_set_%’; 查看编码</li>
+</ol>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-  create database mydb character set utf8;创建数据库的时候直接制定编码;
+
+   -   修改默认字符集：
+   
+    - 把 //etc/mysql/mysql.conf.d/mysqld.cnf 复制一份到 /etc/mysql/my.cnf
+    
+    - 在[mysqld]下添加：
+    
+    &lt;strong&gt;
+    character-set-server=utf8  
+    collation-server=utf8_general_ci
+    skip-character-set-client-handshake
+    &lt;/strong&gt;&lt;br&gt;
+    
+其中，character_set_client为客户端编码方式；
+
+ character_set_connection为建立连接使用的编码；
+ 
+ character_set_database数据库的编码；
+ 
+ character_set_results结果集的编码；
+ 
+ character_set_server数据库服务器的编码；
+ 
+只要保证以上四个采用的编码方式一样，就不会出现乱码问题。
+</code></pre></div></div>
+
+<hr />
+
+<p>2017-3-30日更新
+最近有瞎折腾，更换系统，重装mysql的时候又出现了各种各样的问题，很重要的一个还是没能彻底解决找不到mysqld.sock的办法，很多时候在 <code class="highlighter-rouge">/etc/init.d/</code>目录下执行<code class="highlighter-rouge">sudo mysqld_safe</code>也不能解决。而且就算当时成功了， 下次重启机器的时候还是会出现这种问题。所以当苦苦弄不好的时候我就会选择重装mysql.</p>
+
+<hr />
+
+<h2 id="重装mysql">重装MysqL</h2>
+
+<p><strong>然而重装的坑也不少啊</strong></p>
+
+<p>重装遇到的问题：</p>
+
+<ol>
+  <li>
+    <p>重装的时候根本没有要求输密码，很明显，没有卸载干净。</p>
+  </li>
+  <li>
+    <p>重装的时候安装失败，报<code class="highlighter-rouge">dpkg: error processing mysql-server (--configure):</code>错误。</p>
+  </li>
+  <li>
+    <p>就算出了输密码的界面，输入了密码，也没法启动mysql,还是会报sock找不到的错误.</p>
+  </li>
+</ol>
+
+<h4 id="原因是没有卸载干净">原因是没有卸载干净</h4>
+
+<p><code class="highlighter-rouge">sudo apt-get autoremove mysql* --purge</code></p>
+
+<p>上面的命令会弹出mysql的卸载界面，　和当初输密码的时候一样的界面。</p>
+
+<p>然后一定要检查一下<code class="highlighter-rouge">/etc/mysql</code>是否存在，在的话就删。</p>
+
+<p>接着再安装mysql。</p>
+
+<h4 id="妈的还是一样的情况啊啊啊啊啊">妈的还是一样的情况啊啊啊啊啊…..</h4>
+
+<p>来狠的</p>
+
+<p>使用 <code class="highlighter-rouge">sudo tree / -f | grep mysql &gt; a.txt</code>找出所有和mysql相关的文件，写入到a.txt中，　</p>
+
+<p>然后手动删除那些前面多余的字符，使得每一行都是一个有关mysql的路径，然后在这些路径中删去你需要的。当然你也可以写脚本来完成这一步。</p>
+
+<p>然后写一个python脚本来删除这些文件</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># in delmysql.py</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">'a.txt'</span><span class="p">)</span>
+<span class="n">lline</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+<span class="k">while</span> <span class="n">line</span><span class="p">:</span>
+	<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s">'rm -rf '</span> <span class="o">+</span> <span class="n">line</span><span class="p">)</span>
+	<span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+<span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>然后<code class="highlighter-rouge">sudo python3 delmysql.py</code></p>
+
+<p>终于彻底删除了。　爽，然后接着尝试安装。</p>
+
+<p>恩，这回没问题了。为了防止再次丢失的情况，我吧原sock做了备份，并且创建了一个链接。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /var/run/mysqld
+<span class="nb">sudo </span>mv mysqld.sock ../
+<span class="nb">sudo </span>link ../mysqld.sock ./mysqld.sock
+</code></pre></div></div>
+
+<p>然后用了一会儿之后关机了，再开机还能正常使用。</p>
+
+<p><a href="http://blog.csdn.net/frinder/article/details/7041723">参考链接:设置配置</a>
+<a href="http://www.jianshu.com/p/8ef7519e5b2d">参考链接：安装与配置</a></p>
+
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/C++-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="btn-pagination prev" title="c++ 多线程学习笔记
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/django%E4%B8%ADModelAdmin.action%E7%9A%84%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/" class="btn-pagination next" title="django中ModelAdmin.actions用法总结
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=http://drcbin.com/blog/mysql%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5and%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E9%9B%86/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=http://drcbin.com/blog/mysql%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5and%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E9%9B%86/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://drcbin.com/blog/mysql%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5and%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E9%9B%86/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=http://drcbin.com/blog/mysql%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5and%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E9%9B%86/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+		
+       	
+        
+        
+		
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:drcbin@google.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/DrCBin" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2017 ChenBin. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-110406741-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?cd1138e3c986773ec07b6dd699f7bec2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>
