@@ -34,7 +34,9 @@ baidu_analytics: cd1138e3c986773ec07b6dd699f7bec2    #from //hm.baidu.com/hm.js?
 author:
   #resume: /resume
   name: ChenBin     #the name of Blog section
-  about_me: 记录生活,记录点滴！大三的老学长了,再不记录就晚了!
+  about_me: "记录生活,记录点滴！这是本人博客!
+    我叫陈斌,19届Computer&Science本科生, 目前在研究和学习区块链技术,数据分析以及量化交易, 未来希望从事金融和投资领域的开发! 计算机是真爱,但不想把计算机当做饭碗,希望能直接和钱打交道!
+    马上要实习了, 希望能找个金融领域相关的公司实习,希望是上规模的大公司,或者初创的公司! 最好是区块链实习! 有推荐的同学希望帮忙推荐下!Qq:2720043432"
  
 # Social Links
 email:               drcbin@google.com
