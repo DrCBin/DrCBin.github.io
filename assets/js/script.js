@@ -22,7 +22,6 @@ $(document).ready(function () {
 		$(".tab-three").bind("click", showTabThree);
 		$(".tab-two").bind("click", showTabTwo);
 		$(".tab-one").bind("click", showTabOne);
-
 	}
 	function showTabOne () {
 		$(".tab-one").addClass("active");

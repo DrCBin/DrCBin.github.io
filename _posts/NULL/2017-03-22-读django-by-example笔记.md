@@ -4,7 +4,7 @@ title: "读django by example 笔记"
 categories: [Tech]
 excerpt: django by example 的读书笔记
 tags:
-    - NULL
+    - none
     - django
 ---
 

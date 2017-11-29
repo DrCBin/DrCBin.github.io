@@ -5,7 +5,6 @@ categories: [Tech]
 excerpt: django学习系列笔记
 tags:
   - django
-  - python
 ---
 
 

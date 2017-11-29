@@ -4,7 +4,7 @@ title: "云端使用linux主机，coding.net"
 categories: [Tech]
 excerpt: 基于这学期开了OS课，很多人苦于没有linux练习，推荐使用云端linux主机学习.
 tags:
-  - NULL
+  - none
 ---
 
 电脑没有linux，却又需要使用怎么办？云主机是很好的一种解决方法应为它不局限于机器和平台，只要有网就能使用。

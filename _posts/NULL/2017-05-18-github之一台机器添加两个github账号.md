@@ -4,7 +4,7 @@ title: "github之一台电脑添加两个账户"
 categories: [Tech]
 excerpt: 在同一台电脑上使用两个以上github账户的方法.
 tags:
-  - NULL
+  - none
 ---
 
 
