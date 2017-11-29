@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>django实现登陆后跳转到登陆前的页面</title>
+  <meta name="description" content="django使用自定义登陆视图，实现登陆后跳转到登录前的页面的方法。">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="DrCBin.com/blog/django%E5%AE%9E%E7%8E%B0%E7%99%BB%E9%99%86%E5%90%8E%E8%B7%B3%E8%BD%AC%E5%88%B0%E7%99%BB%E9%99%86%E5%89%8D%E9%A1%B5%E9%9D%A2%E7%9A%84%E6%96%B9%E6%B3%95/">
+  <link rel="alternate" type="application/rss+xml" title="DrCBin-陈斌" href="DrCBin.com/feed.xml">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+  <script defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >django实现登陆后跳转到登陆前的页面</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#django">django</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">06 Apr 2017</div>
+			</div>
+			<div class="post-content">
+				<h4 id="坑啊今天为了做个登陆后跳转可坑死了">坑啊，今天为了做个登陆后跳转，可坑死了。</h4>
+
+<p>直接进入正题，实现登陆后跳转到的登陆的页面。</p>
+
+<p>首先需要弄明白整个过程。</p>
+
+<p>还是先说一下背景，当我们尝试访问需要登陆的页面的时候，会自动跳转到登陆页面，然后登陆后应该继续回到登陆之前的页面。</p>
+
+<p>再来理整个过程：</p>
+
+<p>假设我们需要访问的是/download/页面， 登陆是/login/页面。</p>
+
+<ol>
+  <li>
+    <p>我们访问/download页面的时候，触发了@login_required,会由<strong>/download/页面向/login页面发送一个GET请求</strong>， 此请求中包含了<code class="highlighter-rouge">request.path</code>,值为:/download/,这正是我们想真正访问的地址。</p>
+  </li>
+  <li>这时候，<code class="highlighter-rouge">views.login</code> 接到了一个请求，没错，就是由上一步发出去的。但是很显然，这次的登陆请求不能完成登陆，因为发出的是一个GET请求。但是这次的请求里面包含了发出请求的地址。所以我们需要在<code class="highlighter-rouge">views.login()</code>试图中做一些处理。
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="c"># in views.login()</span>
+ <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">'GET'</span><span class="p">:</span>
+     <span class="nb">next</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">path</span>
+     <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">'template'</span><span class="p">,</span> <span class="p">{</span><span class="s">'next'</span><span class="p">:</span><span class="nb">next</span><span class="p">})</span>
+ <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">'POST'</span><span class="p">:</span>
+     <span class="o">...</span>
+     <span class="c"># 登陆的实现代码。</span>
+     <span class="o">...</span>
+     <span class="nb">next</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s">'next'</span><span class="p">]</span>
+     <span class="c"># 特别注意:request.POST['next']得到的是一个字符串，而不是一个对象。</span>
+     <span class="k">if</span> <span class="nb">next</span> <span class="o">==</span> <span class="s">'None'</span><span class="p">:</span>
+         <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="nb">next</span><span class="p">)</span>
+     <span class="o">...</span>
+     <span class="c"># 其他正常业务逻辑</span>
+</code></pre></div>    </div>
+  </li>
+  <li>最后在登陆页面的登陆表单中添加一个input标签
+    <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"next"</span> <span class="na">value=</span><span class="s">"{ {next } }"</span><span class="nt">/&gt;</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>以上就是整个实现自定义登陆跳转的页面。</p>
+
+<p>核心点在于：一定要将第一次网站自动发起的登陆页面请求传过来的 request.path保存，返回给客户端，然后在点击登陆的时候在将这个next发送给服务器。</p>
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/%E6%8E%A5%E4%B8%8B%E6%9D%A54.5.6%E4%B8%89%E4%B8%AA%E6%9C%88%E7%9A%84%E8%A7%84%E5%88%92/" class="btn-pagination prev" title="4.5.6三个月的简单规划
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="btn-pagination next" title="MySql学习笔记,半教程
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=DrCBin.com/blog/django%E5%AE%9E%E7%8E%B0%E7%99%BB%E9%99%86%E5%90%8E%E8%B7%B3%E8%BD%AC%E5%88%B0%E7%99%BB%E9%99%86%E5%89%8D%E9%A1%B5%E9%9D%A2%E7%9A%84%E6%96%B9%E6%B3%95/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=DrCBin.com/blog/django%E5%AE%9E%E7%8E%B0%E7%99%BB%E9%99%86%E5%90%8E%E8%B7%B3%E8%BD%AC%E5%88%B0%E7%99%BB%E9%99%86%E5%89%8D%E9%A1%B5%E9%9D%A2%E7%9A%84%E6%96%B9%E6%B3%95/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=DrCBin.com/blog/django%E5%AE%9E%E7%8E%B0%E7%99%BB%E9%99%86%E5%90%8E%E8%B7%B3%E8%BD%AC%E5%88%B0%E7%99%BB%E9%99%86%E5%89%8D%E9%A1%B5%E9%9D%A2%E7%9A%84%E6%96%B9%E6%B3%95/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=DrCBin.com/blog/django%E5%AE%9E%E7%8E%B0%E7%99%BB%E9%99%86%E5%90%8E%E8%B7%B3%E8%BD%AC%E5%88%B0%E7%99%BB%E9%99%86%E5%89%8D%E9%A1%B5%E9%9D%A2%E7%9A%84%E6%96%B9%E6%B3%95/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+		
+       	
+        
+        
+		
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:drcbin@google.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/DrCBin" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2017 ChenBin. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?cd1138e3c986773ec07b6dd699f7bec2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>

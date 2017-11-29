@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>两周学完廖雪峰js教程之第三天--面向对象</title>
+  <meta name="description" content="给自己定下的目标,两周学完廖的js教程">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="DrCBin.com/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E4%B8%89%E5%A4%A9-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">
+  <link rel="alternate" type="application/rss+xml" title="DrCBin-陈斌" href="DrCBin.com/feed.xml">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+  <script defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >两周学完廖雪峰js教程之第三天--面向对象</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#js">js</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">22 May 2017</div>
+			</div>
+			<div class="post-content">
+				<h1 id="第三天">第三天</h1>
+
+<hr />
+
+<p>js不区分类和实例,是通过原型(prototype)来实现面向对象的</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">Robot</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">name</span> <span class="p">:</span> <span class="s1">'robot'</span><span class="p">,</span>
+    <span class="na">height</span><span class="p">:</span> <span class="mf">1.6</span><span class="p">,</span>
+    <span class="na">run</span><span class="p">:</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">'is running...'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>看上面的Robot，有点像人,有名字，身高,还会跑,所以我们可以吗Robot当成一个人的原型</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">xiaoming</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">name</span><span class="p">:</span> <span class="s1">'xiaoming'</span>
+<span class="p">};</span>
+
+<span class="nx">xiaoming</span><span class="p">.</span><span class="nx">__proto__</span> <span class="o">=</span> <span class="nx">Robot</span><span class="p">;</span>      <span class="c1">// 将小明的原型指向Robot</span>
+
+<span class="nx">xiaoming</span><span class="p">.</span><span class="nx">run</span><span class="p">();</span>   <span class="c1">// xiaoming iss running...</span>
+</code></pre></div></div>
+<p>这样小明就有了run方法,以及height属性</p>
+
+<p>没错，这看上去有点像继承</p>
+
+<p>原型和类的区别在于:<strong>没有类的概念,所有的都是实例,继承也是继承自一个实例</strong></p>
+
+<p><strong>但是正常情况下不要用<code class="highlighter-rouge">__proto__</code>,可以用<code class="highlighter-rouge">Object.create()</code>来创建对象</strong></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">xiaoming</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">Robot</span><span class="p">);</span>
+<span class="nx">xiaoming</span><span class="p">;</span>     <span class="c1">// {},小明什么都没有</span>
+<span class="nx">xiaoming</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>   <span class="c1">// robot</span>
+<span class="nx">xiaoming</span><span class="p">.</span><span class="nx">run</span><span class="p">();</span>   <span class="c1">// robot is running...</span>
+</code></pre></div></div>
+
+<p>可以看到,这样创建的小明自己什么都没有,全是从原型上继承过来的.但是我们创建小明的时候希望他能有一些自己的东西,比如名字</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">createXiaoming</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">obj</span><span class="p">){</span>
+    <span class="c1">//创建</span>
+    <span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+
+    <span class="c1">// 初始化</span>
+    <span class="nx">s</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">'xiaoming'</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">s</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="kd">var</span> <span class="nx">xiaoming</span> <span class="o">=</span> <span class="nx">createXiaoming</span><span class="p">(</span><span class="nx">Robot</span><span class="p">);</span>
+<span class="nx">xiaoming</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>    <span class="c1">// xiaoming</span>
+<span class="nx">xiaoming</span><span class="p">.</span><span class="nx">run</span><span class="p">();</span>    <span class="c1">// xiaoming is running...</span>
+</code></pre></div></div>
+
+<p>构造函数</p>
+
+<p>js的构造函数是一个普通函数加上this</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">Student</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">){</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">,</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">,</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">run</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">' is running...'</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>构造函数可以使用<code class="highlighter-rouge">new</code>来创建一个对象,并且返回该对象,不用我们显示的返回</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">xiaoming</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Student</span><span class="p">(</span><span class="s1">'xiaoming'</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+</code></pre></div></div>
+<p><strong>注意别忘了<code class="highlighter-rouge">new</code>,否则就变成了函数调用</strong></p>
+
+<p>来梳理一下new创建对象的过程</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- 当有一个构造函数的时候,js就会为这个构造函数创建一个默认的对象,这就是该构造函数的原型(prototype)
+- 同时,该原型的构造函数属性也指向该构造函数(Function.prototype.constructor == Function)
+- 引擎接到new指令后,先再内存中开辟一块空间
+- 然后在空间上创建一个空对象'{}'
+- 然后用this指向它
+- 然后执行构造函数,给这个空对象赋值初始化
+- 再将该新对象的原型指向默认的原型对象
+- 最后返回该对象
+</code></pre></div></div>
+
+<p>所以我们上面的这些例子中,虽然每个对象都有相同的方法(run),但他们其实是不同的方法.这就导致了内存的浪费.</p>
+
+<p>我们只需要<code class="highlighter-rouge">run</code>放到原型上,就所有对象共享了.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Student</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">run</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s1">' is running...'</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">xiaoming</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Student</span><span class="p">(</span><span class="s1">'xiaoming'</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">xiaoli</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Student</span><span class="p">(</span><span class="s1">'xiaoli'</span><span class="p">,</span> <span class="mi">40</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">xiaoming</span><span class="p">.</span><span class="nx">run</span> <span class="o">===</span> <span class="nx">xiaoli</span><span class="p">.</span><span class="nx">run</span><span class="p">);</span> <span class="c1">// true</span>
+</code></pre></div></div>
+
+<p>使用函数封装创建对象操作</p>
+
+<p>如果每创建一个对象,我们就new一次,那么次数多了,可能会偶尔忘记写new，那么这样就变成了函数调用,可能会导致一些错误.</p>
+
+<p>解决办法:
+    - 按约定,函数名小写,构造函数首字母大写.方便检查
+    - 将创建对象的过程封装在一个函数里,这样就直接调用函数了.</p>
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E4%B8%89%E5%A4%A9-%E6%B5%8F%E8%A7%88%E5%99%A8/" class="btn-pagination prev" title="两周学完廖雪峰js教程之第三天–浏览器
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E5%9B%9B%E5%A4%A9-%E6%93%8D%E4%BD%9C%E8%A1%A8%E5%8D%95/" class="btn-pagination next" title="两周学完廖雪峰js教程之第四天–操作表单
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=DrCBin.com/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E4%B8%89%E5%A4%A9-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=DrCBin.com/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E4%B8%89%E5%A4%A9-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=DrCBin.com/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E4%B8%89%E5%A4%A9-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=DrCBin.com/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E4%B8%89%E5%A4%A9-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+		
+       	
+        
+        
+		
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:drcbin@google.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/DrCBin" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2017 ChenBin. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?cd1138e3c986773ec07b6dd699f7bec2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>

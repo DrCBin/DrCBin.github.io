@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>爬虫总结--爬取校园网个人信息</title>
+  <meta name="description" content="爬虫系列实战!">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="DrCBin.com/blog/python%E7%88%AC%E8%99%AB%E6%80%BB%E7%BB%93-%E7%88%AC%E5%8F%96%E6%A0%A1%E5%9B%AD%E7%BD%91%E4%B8%8A%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF/">
+  <link rel="alternate" type="application/rss+xml" title="DrCBin-陈斌" href="DrCBin.com/feed.xml">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+  <script defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >爬虫总结--爬取校园网个人信息</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#爬虫">爬虫</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">17 May 2017</div>
+			</div>
+			<div class="post-content">
+				<p>自己独立写的第一个爬虫,爬取学校的个人信息，记录一下遇到的问题和总结解决办法</p>
+
+<h3 id="用代码实现登录并且访问一个需要登录的网页">用代码实现登录，并且访问一个需要登录的网页</h3>
+<ol>
+  <li>
+    <p>在这之前，已经会了使用已经存在的cookie来进行免登录访问.
+然后尝试使用代码登录，然后返回一个response，保存response的cookie值.
+再利用这个cooike尝试免登录访问.
+但是这样是登录不上的.
+重点是<strong>因为忽略了一个问题,浏览器的cooike是真实存在本地的,而我从response获取的只是一个cookie的符号,并没有真实信息</strong>.所以是登录不上的.</p>
+  </li>
+  <li>
+    <p>解决办法.
+一开始想的是将response的cookie值保存到本地.但是没有实现
+后来发现requests库有<code class="highlighter-rouge">resquests.Session</code>对象,用它登录，然后和服务器建立一个会话，然后用这个会话取访问需要访问的页面.</p>
+  </li>
+</ol>
+
+<h3 id="re匹配中文">re匹配中文</h3>
+<ol>
+  <li>因为还没有接触过dom解析，所以使用re来匹配需要的信息,但是遇到了几个问题.第一个是无法匹配中文.
+无法匹配中文的原因大概了解了一下，是应为编码的缘故,将要匹配的源和匹配的表达式都转换成<code class="highlighter-rouge">bytes</code>为单位的编码，便能成功匹配了.</li>
+  <li>一开始是看浏览器上面的源码，从而提取出关系，进行匹配，但是空格是被浏览器解析成空格了的.然而一一开始不知道，就直接在匹配表达式中输入空格，结果怎么都匹配不上.
+结果后来把抓下来的源码打印出来，才发现空格是的源码是<code class="highlighter-rouge">&amp;nbsp</code>，而不是空格.
+<strong>所以以后提取信息的时候不要完全相信浏览器上看到的源码，要根据抓下来的源码.</strong></li>
+</ol>
+
+<h3 id="多线程之间的数据共享和缓冲问题">多线程之间的数据共享和缓冲问题</h3>
+<ol>
+  <li>因为使用了多线程爬，然后将爬到的信息是放入一个队列,另外的线程在取这些信息进行相应的处理,所以这里面就涉及到了同步的问题.
+这是典型的生产者消费者模型,所以需要一把同步锁,然后也不应该一直等,所以有两个条件变量,一个生产者，一个消费者.然后这两个条件变量使用同以把锁.这样就可以通过条件变量来指定wait的线程以及唤醒的线程了.</li>
+  <li>线程被唤醒之后的执行位置
+一开始不知道线程被唤醒时是从哪儿开始执行的,所以使用的是if来判断wait条件
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+<span class="n">cond</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>然后当线程被唤醒后，是直接从wait的地方开始执行,所以被唤醒后却可能出现队列为空的情况,所以需要被唤醒之后再次判断.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">cond</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+</code></pre></div></div>
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/python%E5%AD%A6%E4%B9%A0%E4%B9%8B%E7%BA%BF%E7%A8%8B%E5%92%8C%E8%BF%9B%E7%A8%8B-%E7%BA%BF%E7%A8%8B%E9%97%B4%E5%90%8C%E6%AD%A5/" class="btn-pagination prev" title="Python学习之线程和进程  线程间同步
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/github%E4%B9%8B%E4%B8%80%E5%8F%B0%E6%9C%BA%E5%99%A8%E6%B7%BB%E5%8A%A0%E4%B8%A4%E4%B8%AAgithub%E8%B4%A6%E5%8F%B7/" class="btn-pagination next" title="github之一台电脑添加两个账户
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=DrCBin.com/blog/python%E7%88%AC%E8%99%AB%E6%80%BB%E7%BB%93-%E7%88%AC%E5%8F%96%E6%A0%A1%E5%9B%AD%E7%BD%91%E4%B8%8A%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=DrCBin.com/blog/python%E7%88%AC%E8%99%AB%E6%80%BB%E7%BB%93-%E7%88%AC%E5%8F%96%E6%A0%A1%E5%9B%AD%E7%BD%91%E4%B8%8A%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=DrCBin.com/blog/python%E7%88%AC%E8%99%AB%E6%80%BB%E7%BB%93-%E7%88%AC%E5%8F%96%E6%A0%A1%E5%9B%AD%E7%BD%91%E4%B8%8A%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=DrCBin.com/blog/python%E7%88%AC%E8%99%AB%E6%80%BB%E7%BB%93-%E7%88%AC%E5%8F%96%E6%A0%A1%E5%9B%AD%E7%BD%91%E4%B8%8A%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+		
+       	
+        
+        
+		
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:drcbin@google.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/DrCBin" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2017 ChenBin. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?cd1138e3c986773ec07b6dd699f7bec2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>

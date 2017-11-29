@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>django中ModelAdmin.actions用法总结</title>
+  <meta name="description" content="ModelAdmin.actions的用法总结">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="DrCBin.com/blog/django%E6%B3%A8%E5%86%8Cmodel%E5%88%B0adminSite%E7%9A%84%E6%96%B9%E6%B3%95/">
+  <link rel="alternate" type="application/rss+xml" title="DrCBin-陈斌" href="DrCBin.com/feed.xml">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+  <script defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >django中ModelAdmin.actions用法总结</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#django">django</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">12 Mar 2017</div>
+			</div>
+			<div class="post-content">
+				<h2 id="model的注册">Model的注册</h2>
+<p>如果我们在models.py中创建了模型，但是admin site并不知道我们的这个模型，所以我们需要告诉admin site ，以显示这个模型．这就是注册．
+将一个model注册到admin site 提供了三种方法:</p>
+<ol>
+  <li>直接注册:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>admin.site.register(ModelName)
+</code></pre></div>    </div>
+  </li>
+  <li>使用ModelAdmin注册:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>class ModelAdminNamea(dmin.ModelAdmin):
+ pass
+admin.site.register(ModelAdminName, modelName)
+</code></pre></div>    </div>
+    <p>这中方法可以通过ModelAdminName类来添加一下对Model的约束或管理</p>
+  </li>
+  <li>使用装饰器注册：
+```
+@admin.register(ModelName)
+class ModelAdminName(admin.ModelAdmin):
+ pass</li>
+</ol>
+
+<p>```</p>
+
+<h2 id="modeladmin的选项和用法">ModelAdmin的选项和用法</h2>
+<p><code class="highlighter-rouge">class Meta</code>类提供了一个模型的内部的约束和行为管理，其功能只能是对具体的模型进行具体的管理，有点类似于模型的自我管理．而<code class="highlighter-rouge">class ModelAdmin</code>提供的是模型外部的管理，管理的是一群模型的实例．主要管理的是Model在admin site中的表现行为.</p>
+
+<h4 id="modeladmin的可用选项">ModelAdmin的可用选项</h4>
+<p><code class="highlighter-rouge"> ModelAdmin.action </code>:其值为一个列表，列表内容是响应的函数，作用是定义在admin site中选择多个model实例是，可用的操作．通俗说就是批量处理的行为．具体见<a href="http://single-thread.me/django/2017/03/12/django%E4%B8%ADModelAdmin.action%E7%9A%84%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/">这里</a></p>
+
+<p><code class="highlighter-rouge"> ModelAdmin.action_on_top/bottom </code>:值为布尔(bool),作用是控制action bar 的显示位置.</p>
+
+<p><code class="highlighter-rouge">ModelAdmin.action_selection_counter</code>:取值为布尔，作用是是否显示选择计数器．选择计数器，选择的时候，会在下拉响应菜单的旁边实时显示数量．</p>
+
+<p><code class="highlighter-rouge">ModelAdmin.date_hierarchy</code>:取值为字段类型中的DateField/DateTimeField,作用是在列表页面上方生成一个基于时间的导航．</p>
+
+<p><code class="highlighter-rouge">ModelAdmin.exclude</code>:．．．</p>
+
+<p><code class="highlighter-rouge">ModelAdmin.fields</code>:需要编辑的字段取值为元祖。点击添加的时候可以供用户编辑的字段。注意<code class="highlighter-rouge">DataTimeField</code>有的auto_add, auto_add_now等字段选项不能出现在这个元祖中。</p>
+
+<p><code class="highlighter-rouge">ModelAdmin.list_display</code>:取值为元祖，　作用是定义在Model列表中要显示的字段．</p>
+
+<p><code class="highlighter-rouge">ModelAdmin.list_filter</code>:取值为元祖，作用按元祖中的选项过滤Model,表现为在页面的右边显示了一系列的过滤选择．</p>
+
+<p><code class="highlighter-rouge">ModelAdmin.search_fields</code>:取值为元祖，　作用是提供一个搜索框，　可以搜索元祖中列举的字段．</p>
+
+<p><code class="highlighter-rouge">ModelAdmin.prepopularted_fields</code>:取值为字典，<strong>键值必须在fields选项中</strong>作用是自动根据字典中的Value生成SlugField填充Key,通常作用是将Key为SlugField,然后通过Value来自动填充，其中Value为元祖．并且Value不支持DateTimeField 和关系字段.</p>
+
+<p><code class="highlighter-rouge">ModelAdmin.raw_id_fields</code>:取值为一个元祖，作用是将Model中ForeignKry由默认的下拉选择框改成文本输入框，使得用户可以直接键入ForeignKey的对象ID便可以，也可以点击选择．</p>
+
+<p><code class="highlighter-rouge">ModelAdmin.ordering</code>:取值为一个列表，　作用是按照列表中所给的字段排序，字段为字符串，加上 ‘-‘ 为反向排序．</p>
+
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/django%E4%B8%ADModelAdmin.action%E7%9A%84%E7%94%A8%E6%B3%95%E6%80%BB%E7%BB%93/" class="btn-pagination prev" title="django中ModelAdmin.actions用法总结
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/django%E5%AD%97%E6%AE%B5%E7%B1%BB%E5%9E%8B%E6%80%BB%E7%BB%93/" class="btn-pagination next" title="django常用字段类型总结
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=DrCBin.com/blog/django%E6%B3%A8%E5%86%8Cmodel%E5%88%B0adminSite%E7%9A%84%E6%96%B9%E6%B3%95/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=DrCBin.com/blog/django%E6%B3%A8%E5%86%8Cmodel%E5%88%B0adminSite%E7%9A%84%E6%96%B9%E6%B3%95/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=DrCBin.com/blog/django%E6%B3%A8%E5%86%8Cmodel%E5%88%B0adminSite%E7%9A%84%E6%96%B9%E6%B3%95/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=DrCBin.com/blog/django%E6%B3%A8%E5%86%8Cmodel%E5%88%B0adminSite%E7%9A%84%E6%96%B9%E6%B3%95/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+		
+       	
+        
+        
+		
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:drcbin@google.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/DrCBin" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2017 ChenBin. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?cd1138e3c986773ec07b6dd699f7bec2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>

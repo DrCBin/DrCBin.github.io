@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>django博客开发过程中遇到的一些困难</title>
+  <meta name="description" content="记录下我在开发博客过程中的一些困难">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="DrCBin.com/blog/django-blog%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9B%B0%E9%9A%BE/">
+  <link rel="alternate" type="application/rss+xml" title="DrCBin-陈斌" href="DrCBin.com/feed.xml">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+  <script defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >django博客开发过程中遇到的一些困难</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#django">django</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">03 May 2017</div>
+			</div>
+			<div class="post-content">
+				<ul>
+  <li>将页面解析成markdown:
+    <ul>
+      <li>通过模板过滤器实现</li>
+      <li>通过js解析前端实现</li>
+    </ul>
+  </li>
+  <li>在template中使用下标访问一个list:
+    <ul>
+      <li>arrayName.index:</li>
+    </ul>
+  </li>
+  <li>将某一个变量设置为全局模板变量，每一个页面都能访问:
+    <ul>
+      <li>自己重写render方法，把传进来的名字加上全局名字再返回
+  <code class="highlighter-rouge">def my_render(request, template, dirc):return render(request, template, dirc.update({'name':value}))</code></li>
+      <li>这是教程中提的第二种方法，没看明白,<a href="http://blog.csdn.net/shanliangliuxing/article/details/7595344">教程</a></li>
+      <li>在settings.py中注册模板变量:<a href="http://blog.csdn.net/hengrjgc/article/details/50349698">这里</a></li>
+    </ul>
+  </li>
+  <li>
+    <p>gunicorn 不会使用，找到了官方的文档: <a href="http://docs.gunicorn.org/en/latest/signals.html">这里</a></p>
+  </li>
+  <li>
+    <p>使用gunicorn启动服务之后，找不到静态文件，原因是urls.py中要加上staticfiles_urlpattern</p>
+  </li>
+  <li>当时不是很理解STATIC_ROOT 和STATIC_URL 和STATICFILES_DIR 的区别和作用：
+    <ul>
+      <li>STATIC_URL: 是指django映射时候找找的文静目录，比如<code class="highlighter-rouge">STATIC_URL = '/static/'</code>, 那么django会自动将静态文件映射到所有名为static的文件夹上。</li>
+      <li>STATIC_ROOT:存放静态文件的目录，主要是部署服务器用的。部署服务器的时候需要给静态文件映射一个路径给服务器，由于我们之前的开发都是将静态文件分布在每个app的目录下，这样一个一个的去映射势必会造成一定的不便。这时候我们只需要设置一下STATIA_ROOT， 如<code class="highlighter-rouge">STATIC_ROOT = 'statics'</code>,这时候运行一下<code class="highlighter-rouge">pytnon manager.py collectstatic</code>,这样就会自动的把分布于每个app下的静态文件全部集中到statics了，然后再将这个路径映射给服务器就好了。</li>
+      <li>STATICFILES_DIR:告诉django有那些文件夹是静态文件，然后在urls.py里面加上staticfiles_pattern，就能直接输入静态文件的网址访问静态文件了.</li>
+    </ul>
+  </li>
+  <li>表单重复提交的问题:如果一个页面需要提交表单数据，并且请求url也是本页面，即’.’, 那么如果刷新页面，将会导致表单重复提交,博客中的评论。 解决方法是将处理表单的视图返回一个重定向.</li>
+</ul>
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/wait-and-waitpid/" class="btn-pagination prev" title="wait 和 waitpid 的用法
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/python%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B-%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/" class="btn-pagination next" title="python学习之函数式编程–高阶函数
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=DrCBin.com/blog/django-blog%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9B%B0%E9%9A%BE/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=DrCBin.com/blog/django-blog%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9B%B0%E9%9A%BE/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=DrCBin.com/blog/django-blog%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9B%B0%E9%9A%BE/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=DrCBin.com/blog/django-blog%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9B%B0%E9%9A%BE/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+		
+       	
+        
+        
+		
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:drcbin@google.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/DrCBin" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2017 ChenBin. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?cd1138e3c986773ec07b6dd699f7bec2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>python学习之基础--数据类型</title>
+  <meta name="description" content="python学习系列笔记！">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="DrCBin.com/blog/python%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
+  <link rel="alternate" type="application/rss+xml" title="DrCBin-陈斌" href="DrCBin.com/feed.xml">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+  <script defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >python学习之基础--数据类型</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#python">python</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">09 May 2017</div>
+			</div>
+			<div class="post-content">
+				<h1 id="python的数据类型">python的数据类型</h1>
+
+<h3 id="浮点数">浮点数</h3>
+
+<p>科学计数法的表示:<code class="highlighter-rouge">1.23e9=1.23*10^9</code>, <code class="highlighter-rouge">1.23e-9=1.23*10^-9</code></p>
+
+<p>python中的整数和浮点数都没有范围限制， 但超过一定大的<strong>浮点数</strong>会直接用<code class="highlighter-rouge">inf</code>(无穷大)表示.</p>
+
+<h3 id="字符串">字符串</h3>
+
+<p>字符串:双引号之间的单引号会被当做正常字符，同理，单引号之间的双引号也会被当做正常的字符</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="s">'Your name is "marry", age is 25'</span><span class="p">)</span>
+<span class="n">Your</span> <span class="n">name</span> <span class="ow">is</span> <span class="s">"marry"</span><span class="p">,</span> <span class="n">age</span> <span class="ow">is</span> <span class="mi">25</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="s">"Your name is 'marry', age is 25"</span><span class="p">)</span>
+<span class="n">Your</span> <span class="n">name</span> <span class="ow">is</span> <span class="s">'marry'</span><span class="p">,</span> <span class="n">age</span> <span class="ow">is</span> <span class="mi">25</span>
+</code></pre></div></div>
+
+<p>总结下来就死一句话， 引号里面所有非引号的东西都会被当做字符处理.</p>
+
+<p>但是如果引号里面需要同时有同类型的引号就需要转义处理:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">ptint</span><span class="p">(</span><span class="s">'Hello. </span><span class="se">\'</span><span class="s">marry</span><span class="se">\'</span><span class="s">, age is 25'</span><span class="p">)</span>
+<span class="n">Hello</span><span class="o">.</span> <span class="s">'marry'</span><span class="p">,</span> <span class="n">age</span> <span class="ow">is</span> <span class="mi">25</span>
+</code></pre></div></div>
+
+<p>但是有时候也不想转义，就想输入的就是我想表达的，这时候只要在引号前面加上r:<code class="highlighter-rouge">r'...'</code></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">r'\n\r"nihao/p.fasd'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="布尔值">布尔值</h3>
+
+<p>python中值为False的几个值:<code class="highlighter-rouge">None</code>,<code class="highlighter-rouge">''</code>,<code class="highlighter-rouge">""</code>,<code class="highlighter-rouge">{}</code>,<code class="highlighter-rouge">[]</code>,<code class="highlighter-rouge">()</code>,<code class="highlighter-rouge">0</code>,’False’.共8个.</p>
+
+<p>需要注意的是python的比较:<code class="highlighter-rouge">==</code>,<code class="highlighter-rouge">===</code>,<code class="highlighter-rouge">is</code></p>
+
+<p><code class="highlighter-rouge">==</code>:比较的是值， 只要值相等，就成立
+<code class="highlighter-rouge">===</code>:比较的是内存地址，两个变量应用的内存地址相同，才成立
+<code class="highlighter-rouge">is</code>:和<code class="highlighter-rouge">===</code>一样。</p>
+
+<h3 id="空值none">空值(None)</h3>
+
+<p>空值是python的一个特殊的值，<code class="highlighter-rouge">None</code>代表没有，没有任何意义，不同于<code class="highlighter-rouge">0</code>， <code class="highlighter-rouge">0</code>是有意义的。</p>
+
+<p>注意，None除了和None，和其他任意都不相等.</p>
+
+<h3 id="python的除法">python的除法</h3>
+
+<p><code class="highlighter-rouge">/</code>,<code class="highlighter-rouge">//</code>,<code class="highlighter-rouge">%</code>:三个是相对于其他语言有所不同的.
+<code class="highlighter-rouge">/</code>:就是普通的除法，精确的除法， 得到的是精确值.
+<code class="highlighter-rouge">//</code>:这是取整，将得到的结果舍弃小数部分，取整数部分.
+<code class="highlighter-rouge">%</code>:这是取余。取两数相除结果的余数.</p>
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/python%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80-%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E5%A4%84%E7%90%86%E4%B8%8E%E6%A0%BC%E5%BC%8F%E5%8C%96/" class="btn-pagination prev" title="python学习之基础–字符串的格式化与处理
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/python%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80-%E7%94%9F%E6%88%90%E5%BC%8Fand%E7%94%9F%E6%88%90%E5%99%A8and%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="btn-pagination next" title="python学习之基础–生成器和迭代器
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=DrCBin.com/blog/python%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=DrCBin.com/blog/python%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=DrCBin.com/blog/python%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=DrCBin.com/blog/python%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+		
+       	
+        
+        
+		
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:drcbin@google.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/DrCBin" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2017 ChenBin. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?cd1138e3c986773ec07b6dd699f7bec2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>

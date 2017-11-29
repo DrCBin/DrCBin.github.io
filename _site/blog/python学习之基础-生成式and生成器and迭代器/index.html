@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>python学习之基础--生成器和迭代器</title>
+  <meta name="description" content="python学习系列笔记！">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="DrCBin.com/blog/python%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80-%E7%94%9F%E6%88%90%E5%BC%8Fand%E7%94%9F%E6%88%90%E5%99%A8and%E8%BF%AD%E4%BB%A3%E5%99%A8/">
+  <link rel="alternate" type="application/rss+xml" title="DrCBin-陈斌" href="DrCBin.com/feed.xml">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+  <script defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >python学习之基础--生成器和迭代器</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#python">python</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">09 May 2017</div>
+			</div>
+			<div class="post-content">
+				<h1 id="列表生成式">列表生成式</h1>
+
+<p>有时候，我们需要生成一个具有某种规律的列表,如<code class="highlighter-rouge">[1,2,3,4,5,6,7,8,9]</code>,或者<code class="highlighter-rouge">[2,4,6,8,10]</code>等.列表里面的值都是可以通过一个表达式得到的.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">L1</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)]</span>
+
+<span class="n">L2</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="n">L3</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">*</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">)]</span>
+</code></pre></div></div>
+
+<p>简单来说语法是这样的:<code class="highlighter-rouge">[值 值生成方式]</code>, 其中值的生成方式可以有很多，比如来自别的列表等，值的过滤方法也很多，可以进行if判断等各种</p>
+
+<h1 id="生成器generator">生成器(generator)</h1>
+
+<p>上述的列表生成式已经可以帮我们做很多事情了，但是如果生成列表量很大，生成的算法有特别复杂的话，势必会浪费很多资源.基于这个原因，如果出一种可以不一开始就生成值，而只是将生成值的方法记录下来，当需要值的时候再去计算，就会使得资源能有效利用.这就是<strong>生成器</strong> .</p>
+
+<p>构造生成器的方法:</p>
+
+<ul>
+  <li>将列表生成式的<code class="highlighter-rouge">[]</code>换成<code class="highlighter-rouge">()</code>即可.</li>
+  <li>在函数中使用<code class="highlighter-rouge">yield</code>关键字.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 使用()生成</span>
+<span class="n">L1</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">L1</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+
+<span class="c"># 使用yield生成</span>
+<span class="c"># 定义</span>
+<span class="k">def</span> <span class="nf">L</span><span class="p">(</span><span class="nb">max</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">x</span><span class="o">*</span><span class="mi">2</span>
+
+<span class="c"># 使用,生成两个生成器</span>
+<span class="n">L1</span> <span class="o">=</span> <span class="n">L</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">L2</span> <span class="o">=</span> <span class="n">L</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="c"># 迭代生成器</span>
+
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">L1</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>除了使用for循环迭代，还有一种不常用的<code class="highlighter-rouge">next()</code>迭代</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">L1</span> <span class="o">=</span> <span class="n">L</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">L1</span><span class="p">)</span>
+<span class="mi">2</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">L1</span><span class="p">)</span>
+<span class="mi">4</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">L1</span><span class="p">)</span>
+<span class="o">%</span><span class="p">(</span><span class="o">*&amp;%</span><span class="p">(</span> <span class="err">报错</span>
+</code></pre></div></div>
+<p>L1只有两个项, 再调用next迭代的话就会报错.</p>
+
+<h1 id="迭代器和可迭代对象">迭代器和可迭代对象</h1>
+
+<p>可以被<code class="highlighter-rouge">for</code>迭代的这类对象统称为可迭代对象:<code class="highlighter-rouge">Iterable</code></p>
+
+<p>可以被<code class="highlighter-rouge">next()</code>调用并不断返回一个值的对象叫做迭代器:<code class="highlighter-rouge">Iterator</code></p>
+
+<p>生成器都是<code class="highlighter-rouge">Iterator</code>对象.</p>
+
+<p><code class="highlighter-rouge">Iterable</code>对象的判断</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Iterator</span>
+<span class="n">l</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="nb">isinstance</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>将一个<code class="highlighter-rouge">Iterable</code>转换成<code class="highlighter-rouge">Iterator</code>:使用<code class="highlighter-rouge">iter()</code>函数</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">iter</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>为什么有的可以是迭代器， 有的却只能是可迭代对象</p>
+
+<p>list等可迭代对象都有一个共同特征，他们的值已经是固定了的。而可迭代兑现的值计算是惰性的，当使用的时候才会去计算.二一个<code class="highlighter-rouge">list</code>,<code class="highlighter-rouge">str</code>等他们的值必须是固定的，而不能等待需要使用的时候再去计算，这便是阻止他们成为迭代器的原因.</p>
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/python%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" class="btn-pagination prev" title="python学习之基础–数据类型
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/python%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80-%E8%BF%AD%E4%BB%A3/" class="btn-pagination next" title="python学习之基础–迭代
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=DrCBin.com/blog/python%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80-%E7%94%9F%E6%88%90%E5%BC%8Fand%E7%94%9F%E6%88%90%E5%99%A8and%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=DrCBin.com/blog/python%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80-%E7%94%9F%E6%88%90%E5%BC%8Fand%E7%94%9F%E6%88%90%E5%99%A8and%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=DrCBin.com/blog/python%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80-%E7%94%9F%E6%88%90%E5%BC%8Fand%E7%94%9F%E6%88%90%E5%99%A8and%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=DrCBin.com/blog/python%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80-%E7%94%9F%E6%88%90%E5%BC%8Fand%E7%94%9F%E6%88%90%E5%99%A8and%E8%BF%AD%E4%BB%A3%E5%99%A8/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+		
+       	
+        
+        
+		
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:drcbin@google.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/DrCBin" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2017 ChenBin. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?cd1138e3c986773ec07b6dd699f7bec2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>

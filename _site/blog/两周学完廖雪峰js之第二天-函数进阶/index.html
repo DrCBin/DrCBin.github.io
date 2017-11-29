@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>两周学完廖雪峰js教程之第二天--函数进阶</title>
+  <meta name="description" content="给自己定下的目标,两周学完廖的js教程">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="DrCBin.com/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E4%BA%8C%E5%A4%A9-%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6/">
+  <link rel="alternate" type="application/rss+xml" title="DrCBin-陈斌" href="DrCBin.com/feed.xml">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+  <script defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >两周学完廖雪峰js教程之第二天--函数进阶</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#js">js</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">21 May 2017</div>
+			</div>
+			<div class="post-content">
+				<h1 id="第二天">第二天</h1>
+
+<hr />
+
+<h3 id="mapreduce">map/reduce</h3>
+
+<p><code class="highlighter-rouge">map</code>:已知一个函数(一个参数)和一个数组.将函数一次作用于数组中的每一个元素,并返回一个结果数组</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">pow</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">){</span>
+    <span class="k">return</span> <span class="nx">x</span><span class="o">*</span><span class="nx">x</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">];</span>
+
+<span class="nx">arr</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">pow</span><span class="p">);</span>    <span class="c1">// [1,4,16,25,36,49,64,81]</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">reduce</code>:已知一个函数(两个参数)和一个数组,将函数作用于前两个item,得到一个结果,然后又将这个结果和下一个item作用得到一个结果,再将这个结果和下一个数作用. 最后的到一个item</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">add</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="nx">y</span><span class="p">){</span>
+    <span class="k">return</span> <span class="nx">x</span><span class="o">+</span><span class="nx">y</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">];</span>
+<span class="nx">arr</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="nx">add</span><span class="p">);</span>    <span class="c1">// 10, 1+2+3+4</span>
+</code></pre></div></div>
+
+<h3 id="filter">filter</h3>
+
+<p><code class="highlighter-rouge">filter</code>:已知一个函数(参数一个,返回值bool),和一个Array,将函数一次作用于Array上,留下返回值为true的item</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,];</span>
+<span class="nx">arr</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">){</span><span class="k">return</span> <span class="nx">x</span><span class="o">===</span><span class="mi">0</span><span class="p">})</span> <span class="c1">// [0,0,0]</span>
+</code></pre></div></div>
+
+<p>filter接受的函数可以有三个参数(element, index, self):
+    - element:表示元素项
+    - index:表示该元素项在数组中的下标
+    - self表示数组自身</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,];</span>
+<span class="kd">var</span> <span class="nx">filter</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">element</span><span class="p">,</span> <span class="nx">index</span><span class="p">,</span> <span class="nb">self</span><span class="p">){</span>
+    <span class="k">return</span> <span class="nb">self</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="o">===</span> <span class="nx">index</span><span class="p">;</span>
+    <span class="c1">// Array.indexOf返回第一个找到元素的下标</span>
+<span class="p">};</span>
+<span class="nx">arr</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">filter</span><span class="p">);</span> <span class="c1">// [1,0,2,30,4,5]  去重</span>
+</code></pre></div></div>
+
+<h3 id="sort">sort</h3>
+
+<p>Array.sort(); // 默认将元素<strong>转换成字符串</strong>然后排序</p>
+
+<ul>
+  <li>注意,sort会对当前Array进行更改.</li>
+</ul>
+
+<p>sort的高阶函数:
+    - 参数:两个(x,y)
+    - 返回值:
+        - x &gt; y: -1
+        - x == y: 0
+        - x &lt; y: 1</p>
+
+<h3 id="闭包">闭包</h3>
+
+<p>闭包的概念和python里的一样</p>
+
+<h3 id="立即执行函数">立即执行函数</h3>
+
+<p>如果定义了一个函数并且想立即执行:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">){</span><span class="k">return</span> <span class="nx">x</span><span class="o">*</span><span class="nx">x</span><span class="p">;})(</span><span class="mi">3</span><span class="p">);</span>  <span class="c1">// 只需要把函数的定义用()包起来.</span>
+</code></pre></div></div>
+
+<h3 id="箭头函数">箭头函数</h3>
+
+<p>和其他语言的匿名函数不一样,js有个特别的箭头函数,用起来想其他语言的lambda表达式</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">x</span><span class="o">=&gt;</span><span class="nx">x</span><span class="o">*</span><span class="nx">x</span><span class="p">;</span>   <span class="c1">// 传入一个x，返回x*x</span>
+
+<span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="nx">y</span><span class="p">)</span><span class="o">=&gt;</span><span class="nx">x</span><span class="o">+</span><span class="nx">y</span><span class="p">;</span>  <span class="c1">//传入多个参数，函数体就一句</span>
+
+<span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="nx">y</span><span class="p">)</span><span class="o">=&gt;</span><span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">x</span><span class="o">&gt;</span><span class="nx">y</span><span class="p">){</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">};</span>   <span class="c1">// 有多个函数语句,不能省略{}和return</span>
+
+<span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="nx">y</span><span class="p">)</span><span class="o">=&gt;</span> <span class="p">{</span><span class="na">name</span><span class="p">:</span><span class="s1">'chenbin'</span><span class="p">};</span>   <span class="c1">//如果返回一个对象,这这样就会和函数体发生冲突</span>
+<span class="p">(</span><span class="nx">x</span><span class="p">,</span><span class="nx">y</span><span class="p">)</span><span class="o">=&gt;</span> <span class="p">([{</span><span class="na">name</span><span class="p">:</span><span class="s1">'chenbin'</span><span class="p">});</span>   <span class="c1">// 用()包起来就能返回一个对象了</span>
+</code></pre></div></div>
+
+<h3 id="this">this</h3>
+
+<p>箭头函数很像匿名函数,但是它和匿名函数还是有很多区别,this就是很大的一个区别</p>
+
+<ul>
+  <li>箭头函数中this的指向词法作用域</li>
+  <li>箭头函数的apply()和call()第一个参数绑定对象会被忽略</li>
+</ul>
+
+<h3 id="generator">generator</h3>
+<p>和python的语法差不多,只是定义函数的时候多个’*’</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span><span class="o">*</span> <span class="nx">g</span><span class="p">(</span><span class="nx">x</span><span class="p">){</span>
+    <span class="k">while</span><span class="p">(</span><span class="nx">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">){</span>
+        <span class="k">yield</span> <span class="nx">x</span><span class="p">;</span>
+        <span class="nx">x</span><span class="o">--</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">a</span> <span class="o">=</span> <span class="nx">g</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+
+<span class="k">for</span><span class="p">(</span><span class="nx">x</span> <span class="k">of</span> <span class="nx">a</span><span class="p">){</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">x</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="c1">// 5,4,3,2,1</span>
+</code></pre></div></div>
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E4%B8%80%E5%A4%A9-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" class="btn-pagination prev" title="两周学完廖雪峰js教程之第一天–快速入门
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E4%BA%8C%E5%A4%A9-%E6%A0%87%E5%87%86%E5%AF%B9%E8%B1%A1/" class="btn-pagination next" title="两周学完廖雪峰js教程之第二天–标准对象
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=DrCBin.com/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E4%BA%8C%E5%A4%A9-%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=DrCBin.com/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E4%BA%8C%E5%A4%A9-%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=DrCBin.com/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E4%BA%8C%E5%A4%A9-%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=DrCBin.com/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E4%BA%8C%E5%A4%A9-%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+		
+       	
+        
+        
+		
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:drcbin@google.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/DrCBin" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2017 ChenBin. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?cd1138e3c986773ec07b6dd699f7bec2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>

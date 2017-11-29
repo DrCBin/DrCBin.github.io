@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>读django by example 笔记</title>
+  <meta name="description" content="django by example 的读书笔记">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="DrCBin.com/blog/%E8%AF%BBdjango-by-example%E7%AC%94%E8%AE%B0/">
+  <link rel="alternate" type="application/rss+xml" title="DrCBin-陈斌" href="DrCBin.com/feed.xml">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+  <script defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >读django by example 笔记</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#none">none</a></li>
+				
+				
+				<li><a href="/tags#django">django</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">22 Mar 2017</div>
+			</div>
+			<div class="post-content">
+				<h1 id="第一天">第一天</h1>
+<ul>
+  <li>创建第一个站点:
+<code class="highlighter-rouge">django-admin startpreject mysite</code>
+    <ol>
+      <li>使用 manage.py 添加建立第一个应用:
+<code class="highlighter-rouge">python3 manage.py startapp blog</code></li>
+      <li>安装创建的应用:
+        <blockquote>
+          <p>刚建立的应用需要安装，才能被系统识别，安装方式为在站点的settings.py文件中，　有个　INSTALL_APP 的列表中添加刚创建的应用．</p>
+        </blockquote>
+      </li>
+      <li>创建第一个Model:
+        <blockquote>
+          <p>创建一个应用之后，默认就有model.py模块，只需要编辑该模块，创建Model即可．书中是创建了一个 ‘Post’ Model．如下:</p>
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
+ <span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+  <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+  <span class="n">publish</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Datetimefield</span><span class="p">()</span>
+  <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+      <span class="n">ordering</span> <span class="o">=</span> <span class="p">(</span><span class="s">'-publish'</span><span class="p">,)</span>
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span>
+</code></pre></div>          </div>
+          <ul>
+            <li>Post 为Model名字，是一个类．</li>
+            <li>title、publish等是变量，后面的CharField等叫做字段，关于字段的介绍和类型见<a href="http://single-thread.me/django/2017/03/13/django%E5%AD%97%E6%AE%B5%E7%B1%BB%E5%9E%8B%E6%80%BB%E7%BB%93/">这里</a></li>
+            <li>models.CharField(max_length=50),其中max_length叫做字段选项，关于字段选项的作用及类容见<a href="http://single-thread.me/django/2017/03/13/django%E5%AD%97%E6%AE%B5%E7%B1%BB%E5%9E%8B%E6%80%BB%E7%BB%93/">这里</a></li>
+            <li>class Meta:叫做元类，作用是为该Model定义一下不可见的功能，比如排序等，　关于元类的详细介绍在<a href="">这里</a>．</li>
+            <li>ordering = (‘-publish’,):叫做元选项，关于元选项的作用及种类见<a href="">这里</a>．
+def __str __:是Model的模型方法，和　python的方法作用一样.</li>
+          </ul>
+        </blockquote>
+      </li>
+    </ol>
+  </li>
+  <li>生成迁移脚本:
+<code class="highlighter-rouge">python3 manage.py makemigrations</code>
+作用是将基于当前应用中的Model,生成相对应的数据库生成迁移策略文件．简单说就是根据你的Model,确定怎么生成数据库中的表．</li>
+  <li>执行迁移：
+<code class="highlighter-rouge">python3 manage.py migrate</code>
+作用是根据伸长的迁移策略，执行迁移，简单说就是执行在数据库中创建表．</li>
+  <li>创建管理员用户：
+<code class="highlighter-rouge">python3 manage.py createsuperuser</code>
+创建一个管理员用户，用于后台登陆管理员界面．</li>
+  <li>运行开发服务器：
+dango自带了一个简单的开发服务器，运行<code class="highlighter-rouge">mython3 manage.py runserver</code>便可以运行．然后访问<code class="highlighter-rouge">localhost:8000/admin</code>，使用管理员账号便可以登陆．</li>
+  <li>注册Model到admin:
+    <blockquote>
+      <p>为了在admin界面管理Model,需要将Model先注册到admin站点，方法是在admin.py中注册．</p>
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kn">from</span> <span class="nn">django.conrrib</span> <span class="kn">import</span> <span class="n">admin</span>
+  <span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Post</span>
+  <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Post</span><span class="p">)</span>
+</code></pre></div>      </div>
+      <p>具体注册方法见<a href="http://single-thread.me/django/2017/03/12/django%E6%B3%A8%E5%86%8Cmodel%E5%88%B0adminSite%E7%9A%84%E6%96%B9%E6%B3%95/">这里</a>.</p>
+    </blockquote>
+  </li>
+  <li>模型API的使用：介绍了API的简单使用，包括了创建，更新，查询，删除等．具体的API使用见<a href="">这里</a>.</li>
+  <li>自定义模型管理器：
+    <blockquote>
+      <p>管理器就是用来管理Model的，其提供了对模型的一些操作的接口．
+models默认提供的是objects管理器，但是有时候这个管理器并不是我们期待的样子，这时候我们就可以自己写自己的管理器了．关于自定义管理器的详细，见<a href="">这里</a>．</p>
+    </blockquote>
+  </li>
+  <li>建立视图：
+所谓试图，就是接收请求，进行业务逻辑处理并返回一个响应的东西．书中简单的使用了两个请求，一个是post列表，一个是post详情．试图的实质为一个函数．</li>
+  <li>建立URL路由器 urlpatterns．
+上述说了，试图的作用是进行业务逻辑处理并返回一个响应，而URL路由的作用便是解析网址，并将不同的请求分配给对应的View处理，则便是URL路由的作用．具体用法见<a href="">这里</a>.</li>
+  <li>URL路由使用include.
+系统给我们提供的URL路由模块是  urls.py,并且只有一个，　但是如果我们将所有应用的工作都交给这个路由来做的话，　势必会造成负担，并且不好维护和管理．　因此我们可以给每个应用都配置一个属于自己的路由．使用include.具体如下：
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c"># in blog/urls.py</span>
+  <span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="kn">import</span> <span class="n">url</span>
+  <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">views</span>
+  <span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="n">url</span><span class="p">(</span><span class="s">r'^$'</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">post_list</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">'post_list'</span><span class="p">),</span>
+  <span class="p">]</span>
+	
+  <span class="c"># in mysite/urls.py</span>
+  <span class="kn">from</span> <span class="nn">django.comf.urls</span> <span class="kn">import</span> <span class="n">url</span><span class="p">,</span> <span class="n">include</span>
+  <span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="n">url</span><span class="p">(</span><span class="s">r'^blog/'</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s">'blog.urls'</span><span class="p">,</span> <span class="n">namespacs</span><span class="o">=</span><span class="s">'blog'</span><span class="p">,</span> <span class="n">app_name</span><span class="o">=</span><span class="s">'blog'</span><span class="p">)),</span>
+  <span class="p">]</span>
+</code></pre></div>    </div>
+    <p>这样，post/urls.py文件就只管理post的url, 然后在将子url include到父url路由器统一管理．</p>
+  </li>
+  <li>规范化Model的url:
+当我们想要访问一篇post 的详情的时候，　我们需要通过url访问，所以对于每一篇post,都需要一个唯一的url,所以我们需要按照一定的规范来产生每一个Model对应的url.
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kn">from</span> <span class="nn">django.core.urlresovers</span> <span class="kn">import</span> <span class="n">reverse</span>
+  <span class="k">class</span> <span class="nc">Post</span><span class="p">(</span><span class="n">modes</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+      <span class="c"># ...</span>
+      <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s">'blog:post_detail'</span><span class="p">,</span>
+                      <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">publish</span><span class="o">.</span><span class="n">year</span><span class="p">,</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">publish</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="o">%</span><span class="n">m</span><span class="p">),</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">publish</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="o">%</span><span class="n">d</span><span class="p">),</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">slug</span><span class="p">])</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>使用模板：
+django在html页面可以使用模板引擎，具体使用方法见<a href="">这里</a>．</p>
+  </li>
+  <li>使用分页助手：
+我们在页面中显示post列表的时候，有时候数目过多，　此时可以使用分页的方法显示．具体见<a href="">这里</a>.</li>
+  <li>使用通用视图:
+ 有时候我们的视图是没有进行任何的特定逻辑处理，或者某些逻辑处理是很简单且统一的，这时候我们可以将他们简化成一个模板，使用的时候只需要传递几个参数就行．比如显示列表的试图，不管是什么Model，都可以显示成列表．关于django中的通用试图，见<a href="">这里</a>.</li>
+</ul>
+
+<hr />
+<h1 id="第二天终于开始更新第二次了">第二天,终于开始更新第二次了</h1>
+<ul>
+  <li>
+    <p>发送邮件：
+简单的讲了一下邮件的发送方式，具体见<a href="">这里</a>,并涉及ModelForm的使用。其中用到了两个Model，<code class="highlighter-rouge">models.ModelForm</code>,<code class="highlighter-rouge">models.Form</code>,两个的区别见<a href="">这里</a>.</p>
+  </li>
+  <li>
+    <p>启用评论功能：
+此处自定义了一个Model Comment，当做是评论类，其中将Post作为Comment的外键。其他的就是一个简单的表单。接着就是简单的处理了一下有关评论的templates</p>
+  </li>
+  <li>
+    <p>使用文章标签:
+先安装标签，pip3 install django-taggit并注册到settings.py.然后在post Model中启用标签管理</p>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">taggit.manager</span> <span class="kn">import</span> <span class="n">TaggableManager</span>
+<span class="k">class</span> <span class="nc">Post</span><span class="p">:</span>
+  <span class="c">#...</span>
+  <span class="n">tags</span> <span class="o">=</span> <span class="n">TaggableManager</span><span class="p">()</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>这样post就有tag属性了, 然后在post_list.html template 中进行标签的显示处理。</p>
+
+<ul>
+  <li>推荐相似的Post：
+由于使用了 tag标签， 则可以根据文章的标签来推荐具有相同或者相似标签的文章。在这个地方遇到了一个坑，并get了一个技能：由于对正则表达式不是熟，所以在配置url路由器的时候，正则表达式写错了，应该是<code class="highlighter-rouge">(?P&lt;tag_slug&gt;[-/w]+)</code>, 我硬是写成了<code class="highlighter-rouge">(?P&lt;tag_slug&gt;[-/w+])</code>,如此便出现了NoReverseMatch的错误。
+通过找资料，get了一个技能，当在模板中需要用到<code class="highlighter-rouge"> url 'url-name' arg1 arg2 %}</code>来获取url地址的时候， 可能会出现获取失败的情况，或者这啊那的出问题，则可以将上述需要获取的url地址通过这样设置成一个变量:<code class="highlighter-rouge"> url 'url-name' arg as varname %}</code>, 这样在需要用到url路径的地方使用``就行了。但各有优缺点
+    <ul>
+      <li>优点：保证了网站的正常行不会崩溃，导致无法访问等。</li>
+      <li>缺点：在调试期间无法很好的及时发现错误。比较好的解决办法是在使用``的时候先判断试下该变量是否为空。</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="第二天总结">第二天总结</h3>
+<p>第二天完事了，这章的内容不多，主要是添加一些功能内容为主，业务逻辑偏多，新技术涉及较少。</p>
+
+<hr />
+
+<h1 id="第三天">第三天</h1>
+<blockquote>
+  <p>这一章的内容不是很多，因为有的用不到，现在也没必要过于深入的折腾，所以过滤了差不多一半的内容。</p>
+</blockquote>
+
+<ul>
+  <li>自定义模板标签：
+<code class="highlighter-rouge">django.template.Library()</code>库提供了自定义模板标签的可能。模板标签需位于指定目录下，默认是和<code class="highlighter-rouge">tamplate</code>在同一个目录下，目录名字为<code class="highlighter-rouge">tamplatetags</code>,并且需要用<code class="highlighter-rouge">__init__.py</code>初始化为模块，然后建立标签文件eg:<code class="highlighter-rouge">post_tag.py</code>具体用法如下。
+    <ul>
+      <li>导入Library()库：
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c"># in sitename/appname/templatetags/file_name.py</span>
+  <span class="kn">from</span> <span class="nn">django.template</span> <span class="kn">import</span> <span class="n">Librarry</span><span class="p">()</span> <span class="k">as</span> <span class="n">register</span>
+</code></pre></div>        </div>
+        <p>编写模板标签函数：</p>
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  	<span class="k">def</span> <span class="nf">total_posts</span><span class="p">():</span>
+  		<span class="k">return</span> <span class="n">Post</span><span class="o">.</span><span class="n">published</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</code></pre></div>        </div>
+        <p>注册函数为模板标签：</p>
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nd">@register.simple_tag</span>
+  <span class="k">def</span> <span class="nf">total_posts</span><span class="p">():</span>
+  <span class="k">return</span> <span class="n">Post</span><span class="o">.</span><span class="n">published</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</code></pre></div>        </div>
+        <p>其中注册器分三种:</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <ul>
+    <li>simple_tag:模板标签的功能只限于返回简单的字符串</li>
+    <li>inclusion_tag:可以返回一个<code class="highlighter-rouge">tamplate</code>，并且使用变量。</li>
+    <li>assignment_tag:可以返回一个上下文变量。</li>
+  </ul>
+</blockquote>
+
+<p>具体用法见<a href="">这里</a>.</p>
+
+<ul>
+  <li>自定义过滤器：
+自定义过滤器和自定义模板标签的方法一样， 只是在注册的时候使用<code class="highlighter-rouge">register.filter</code>注册。</li>
+  <li>添加站点地图：只是大概的了解了一下什么是站点地图，只是知道作用大概是方便网站被搜索引擎检索到。</li>
+  <li>添加RSS订阅：恩，了解，没使用。</li>
+  <li>添加站内搜索:了解了一下，也没配置成功。</li>
+</ul>
+
+<h1 id="第四天">第四天</h1>
+
+<ul>
+  <li>使用内建类<code class="highlighter-rouge">User</code>和内建认证模块<code class="highlighter-rouge">login</code>来实现一个用户的登陆，官方文档说明在<a href="http://usyiyi.cn/translate/django_182/topics/auth/default.html#auth-web-requests">这里</a>.</li>
+  <li>具体的流程为:  验证请求类型(get or post), 验证标单的可用性，获取标单数据，提取标单数据，进行用户认证<code class="highlighter-rouge">login(username='xx', password='xx')</code>,如果认证成功， 返回用户，认证失败返回<strong>None</strong>。所以<strong>一定要先判断返回值</strong>,在进行操作。</li>
+</ul>
+
+<blockquote>
+  <p>在实例化一个标单的时候， 可以使用<code class="highlighter-rouge">request.POST</code>在作为实例化的参数，这样标单就会自动获取POST值，并赋给表单的对应项。想必这也是html中的表单不用设置action url的原因吧。</p>
+</blockquote>
+
+<ul>
+  <li>使用内建的登陆模块:
+除了使用自定义的试图来登陆，django还提供了内置的登陆系统，<code class="highlighter-rouge">django.contrib.auth.views</code>:提供了<code class="highlighter-rouge">login</code>,<code class="highlighter-rouge">logout</code>,等常用认证试图。并且有一些常用参数可选择，如指定模板，指定登陆后重定向等。官方文档见<a href="">这里</a>.
+    <blockquote>
+      <p>超级BUG，配置 url “xxx:xxx” %} 时，引号之间的字符串就是名字，包括空格，所以不要手残加空格</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>扩展了User类，给User类添加了一个Profile， 关系为和User OneToOne。</p>
+  </li>
+  <li>添加了用户注册的功能:
+编写了一个用户注册的表单类。主要用到一个方法，就是判断两次输入的密码，这个表单类基于<code class="highlighter-rouge">model=User</code>, 在编辑用户注册Views的时候，有一个地没太明白：
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">profile_form</span> <span class="o">=</span> <span class="n">ProfileEditForm</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">profile</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><strong>这个参数是干嘛用的。？</strong>大概的感觉是这个表单中的数据和这个实例关联，如果实例中有表单中某个数据的字段就将它填充上。</p>
+  </li>
+  <li>
+    <p>添加了用户编辑的功能:
+由于Profile属性是后来添加的，所以在之前创建的User就没有这个属性，所以当尝试访问没有属性的User的profile属性时，会报<code class="highlighter-rouge">RelateObjectDoesNotExist:user has no profile</code>错误。<strong>所以需要将尝试获取User的profile的代码段用try-except包起来，这是书上没有说明的</strong>。</p>
+  </li>
+  <li>
+    <p>简单的提了一句自定义User类。</p>
+  </li>
+  <li>启用消息通知：
+<code class="highlighter-rouge">django.contrib.message</code>提供了消息对象，可以返回不同类型的消息。用法：
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c"># in views.py</span>
+  <span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">messages</span>
+  <span class="k">def</span> <span class="nf">anyviews</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+      <span class="n">messages</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">'Message body'</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c">&lt;!-- in html--&gt;</span>
+  {.% if messages %}
+      {.% for message in messages %}
+          {.{ message|safe }}
+      {.% endfor %}
+  {.% endif %}
+</code></pre></div>    </div>
+  </li>
+  <li>添加了自定义认证系统:
+自定义认证需要实现两个方法:
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">def</span> <span class="nf">authenticate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+      <span class="k">pass</span>
+	
+  <span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+      <span class="k">pass</span>
+</code></pre></div>    </div>
+    <p>然后在settings.AUTHENTICATE_BACNEND中添加。<strong>认证的时候会重上到下认证，如果认证成功则不再进行下一个认证.</strong></p>
+  </li>
+  <li>
+    <p>添加第三方认证登陆的功能:
+这个功能没做。</p>
+  </li>
+  <li>blank的作用，表示可以不填。null的作用，表示可以为Null.</li>
+</ul>
+
+<p><strong>需要解决：1. 自定义认证出现了问题。2.添加第三方认证登陆</strong></p>
+
+<h1 id="第五天">第五天</h1>
+
+<p>终于更新到第五章了。这章开始慢慢变难了，不是说django难了，而是开始涉及到的知识面变广了，很多都是我没有接触过，甚至不知道是干啥用的。一个一个来吧。</p>
+
+<ul>
+  <li>
+    <p>今天领悟到了一个很重要的问题，django寻找东西的时候只认名字。比如<code class="highlighter-rouge">settings.STATIC_URL = 'static/'</code>这样的设置，django需要静态文件的时候它就只找叫做static的文件夹，找到了就停，并不会去关心是在哪儿找到的。同样的道理，在使用模板继承的时候，我们写的是<code class="highlighter-rouge">{.% extends "base.html" %}</code>,django只知道在templates下找这个名字，<strong>找到就用，并不会去管在那个templates找到的</strong>。当然，<strong>会优先搜索同级</strong>。然后从前到后。</p>
+  </li>
+  <li>然后是开始写Image Model了：
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">class</span> <span class="nc">Image</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+      <span class="n">url</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">UrlFiels</span><span class="p">()</span>
+      <span class="n">slug</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">SlugFields</span><span class="p">()</span>
+      <span class="n">image</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ImageFields</span><span class="p">(</span><span class="n">uplode_to</span><span class="o">=</span><span class="s">'images/</span><span class="si">%</span><span class="s">Y/</span><span class="si">%</span><span class="s">m/</span><span class="si">%</span><span class="s">d'</span><span class="p">)</span>
+      <span class="n">users_like</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyFields</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">AUTH_USER_MODEL</span><span class="p">,</span><span class="n">related_name</span><span class="o">=</span><span class="s">'images_liked'</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+      <span class="c"># 多对多字段，表示点赞的人和被点赞的图片之间的关系</span>
+		
+      <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+          <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">slug</span><span class="p">:</span>
+              <span class="bp">self</span><span class="o">.</span><span class="n">slug</span> <span class="o">=</span> <span class="n">slugify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">)</span> <span class="c">#django.utils.text.slugify</span>
+</code></pre></div>    </div>
+    <p>注意，这里会有两个save.<code class="highlighter-rouge">Image.save()</code>,<code class="highlighter-rouge">Image.image.save(name,content,save=True)</code>.前者是Model的save,保存的是所有model的信息， 后者是Field的save,保存的仅仅是image,并且需要两个参数，name 和content,名字和对应的实例。</p>
+  </li>
+  <li>紧接着创建了一个创建Image的表单:
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">class</span> <span class="nc">CreateImageForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+      <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+          <span class="n">model</span> <span class="o">=</span> <span class="n">Image</span>
+          <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s">'title'</span><span class="p">,</span> <span class="s">'url'</span><span class="p">,</span> <span class="s">'description'</span><span class="p">)</span>
+          <span class="n">widget</span> <span class="o">=</span> <span class="p">{</span>
+              <span class="s">'url'</span><span class="p">:</span><span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">,</span>
+          <span class="p">}</span>
+</code></pre></div>    </div>
+    <p>这个表单使用的是ModelForm，特点是根据一个Model来生成表单，同时 你可以规定需要填写的字段等。</p>
+  </li>
+  <li>紧接这给这个表单添加了一个获取url数据的方法clean_url:
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">def</span> <span class="nf">clean_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cheaned_data</span><span class="p">[</span><span class="s">'url'</span><span class="p">]</span>
+      <span class="n">extension</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s">'.'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+      <span class="k">if</span> <span class="n">extension</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s">'jpg'</span><span class="p">,</span> <span class="s">'jpeg'</span><span class="p">]</span>
+          <span class="k">raise</span> <span class="s">'url error'</span>
+      <span class="k">return</span> <span class="n">url</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>然后重写了ImageCreateForm.save()方法
+重写的save()方法中，直接调用了Image的save()方法，如果数据都可用的话。这样就直接通过ImageCreateForm.save()将图片保存了，省的还要通过Image来保存。</p>
+  </li>
+  <li>接下来就是添加一个基于Jquery的收集功能，大概的实现原理是
+    <ul>
+      <li>添加一段自动运行的js脚本，并拖到收藏栏</li>
+      <li>打开网页的时候，脚本会自动运行，并且检查网页中的网址是否为图片</li>
+      <li>将检测到的图片列出来，然后点击其中一张，就会跳到创建图片的页面。</li>
+      <li>填写部分信息，结合从其他网站传过来的信息，完成图片创建。</li>
+    </ul>
+  </li>
+</ul>
+
+<p>不会写，照着书写出来是不能跑的， 故暂时放弃。</p>
+
+<ul>
+  <li>接下来还使用了其他的东西，比如AJAX来异步请求等，但是都不会。所以自己用很原始的请求响应来完成了同样的功能，保证网站完整运行。</li>
+</ul>
+
+<h1 id="第六天">第六天</h1>
+
+<ul>
+  <li>
+    <p>create_action中限制用户重复发动态的方法没有完善，记得完善。</p>
+  </li>
+  <li>
+    <p>有关动态中，用户和被牵连的东西之间的关系，ContentType啥的也没有弄懂。</p>
+  </li>
+  <li>
+    <p>image一直不能保存， 原来是重写save()的时候，缩进弄错了导致没有执行save()</p>
+  </li>
+</ul>
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/django%E5%AD%97%E6%AE%B5%E7%B1%BB%E5%9E%8B%E6%80%BB%E7%BB%93/" class="btn-pagination prev" title="django常用字段类型总结
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/%E6%8E%A5%E4%B8%8B%E6%9D%A54.5.6%E4%B8%89%E4%B8%AA%E6%9C%88%E7%9A%84%E8%A7%84%E5%88%92/" class="btn-pagination next" title="4.5.6三个月的简单规划
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=DrCBin.com/blog/%E8%AF%BBdjango-by-example%E7%AC%94%E8%AE%B0/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=DrCBin.com/blog/%E8%AF%BBdjango-by-example%E7%AC%94%E8%AE%B0/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=DrCBin.com/blog/%E8%AF%BBdjango-by-example%E7%AC%94%E8%AE%B0/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=DrCBin.com/blog/%E8%AF%BBdjango-by-example%E7%AC%94%E8%AE%B0/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+		
+       	
+        
+        
+		
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:drcbin@google.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/DrCBin" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2017 ChenBin. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?cd1138e3c986773ec07b6dd699f7bec2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>

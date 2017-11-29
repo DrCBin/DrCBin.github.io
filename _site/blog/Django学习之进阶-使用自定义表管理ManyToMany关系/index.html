@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Django学习之进阶--使用自定义表管理ManyToMany关系</title>
+  <meta name="description" content="django学习系列笔记">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="DrCBin.com/blog/Django%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%BF%9B%E9%98%B6-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A1%A8%E7%AE%A1%E7%90%86ManyToMany%E5%85%B3%E7%B3%BB/">
+  <link rel="alternate" type="application/rss+xml" title="DrCBin-陈斌" href="DrCBin.com/feed.xml">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+  <script defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >Django学习之进阶--使用自定义表管理ManyToMany关系</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#django">django</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">07 Jun 2017</div>
+			</div>
+			<div class="post-content">
+				<p>django中,当我们定义<code class="highlighter-rouge">ManyToMany</code>关系的时候,会自动创建一张表来管理这个关系,但是自动创建的表非常简单,就只有<code class="highlighter-rouge">id</code>, <code class="highlighter-rouge">from</code>,<code class="highlighter-rouge">to</code>三个字段，更多时候,我们需要更加具体更多的取管理这个关系,就得自定义表.</p>
+
+<p>想想公司和员工之间的关系,一家公司有多个员工,一个员工也可能同时为好几家公司工作.这便是典型的<code class="highlighter-rouge">ManyToMany</code>关系.</p>
+
+<p>但是通过上述信息,我们仅仅能知道这个员工在哪几家公司,或者哪家公司有哪些员工.</p>
+
+<p>如果我想问:a员工在A公司的薪水是多少?是啥时候入职的?是什么职务?等等..这些信息.应该定义在哪儿？公司？还是员工？</p>
+
+<p>显然都不是.现实生活中是使用另一个东西来记录的–档案.档案,链接这员工和公司,记录这他们的相关信息.</p>
+
+<p>而这个档案,就是我们需要自定义的表</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Comp</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">Staff</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">comp</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Comp</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">u'staffs'</span><span class="p">,</span> <span class="n">through</span><span class="o">=</span><span class="s">'CompStaff'</span><span class="p">,</span> <span class="n">through_fields</span><span class="o">=</span><span class="p">(</span><span class="s">'staff'</span><span class="p">,</span><span class="s">'comp'</span><span class="p">))</span> 
+    <span class="c"># 通过through指定关联表</span>
+    <span class="c"># through_fields的作用是指定哪两个字段进行关联,如果中介表中只有两个外键,可以不写</span>
+
+
+<span class="k">class</span> <span class="nc">CompStaff</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="s">'''
+    用于关联Comp和Staff的表
+    '''</span>
+    <span class="n">staff</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Staff</span><span class="p">)</span>
+
+    <span class="c"># 注意,下面有两个指向Comp,django不知道选那个作为关联,需要在在ManyToMany关系创建处指定</span>
+    <span class="n">last_comp</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Comp</span><span class="p">)</span>
+    <span class="n">comp</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Comp</span><span class="p">)</span>
+
+    <span class="n">date_join</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTime</span><span class="p">()</span>
+</code></pre></div></div>
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/Django%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80-%E5%85%B3%E7%B3%BB%E5%AD%97%E6%AE%B5%E9%80%89%E9%A1%B9related_name%E7%9A%84%E7%94%A8%E6%B3%95%E4%B8%8E%E4%BD%9C%E7%94%A8/" class="btn-pagination prev" title="Django学习之基础–关系字段选项related_name的用法于作用
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/Django%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%BF%9B%E9%98%B6-%E5%A4%9A%E8%A1%A8Model%E7%BB%A7%E6%89%BF%E6%97%B6%E5%90%8D%E5%AD%97%E5%86%B2%E7%AA%81/" class="btn-pagination next" title="Django学习之进阶–多表Model继承时的名字冲突
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=DrCBin.com/blog/Django%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%BF%9B%E9%98%B6-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A1%A8%E7%AE%A1%E7%90%86ManyToMany%E5%85%B3%E7%B3%BB/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=DrCBin.com/blog/Django%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%BF%9B%E9%98%B6-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A1%A8%E7%AE%A1%E7%90%86ManyToMany%E5%85%B3%E7%B3%BB/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=DrCBin.com/blog/Django%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%BF%9B%E9%98%B6-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A1%A8%E7%AE%A1%E7%90%86ManyToMany%E5%85%B3%E7%B3%BB/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=DrCBin.com/blog/Django%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%BF%9B%E9%98%B6-%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A1%A8%E7%AE%A1%E7%90%86ManyToMany%E5%85%B3%E7%B3%BB/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+		
+       	
+        
+        
+		
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:drcbin@google.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/DrCBin" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2017 ChenBin. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?cd1138e3c986773ec07b6dd699f7bec2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>

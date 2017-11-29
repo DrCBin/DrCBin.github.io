@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>僵尸进程和孤儿进程</title>
+  <meta name="description" content="僵尸进程和孤儿进程的产生和防范">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="DrCBin.com/blog/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%AD%A4%E5%84%BF%E8%BF%9B%E7%A8%8B/">
+  <link rel="alternate" type="application/rss+xml" title="DrCBin-陈斌" href="DrCBin.com/feed.xml">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+  <script defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >僵尸进程和孤儿进程</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#c/c++">c/c++</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">27 Apr 2017</div>
+			</div>
+			<div class="post-content">
+				<p>linux系统下，可以由一个进程fork产生另一个进程，这就有了一些可能.其中<code class="highlighter-rouge">一个进程</code>叫做父进程，<code class="highlighter-rouge">另一个进程</code>叫做子进程。</p>
+
+<h2 id="孤儿进程和僵尸进程">孤儿进程和僵尸进程</h2>
+
+<ul>
+  <li>
+    <p>大家都知道，死了父母的孩子叫孤儿，同样，父线程如果死了，但子进程还在，那么这个进程就叫做孤儿进程。<strong>孤儿进程的父进程的pid会被重置为1</strong>.</p>
+  </li>
+  <li>
+    <p>而如果孩子提前走到生命的尽头，父亲却还健在，此时父亲就需要料理死去孩子的后世，安葬，清理孩子的遗物，万一孩子留了一大笔钱呢。但是如果孩子死了，父亲却不管不问，那么孩子就会变成僵尸.</p>
+  </li>
+  <li>
+    <p>在进程状态中，一个进程结束了自己的任务之后，是先进入<code class="highlighter-rouge">退出状态</code>,也就是才结束生命。然后等着父亲进程来处理一下后事，才进入<code class="highlighter-rouge">终止状态</code>，也就是正式走完一生。</p>
+  </li>
+  <li>
+    <p>退出状态存在的意义: 子进程退出后，还保留着它的一些状态信息，比如pid，占用内存，生存时间，cup使用等，可能父进程某些时候需要查看.</p>
+  </li>
+  <li>
+    <p>但是一个进程如果中途出了异常，那么它会直接进入<code class="highlighter-rouge">终止状态</code>.</p>
+  </li>
+  <li>
+    <p>如果子线程执行玩业务逻辑，进入退出状态，而且父进程还在，但父进程却对他不管不问，那么这个子进程就一直保持在退出状态，而不会进入终止状态，此时这个子线程就叫做僵尸进程.</p>
+  </li>
+</ul>
+
+<h4 id="总结一下">总结一下:</h4>
+
+<p>孤儿进程:父进程挂了的进程叫孤儿进程。</p>
+
+<p>僵尸进程: 它的父进程还在，却即使该进程已经执行完，它父亲也不管它的进程，叫僵尸进程。</p>
+
+<h2 id="孤儿进程和僵尸进程对系统的影响">孤儿进程和僵尸进程对系统的影响</h2>
+
+<ul>
+  <li>
+    <p>由于孩子进程退出后还保留这进程的一些状态，也就是保留着退出状态的一些东西，所以它还会保留着进程，也就是还能查到这个进程.改进程还证据着一定的资源。</p>
+  </li>
+  <li>
+    <p>如果死掉的孩子越来越多就会浪费一些系统资源，如果量非常大，那么系统崩溃啥的也不是问题</p>
+  </li>
+</ul>
+
+<h2 id="系统对孤儿进程和僵尸进程的处理">系统对孤儿进程和僵尸进程的处理</h2>
+
+<ul>
+  <li>
+    <p>当系统启动的时候，会创建第一个用户进程，叫做<a href="http://baike.baidu.com/item/init%E8%BF%9B%E7%A8%8B">init进程</a>。</p>
+  </li>
+  <li>
+    <p>对于孤儿进程，init进程会对他们进行关心，他们死后，会将他们妥善处理，是他们能从<code class="highlighter-rouge">退出状态</code>进入<code class="highlighter-rouge">终止状态</code>,完整的走完这一生。</p>
+  </li>
+  <li>
+    <p>对于僵尸进程，由于它父亲还在，所以init进程没有权利去管他们。</p>
+  </li>
+</ul>
+
+<h4 id="总结">总结</h4>
+
+<p>对于孤儿进程，init进程会清理他们，所以他们对系统不会造成影响。</p>
+
+<p>对于僵尸进程，由于它们的父亲还在，所以系统不会管他们，所以庞大数量的僵尸进程会影响系统稳定。</p>
+
+<h2 id="对已经存在的僵尸进程的处理">对已经存在的僵尸进程的处理</h2>
+
+<p>杀了他们的父亲，让他们变成孤儿，这样init就有权利来处理他们了。</p>
+
+<h2 id="防止僵尸进程产生的方法">防止僵尸进程产生的方法</h2>
+<ul>
+  <li>使用wait来等待子进程结束并回收资源，<a href="http://single-thread.me/c/c++/2017/05/02/wait-and-waitpid/">wait</a>用法:</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;stdio.h&gt;
+#include&lt;unistd.h&gt;
+#include&lt;sys/wait.h&gt;
+</span><span class="kt">int</span> <span class="n">main</span><span class="p">(){</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">fork</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">){</span>
+		<span class="c1">// 表示是父进程
+</span>		<span class="n">pid_t</span> <span class="n">childPid</span> <span class="o">=</span> <span class="n">wait</span><span class="p">();</span> <span class="c1">//获取结束的子进程的pid
+</span>	<span class="p">}</span>
+	<span class="k">else</span><span class="p">{</span>
+		<span class="c1">// do something
+</span>	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>上述方法可以预防僵尸进程的出现,但这个方法有一些弊端:</p>
+
+<ul>
+  <li>弊端:
+    <ul>
+      <li>wait()只等待一个子进程返回就继续往下走了。如果一个父进程产生了多个子进程，就不能使用一个wait保证所有的子进程都结束。</li>
+      <li>wai()需要等待子进程结束，如果子进程执行的时间过程，则会过分影响到父进程的执行.</li>
+    </ul>
+  </li>
+  <li>
+    <p>使用<a href="http://single-thread.me/c/c++/2017/05/02/wait-and-waitpid/">waitpid()</a>:
+代码示例：同上wait()代码示例，将wait()改为waitpid(),并按徐传递参数即可.</p>
+  </li>
+  <li>使用信号:每当子进程结束，内核都会给其父进程发送信号，但是父进程对这个信号默认不做任何处理，所以我们可以通过这个信号来做一些事情，我们要做的是就是当收到内核的信号时，表示我们有子进程结束了，此时该去处理了。</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">handle</span><span class="p">(</span><span class="kt">int</span> <span class="n">signo</span><span class="p">){</span>
+	<span class="c1">// 我也是看的网上例子，知道这是一个处理子进程后续的函数，具体怎么定义，这个参数是干啥用的等我一概不知，现在也没打算深入，后续用到了再深入
+</span>	<span class="kt">int</span> <span class="n">status</span><span class="p">;</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">wait</span><span class="p">(</span><span class="o">&amp;</span><span class="n">status</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">){</span>
+		<span class="n">perror</span><span class="p">(</span><span class="s">"wait:"</span><span class="p">);</span>
+	<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(){</span>
+	<span class="n">signal</span><span class="p">(</span><span class="n">SIGCHLD</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">handle</span><span class="p">);</span> <span class="c1">//绑定接到信号的处理函数
+</span>	<span class="c1">// do something
+</span>	<span class="n">fork</span><span class="p">();</span>  <span class="c1">//正常的调用fork执行业务逻辑
+</span>	<span class="c1">// do something
+</span>	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/exec%E5%AE%B6%E6%97%8F/" class="btn-pagination prev" title="linux下exec家族
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/wait-and-waitpid/" class="btn-pagination next" title="wait 和 waitpid 的用法
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=DrCBin.com/blog/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%AD%A4%E5%84%BF%E8%BF%9B%E7%A8%8B/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=DrCBin.com/blog/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%AD%A4%E5%84%BF%E8%BF%9B%E7%A8%8B/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=DrCBin.com/blog/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%AD%A4%E5%84%BF%E8%BF%9B%E7%A8%8B/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=DrCBin.com/blog/%E5%83%B5%E5%B0%B8%E8%BF%9B%E7%A8%8B%E5%92%8C%E5%AD%A4%E5%84%BF%E8%BF%9B%E7%A8%8B/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+		
+       	
+        
+        
+		
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:drcbin@google.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/DrCBin" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2017 ChenBin. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?cd1138e3c986773ec07b6dd699f7bec2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>

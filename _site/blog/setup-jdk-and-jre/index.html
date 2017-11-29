@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>配置java运行环境和开发环境的配置(Windiws&amp;Linux)</title>
+  <meta name="description" content="java运行环境的配置教程，包括了windous和linux平台．">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="DrCBin.com/blog/setup-jdk-and-jre/">
+  <link rel="alternate" type="application/rss+xml" title="DrCBin-陈斌" href="DrCBin.com/feed.xml">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+  <script defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >配置java运行环境和开发环境的配置(Windiws&Linux)</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#none">none</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">10 Mar 2017</div>
+			</div>
+			<div class="post-content">
+				<p>本学期开了java课，要运行java程序，或者进行java开发，需要将电脑上的java环境配一下．</p>
+
+<h4 id="jre">JRE:</h4>
+<p>jre(java runtime environment),java运行环境，包含了<strong>java</strong>程序运行所需的套件和环境，是java程序能正常运行的必要条件．</p>
+<h4 id="jdk">JDK:</h4>
+<p>jdk(java development kit),java开发套件，包含了<strong>jre</strong>,java<strong>编译调试程序</strong>和其他一些类库等.</p>
+
+<h2 id="下载">下载:</h2>
+<p>甲骨文官网下载:<a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a>
+<strong>注意选择jkd或jre,只有jre不能进行java的编译</strong></p>
+<h2 id="安装jdk">安装(JDK)</h2>
+<h4 id="1java">1.java</h4>
+<ul>
+  <li>解压下载好的文件到任何你想要安装的目录，此处假设该目录为JAVA_HOME</li>
+  <li>进入JAVA_HOME/bin下，可以看到一个可执行文件java.</li>
+  <li>在该目录打开控制台(windows下按住shift，然后单击右键，可以看到弹出的菜单中会有＇在此处打开命令窗口＇的选项)，然后输入java,便可看到java弹出的帮助．
+    <h4 id="2javac">2.javac</h4>
+  </li>
+  <li>windows下进入JAVA_HOME/lib，可以看到该目录下有个javac的可执行文件，如果这个目录没有，便在JAVA_HOME/bin目录下</li>
+  <li>linux下进入JAVA_HOME/bin,也就是和java在用一个目录，可以看到javac可执行文件.</li>
+  <li>在此目录打开控制台，输入javac，可以看到弹出的帮助信息．
+如果上述两个命令都能弹出帮助，则<strong>说明JDK安装完成</strong>．
+    <blockquote>
+      <p>错误帮助:如果提示找不到命令，请检查两个地方:</p>
+
+      <ul>
+        <li>
+          <p>上述目录下是否有java和javac的可执行文件．</p>
+        </li>
+        <li>
+          <p>控制台所在目录是否和上述文件是同一个目录(控制台光标前面的路径就是当前所在目录)</p>
+          <h2 id="配置">配置</h2>
+          <p>上面已经安装好了JDK,也就是我们的电脑可以编译和运行java代码了，但是我们需要到java和javac的目录下才能运行，这样势必会造成一定的不方便，所以我们需要进行一定的配置，使得在任何目录都能正常执行java和javac.这个过程叫做<strong>java环境变量的配置</strong>.</p>
+          <h4 id="linux">linux:</h4>
+          <p>编辑/etc/profile,在最末尾添加如下代码:</p>
+          <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export JAVA_HOME=xxx/xxx/xxx
+# JAVA_HOME为你的jdk安装目录
+export PATH=$PATH:$JAVA_HOME/bin
+# bin目录是编译，执行等程序的所在目录
+export CLASSPATH=.:$JAVA_HOME/lib
+# lib目录是java自带类库等所在目录
+</code></pre></div>          </div>
+          <p>保存后执行下述命令,是配置生效:</p>
+          <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo source /etc/profile
+</code></pre></div>          </div>
+          <p>然后在任何地方运行java和javac,都能正常弹出帮助了，说名配置完成．</p>
+          <h4 id="windows">Windows:</h4>
+          <p>参考图文教程,<a href="http://jingyan.baidu.com/article/925f8cb836b26ac0dde0569e.html">点这里</a>！
+配置完成之后也可以在任何地方打开控制台（之前打开的记得<strong>重启一下控制台</strong>），都能正常识别命令，说明环境配置完成．</p>
+        </li>
+      </ul>
+    </blockquote>
+  </li>
+</ul>
+
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/first-blog/" class="btn-pagination prev" title="我的第一篇博客
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/%E4%BD%BF%E7%94%A8github%E7%AE%A1%E7%90%86vim%E5%92%8Csublime%E9%85%8D%E7%BD%AE/" class="btn-pagination next" title="使用github备份vim和sublime配置
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=DrCBin.com/blog/setup-jdk-and-jre/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=DrCBin.com/blog/setup-jdk-and-jre/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=DrCBin.com/blog/setup-jdk-and-jre/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=DrCBin.com/blog/setup-jdk-and-jre/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+		
+       	
+        
+        
+		
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:drcbin@google.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/DrCBin" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2017 ChenBin. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?cd1138e3c986773ec07b6dd699f7bec2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>

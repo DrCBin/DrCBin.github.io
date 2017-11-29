@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DrCBin-陈斌</title>
+    <description>陈斌的个人博客</description>
+    <link>DrCBin.com/</link>
+    <atom:link href="DrCBin.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Wed, 29 Nov 2017 15:47:23 +0800</pubDate>
+    <lastBuildDate>Wed, 29 Nov 2017 15:47:23 +0800</lastBuildDate>
+    <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title></title>
+        <description>&lt;p&gt;ubuntu 下装mysql，出现了各种问题，在使用的过程中。 写下来记录一下，避免以后出出问题了早不到。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;mysql启动的时候提示：Can’t connect to local MySQL server through socket ‘/var/lib/mysql/mysql.sock.’不同发行版的系统路径可能会不一样，但结果是一样的，该路径下没有　mysqld.sock文件．&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- 解决方法当时弄好了就关了，忘记了。
+
+- ########    2017.2.4日更新：########
+
+- 今天又遇到同样问题了，　苦苦寻找，　找到了[解决法方](http://askubuntu.com/questions/90978/mysql-problem-var-run-mysqld-mysqld-sock)之一：
+
+- 进入　cd /etc/init.d/　目录，执行　mysqld_safe，会重新生成文件．
+
+- 执行　sudo find / -type s | grep mysqld.sock　查找生成的文件路径
+
+- 将生成的文件移动到提示错误时标示出来的路径，我的是直接就生成在了那个路径下
+
+- ########  结束2017.2.4　#####
+
+- 注意，mysql装好之后把/var/mysql/mysql.sock 备份一下，创建数据库的时候记得设置编码。我是创建数据库的时候没有设置编码，然后后来重新修改my.conf,然后重启导致mysql.sock丢失。 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;dpkg: error processing mysql-server (–configure）/mysql-common(–configure)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- 解决，通常这是数据库卸载的时候没有正确卸载导致的。重新执行一下命令，完全卸载数据库，再重新安装。删除mysql前 先删除一下 /var/lib/mysql 还有 /etc/mysql ``` sudo rm /var/lib/mysql/ -R sudo rm /etc/mysql/ -R sudo apt-get autoremove mysql* --purge sudo apt-get remove apparmor ```
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;mysql创建表的时候制定编码：
+    - 用show variables like ‘character_set_%’; 查看编码&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;-  create database mydb character set utf8;创建数据库的时候直接制定编码;
+
+   -   修改默认字符集：
+   
+    - 把 //etc/mysql/mysql.conf.d/mysqld.cnf 复制一份到 /etc/mysql/my.cnf
+    
+    - 在[mysqld]下添加：
+    
+    &amp;lt;strong&amp;gt;
+    character-set-server=utf8  
+    collation-server=utf8_general_ci
+    skip-character-set-client-handshake
+    &amp;lt;/strong&amp;gt;&amp;lt;br&amp;gt;
+    
+其中，character_set_client为客户端编码方式；
+
+ character_set_connection为建立连接使用的编码；
+ 
+ character_set_database数据库的编码；
+ 
+ character_set_results结果集的编码；
+ 
+ character_set_server数据库服务器的编码；
+ 
+只要保证以上四个采用的编码方式一样，就不会出现乱码问题。
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;2017-3-30日更新
+最近有瞎折腾，更换系统，重装mysql的时候又出现了各种各样的问题，很重要的一个还是没能彻底解决找不到mysqld.sock的办法，很多时候在 &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/init.d/&lt;/code&gt;目录下执行&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo mysqld_safe&lt;/code&gt;也不能解决。而且就算当时成功了， 下次重启机器的时候还是会出现这种问题。所以当苦苦弄不好的时候我就会选择重装mysql.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;重装mysql&quot;&gt;重装MysqL&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;然而重装的坑也不少啊&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;重装遇到的问题：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;重装的时候根本没有要求输密码，很明显，没有卸载干净。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;重装的时候安装失败，报&lt;code class=&quot;highlighter-rouge&quot;&gt;dpkg: error processing mysql-server (--configure):&lt;/code&gt;错误。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;就算出了输密码的界面，输入了密码，也没法启动mysql,还是会报sock找不到的错误.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;原因是没有卸载干净&quot;&gt;原因是没有卸载干净&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo apt-get autoremove mysql* --purge&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;上面的命令会弹出mysql的卸载界面，　和当初输密码的时候一样的界面。&lt;/p&gt;
+
+&lt;p&gt;然后一定要检查一下&lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/mysql&lt;/code&gt;是否存在，在的话就删。&lt;/p&gt;
+
+&lt;p&gt;接着再安装mysql。&lt;/p&gt;
+
+&lt;h4 id=&quot;妈的还是一样的情况啊啊啊啊啊&quot;&gt;妈的还是一样的情况啊啊啊啊啊…..&lt;/h4&gt;
+
+&lt;p&gt;来狠的&lt;/p&gt;
+
+&lt;p&gt;使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;sudo tree / -f | grep mysql &amp;gt; a.txt&lt;/code&gt;找出所有和mysql相关的文件，写入到a.txt中，　&lt;/p&gt;
+
+&lt;p&gt;然后手动删除那些前面多余的字符，使得每一行都是一个有关mysql的路径，然后在这些路径中删去你需要的。当然你也可以写脚本来完成这一步。&lt;/p&gt;
+
+&lt;p&gt;然后写一个python脚本来删除这些文件&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# in delmysql.py&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;os&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'a.txt'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;lline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;readline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;system&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'rm -rf '&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;line&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;readline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;然后&lt;code class=&quot;highlighter-rouge&quot;&gt;sudo python3 delmysql.py&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;终于彻底删除了。　爽，然后接着尝试安装。&lt;/p&gt;
+
+&lt;p&gt;恩，这回没问题了。为了防止再次丢失的情况，我吧原sock做了备份，并且创建了一个链接。&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; /var/run/mysqld
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;mv mysqld.sock ../
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;link ../mysqld.sock ./mysqld.sock
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;然后用了一会儿之后关机了，再开机还能正常使用。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/frinder/article/details/7041723&quot;&gt;参考链接:设置配置&lt;/a&gt;
+&lt;a href=&quot;http://www.jianshu.com/p/8ef7519e5b2d&quot;&gt;参考链接：安装与配置&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Wed, 29 Nov 2017 15:47:23 +0800</pubDate>
+        <link>DrCBin.com/blog/2017-03-10-mysql%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5-%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E9%9B%86/</link>
+        <guid isPermaLink="true">DrCBin.com/blog/2017-03-10-mysql%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5-%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E9%9B%86/</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>2017-11-28</title>
+        <description>&lt;h1 id=&quot;十一月二十八日&quot;&gt;十一月二十八日&lt;/h1&gt;
+
+&lt;h2 id=&quot;干的事&quot;&gt;干的事&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;刷数据结构: 花了两天的时间,终于写出来了队列和树…&lt;/li&gt;
+  &lt;li&gt;续上了断了好久的每天记录&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;感想与总结&quot;&gt;感想与总结&lt;/h2&gt;
+
+&lt;h3 id=&quot;继续保持的地方&quot;&gt;继续保持的地方&lt;/h3&gt;
+
+&lt;p&gt;怎么说呢,感觉这两天花的时间挺多, 但是回过头来看,却又发现其实就做了那么点东西!&lt;/p&gt;
+
+&lt;p&gt;总结下来就是—以前的基础不怎么牢固! 以前并没有深入理解!&lt;/p&gt;
+
+&lt;p&gt;这两天自己用C语言写的东西, 感受到了指针的强大(以前知道,但没感受出来)!&lt;/p&gt;
+
+&lt;p&gt;虽然做出来的东西不多,但收获还是不少的!&lt;/p&gt;
+
+&lt;h3 id=&quot;不足的地方&quot;&gt;不足的地方&lt;/h3&gt;
+
+&lt;p&gt;大三基本没课了, 没有了课程的约束,发现自己懒了不少! 特别是游戏,又开始玩得多起来了!&lt;/p&gt;
+
+&lt;p&gt;虽然每天都会坚持学习,但和有课的时间比起来,学习的强度和持久度还是不够的!&lt;/p&gt;
+
+&lt;p&gt;记得当初课很多的时候,总觉得时间不够,希望没有课,能自己好好学习！如今课没了,时间却又这么一点点浪费了!&lt;/p&gt;
+</description>
+        <pubDate>Wed, 29 Nov 2017 00:00:00 +0800</pubDate>
+        <link>DrCBin.com/blog/daily/</link>
+        <guid isPermaLink="true">DrCBin.com/blog/daily/</guid>
+        
+        <category>吾日三省吾身</category>
+        
+        
+        <category>Daily</category>
+        
+      </item>
+    
+      <item>
+        <title>2017-11-10</title>
+        <description>&lt;p&gt;#十一月十号&lt;/p&gt;
+
+&lt;h2 id=&quot;干的事儿&quot;&gt;干的事儿&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;和学长聊天&lt;/li&gt;
+  &lt;li&gt;上了两节课&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;收获与感想&quot;&gt;收获与感想&lt;/h2&gt;
+
+&lt;h3 id=&quot;1-资源很重要&quot;&gt;1. 资源很重要&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;今天和学长聊了挺多, 也更加让自己清楚的认识到,资源很重要！&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;记得我刚上大一那会儿, 骨子里带着的自傲，老子可牛逼了！  没让现实狠狠的扇两耳光不知道什么叫羞耻！&lt;/p&gt;
+
+&lt;p&gt;不懂事的时候,抱着自己牛逼就够了， 别人自然会来找我， 花那么多时间累积资源和人脉有个屁用 的想法！&lt;/p&gt;
+
+&lt;p&gt;后来才明白， 没有资源和人脉， 你自己怎么都很难牛逼起来！&lt;/p&gt;
+
+&lt;p&gt;现在已经大三了， 明白得似乎有些晚了！希望自己现在开始,&lt;strong&gt;利用好自己周边的好资源, 放低自己的姿态， 打开自己心里阳光的一面， 多用心去和别人交流， 多去交朋友&lt;/strong&gt;!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;多去和老师学长们交流沟通, 毕竟大家都是过来人，指条路总比自己去走弯路好得多!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;2-考研的心又开始动摇了&quot;&gt;2. 考研的心又开始动摇了&lt;/h3&gt;
+
+&lt;p&gt;今天从学长那儿了解到， 考上研究生的福利，以及结合到未来对能力和学历的需求， 自己考研的心又动摇了！&lt;/p&gt;
+
+&lt;p&gt;我从大一入学还是就是决定打死都不考研的！ 因为这种心态， 导致除了撸代码， 其他什么都可以不管不顾， 大一下学期一下挂了五科…大二懂事了，也就没有挂科了！&lt;/p&gt;
+
+&lt;p&gt;可是慢慢的， 大一那颗坚定的心开始动摇了… 也再开始想着如果考研的可能了！&lt;/p&gt;
+
+&lt;p&gt;很纠结, 想继续考研， 可是有想体验社会一把！ 所以目前的打算是大四休学一年来工作， 然后继续回来读大四! 也不知道这个想法能如何!&lt;/p&gt;
+
+&lt;h3 id=&quot;3-餐桌上的小举动&quot;&gt;3. 餐桌上的小举动&lt;/h3&gt;
+
+&lt;p&gt;今天和学长一起吃的晚餐!&lt;/p&gt;
+
+&lt;p&gt;一起点的饭， 学长的先好， 我的后好！&lt;/p&gt;
+
+&lt;p&gt;学长取完饭之后， 拿了筷子和勺子， 顺便连我的也一起拿了！&lt;/p&gt;
+
+&lt;p&gt;学长把筷子和勺子放好之后,&lt;strong&gt;并没有开吃， 而是等着我的也好了之后才一起吃&lt;/strong&gt;!&lt;/p&gt;
+
+&lt;p&gt;这是自己从来没有留意过的细节, 希望以后自己也能多多留意这些小的习惯!&lt;/p&gt;
+
+&lt;h3 id=&quot;4-给自己定个4级小目标&quot;&gt;4. 给自己定个4级小目标&lt;/h3&gt;
+
+&lt;p&gt;还有一个月就要考四级了， 可是自己并没有复习!&lt;/p&gt;
+
+&lt;p&gt;希望接下来的这一个月， 不要太过于忙其他的， 冲刺一下四级！&lt;/p&gt;
+
+&lt;p&gt;英语的学习不要断啊.&lt;/p&gt;
+
+&lt;h3 id=&quot;5-课堂时间的利用率&quot;&gt;5. 课堂时间的利用率&lt;/h3&gt;
+
+&lt;p&gt;从大二以来， 课堂时间的利用率就非常的差， 或者说上大学以来都是吧！ 可是自己以前并没有留意到这个问题！&lt;/p&gt;
+
+&lt;p&gt;对于自己已经明白的课程， 可以不听， 但请自己也不要玩手机或者发呆！ 做一些其他的事儿， 比如看看书， 刷刷题， 或者往后深入学一下内容！&lt;/p&gt;
+
+&lt;p&gt;对于自己不想听或者听不进去的课程， 也是一样…&lt;/p&gt;
+</description>
+        <pubDate>Fri, 10 Nov 2017 00:00:00 +0800</pubDate>
+        <link>DrCBin.com/blog/daily/</link>
+        <guid isPermaLink="true">DrCBin.com/blog/daily/</guid>
+        
+        <category>吾日三省吾身</category>
+        
+        
+        <category>Daily</category>
+        
+      </item>
+    
+      <item>
+        <title>2017-11-07</title>
+        <description>
+</description>
+        <pubDate>Tue, 07 Nov 2017 00:00:00 +0800</pubDate>
+        <link>DrCBin.com/blog/daily/</link>
+        <guid isPermaLink="true">DrCBin.com/blog/daily/</guid>
+        
+        <category>吾日三省吾身</category>
+        
+        
+        <category>Daily</category>
+        
+      </item>
+    
+      <item>
+        <title>2017-11-06</title>
+        <description>&lt;h1 id=&quot;十一月六号&quot;&gt;十一月六号&lt;/h1&gt;
+
+&lt;h2 id=&quot;干的事&quot;&gt;干的事&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;写了关于想法的计划书&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;想法&quot;&gt;想法&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;不写了,睡觉&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Mon, 06 Nov 2017 00:00:00 +0800</pubDate>
+        <link>DrCBin.com/blog/daily/</link>
+        <guid isPermaLink="true">DrCBin.com/blog/daily/</guid>
+        
+        <category>吾日三省吾身</category>
+        
+        
+        <category>Daily</category>
+        
+      </item>
+    
+      <item>
+        <title>2017-11-05</title>
+        <description>&lt;h1 id=&quot;十一月五号&quot;&gt;十一月五号&lt;/h1&gt;
+
+&lt;h2 id=&quot;干的事&quot;&gt;干的事&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;给学妹们讲了一上午的东西&lt;/li&gt;
+  &lt;li&gt;重新写了爬取学校教务系统的代码&lt;/li&gt;
+  &lt;li&gt;实现了用js模拟器登录学校的校园网自助服务网站&lt;/li&gt;
+  &lt;li&gt;买了两只兔子,陪女票溜了一个半小时的兔子&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;知识收获&quot;&gt;知识收获&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;学会了使用代码来模拟浏览器&lt;/li&gt;
+  &lt;li&gt;再一次觉得以前写的代码丑, 对代码的理解又提高了一些&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;时间分配&quot;&gt;时间分配&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;八点半起床…还导致迟到了10分钟&lt;/li&gt;
+  &lt;li&gt;给学妹讲东西到12:30&lt;/li&gt;
+  &lt;li&gt;去机房呆到15:00&lt;/li&gt;
+  &lt;li&gt;回来吃饭,磨磨蹭蹭到16:30去机房…路上买了两只兔子，顺便溜了一会儿&lt;/li&gt;
+  &lt;li&gt;写代码到20:30&lt;/li&gt;
+  &lt;li&gt;溜了一个小时兔子&lt;/li&gt;
+  &lt;li&gt;回来洗衣服,给兔子安家,然后收拾睡觉了,今天早点睡&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;感想与总结&quot;&gt;感想与总结&lt;/h2&gt;
+
+&lt;h3 id=&quot;关于给学妹们讲东西&quot;&gt;关于给学妹们讲东西&lt;/h3&gt;
+
+&lt;p&gt;已经连续3周给学妹们讲东西了,但是感觉结果远远达不到想象中的.&lt;/p&gt;
+
+&lt;p&gt;一开始是不打算讲的,因为学习是个必须的过程,我也一直提倡学会学习,作为学长,更多的是帮他们指指路,引领着他们学习!&lt;/p&gt;
+
+&lt;p&gt;但最后觉得讲东西能来得快点,加上学妹们自己要求,便给他们讲了&lt;/p&gt;
+
+&lt;p&gt;慢慢的发现,没有循序渐进的过程,没有一点一点的沉淀, 导致他们对输入的东西只能一直半解,并不能融会贯通,灵活运用, 换个情况就没法解决了!&lt;/p&gt;
+
+&lt;p&gt;加上由于外界的强行输入,并非自己内心的强烈渴望, 自己下来也很少会刻意的去深入理解, 从而慢慢的感觉偏离想象中的结果!&lt;/p&gt;
+
+&lt;p&gt;而作为给他们讲的学长,我自己觉得虽然讲了一上午3、4个小时,但讲授的内容远没有他们自己用心一个小时的收获多和扎实.&lt;/p&gt;
+
+&lt;p&gt;或许该尝试下布置一些任务,给出关键说明,让她们自己一点一点解决,这样能形成一个知识体系,效果会更好&lt;/p&gt;
+
+&lt;h3 id=&quot;关于自己&quot;&gt;关于自己&lt;/h3&gt;
+
+&lt;p&gt;今天晚上虽然时间上花了4小时学习,但真实用好的时间可能就一小时左右,因为兔兔实在太萌了…总是忍不住去玩去看.&lt;/p&gt;
+
+&lt;p&gt;今天也没发生什么值得记录感想的事, 还是感觉时间利用率不高, 又或者是知识弄明白了觉得简单, 总之就是回过来看, 感觉付出的时间和收获的知识是不匹配的.&lt;/p&gt;
+
+&lt;p&gt;再一个,还就没有读英语了,自从10月中旬赶大创开始,希望慢慢捡起来!&lt;/p&gt;
+
+&lt;p&gt;今天去称体重,涨了1.5KG…….&lt;/p&gt;
+</description>
+        <pubDate>Sun, 05 Nov 2017 00:00:00 +0800</pubDate>
+        <link>DrCBin.com/blog/daily/</link>
+        <guid isPermaLink="true">DrCBin.com/blog/daily/</guid>
+        
+        <category>吾日三省吾身</category>
+        
+        
+        <category>Daily</category>
+        
+      </item>
+    
+      <item>
+        <title>2017-11-04</title>
+        <description>&lt;h1 id=&quot;十一月四号&quot;&gt;十一月四号&lt;/h1&gt;
+
+&lt;h2 id=&quot;干的事儿&quot;&gt;干的事儿&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;早上一节课&lt;/li&gt;
+  &lt;li&gt;下课回来做饭吃&lt;/li&gt;
+  &lt;li&gt;然后和女票去开发区看了场电影&lt;/li&gt;
+  &lt;li&gt;晚上回来打了三把游戏.输了两把…&lt;/li&gt;
+  &lt;li&gt;最后花了两小时,看了一下爬虫教程&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;学到的知识&quot;&gt;学到的知识&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;今天的晚上两小时学习,学会使用了代理,也慢慢摸清了使用带以及大体了解了如何维护一个自己的代理池&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;感想或想说的&quot;&gt;感想或想说的&lt;/h2&gt;
+
+&lt;p&gt;今天和女票去看了场电影,[&lt;相爱相亲&gt;](https://movie.douban.com/subject/26773744/?from=playing_poster)&lt;/相爱相亲&gt;&lt;/p&gt;
+
+&lt;p&gt;总体来说,感觉剧情一般般,没什么吸引人的地方. 但很真实， 很贴近生活, 演得也很走❤, 有些感动&lt;/p&gt;
+
+&lt;p&gt;最让我感动的是当男主买车,在学校门口接女主一起去兜风时,在车上的那段！&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;男主说起了电台正在放的音乐,是他们年轻时候在火车上听到的音乐&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;男主说买车,是为了带女主去兜兜风,因为女主年轻的时候说过以后想有自己的一辆车,一起去兜兜风&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;而女主已然因为生活而奔波,为了生活而劳累,全然忘了所谓的年时说的轻&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;而我自己,也希望自己和另一半在上了年纪以后,还能记得年轻时说的,不用那么拼, 花点时间来爱自己,来享受生活. 繁琐事儿得过且过.相信会过得很幸福!&lt;/p&gt;
+</description>
+        <pubDate>Sat, 04 Nov 2017 00:00:00 +0800</pubDate>
+        <link>DrCBin.com/blog/daily/</link>
+        <guid isPermaLink="true">DrCBin.com/blog/daily/</guid>
+        
+        <category>吾日三省吾身</category>
+        
+        
+        <category>Daily</category>
+        
+      </item>
+    
+      <item>
+        <title>2017-11-03</title>
+        <description>&lt;h1 id=&quot;十一月三号&quot;&gt;十一月三号&lt;/h1&gt;
+
+&lt;h2 id=&quot;干的事&quot;&gt;干的事&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;完成了实验楼基于flask和爬虫开发的微信工作号,能回复笑话。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;时间利用&quot;&gt;时间利用&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;早上睡到9:30…&lt;/li&gt;
+  &lt;li&gt;第一节课开始做实验楼小项目&lt;/li&gt;
+  &lt;li&gt;中午继续做了一中午…&lt;/li&gt;
+  &lt;li&gt;下午第二节课还是在接着做…&lt;/li&gt;
+  &lt;li&gt;下午下课后直接回来吃饭,然后没有做事情&lt;/li&gt;
+  &lt;li&gt;9点左右花了一个半小时完成了实验楼的小项目…&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;学到的东西&quot;&gt;学到的东西&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;第一次使用flask,感觉很轻,很简洁&lt;/li&gt;
+  &lt;li&gt;学会了使用ngrok将本地ip映射到外网&lt;/li&gt;
+  &lt;li&gt;基于昨天学习的内容,熟悉了beautifulsoup来解析html&lt;/li&gt;
+  &lt;li&gt;大体了解了微信公众平台的开发流程&lt;/li&gt;
+  &lt;li&gt;顺带复习了一把简单爬虫…&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;感想&quot;&gt;感想&lt;/h2&gt;
+
+&lt;p&gt;今天有两节课,上午第二节和下午第一节.上午睡到了9:30起床,非常懒…
+上课的时候开始写的实验楼小项目,花了一节课,一个中午,下午一节课都没有写完…也不知道白天怎么回事.
+还是晚上回来加了一小时班才写完的….&lt;/p&gt;
+
+&lt;p&gt;不知道是初次接触还是什么原因,反正今天的这个小项目进度特别慢,今天就属于一事无成…&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 03 Nov 2017 00:00:00 +0800</pubDate>
+        <link>DrCBin.com/blog/daily/</link>
+        <guid isPermaLink="true">DrCBin.com/blog/daily/</guid>
+        
+        <category>吾日三省吾身</category>
+        
+        
+        <category>Daily</category>
+        
+      </item>
+    
+      <item>
+        <title>2017-11-02</title>
+        <description>&lt;h1 id=&quot;十一月二号&quot;&gt;十一月二号&lt;/h1&gt;
+
+&lt;h2 id=&quot;干的事&quot;&gt;干的事&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;完成了实验楼的爬淘宝模特的小项目&lt;/li&gt;
+  &lt;li&gt;给女朋友送了束花,第一次玩点浪漫,毕竟生日&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;时间分配&quot;&gt;时间分配&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;早上第一节逃课…睡到10点半&lt;/li&gt;
+  &lt;li&gt;起床后直接去工作室&lt;/li&gt;
+  &lt;li&gt;中午开了个工作室会&lt;/li&gt;
+  &lt;li&gt;下午第一节英语课&lt;/li&gt;
+  &lt;li&gt;下课后回来吃饭,4点又去了工作室&lt;/li&gt;
+  &lt;li&gt;呆到7点回来,中途什么都没做,就使劲玩,顺便开了个小会&lt;/li&gt;
+  &lt;li&gt;回来后写了实验楼的爬虫项目&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;学习与收获&quot;&gt;学习与收获&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;认识了浏览器模拟工具,无头浏览器 PhantomJS   // 模拟浏览器用的,能加载代码,运行js, 像是浏览器工具&lt;/li&gt;
+  &lt;li&gt;认识了浏览器操作工具 Selenium   // 操作浏览器用的,能访问网址,分析源码等, 像是使用浏览器的人&lt;/li&gt;
+  &lt;li&gt;接触了beautifulsoup,并且知道了html解析器…// html5lib&lt;/li&gt;
+  &lt;li&gt;简单使用了多进程,虽然并没深入明白&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;感想&quot;&gt;感想&lt;/h2&gt;
+
+&lt;p&gt;时间利用严重不足,浪费过多&lt;/p&gt;
+</description>
+        <pubDate>Thu, 02 Nov 2017 00:00:00 +0800</pubDate>
+        <link>DrCBin.com/blog/daily/</link>
+        <guid isPermaLink="true">DrCBin.com/blog/daily/</guid>
+        
+        <category>吾日三省吾身</category>
+        
+        
+        <category>Daily</category>
+        
+      </item>
+    
+      <item>
+        <title>近期做项目的总结</title>
+        <description>&lt;h1 id=&quot;各个model之间的关系不要涉及到实例&quot;&gt;各个model之间的关系不要涉及到实例&lt;/h1&gt;
+
+&lt;p&gt;在项目中,有个Comment模型, 它有一个status属性,选择为(‘public’, ‘delete’, ‘draft’)三个选择. 当一个Comment调用save方法的时候,会去检查配置中有没有开启评论审核,从而确定一个新评论的状态!&lt;/p&gt;
+
+&lt;p&gt;但是,配置Config也是一个实例。&lt;/p&gt;
+
+&lt;p&gt;并且,在检查配置的过程中用到Config实例.  也就是说,Comment.save()方法涉及到了另一个Model实例!是实例! 这个在同步数据库的时候是要出问题的。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;除了直接联系,还要考虑间接联系&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;比如我在做项目时,有一个信号量  @receiver(post__save)  这个在同步数据库的时候也会调用这个这个信号接收函数,但是这个函数里面涉及到了和其他实例之间的耦合.从而导致数据库同步失败&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nd&quot;&gt;@receiver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;post_save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;comment_saved&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;valid_config&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;get_valid_config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;status&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'draft'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;valid_config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;check_comment&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'public'&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;instance&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# 而get_valid_config()需要一个Config实例&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;在所有的操作中一定要考虑失败了怎么办&quot;&gt;在所有的操作中,一定要考虑失败了怎么办&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;在之前的代码中,通常会获取一个实例,并且用try块包围,如果获取失败了就出异常
+ 但是很多情况下只能给出报错信息.并不能处理。
+ 比如之前会获取config,就应该想到如果获取失败了返回什么&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在使用valid_config 的时候就应该想到， 如果没有Config, 该怎么处理&lt;/p&gt;
+
+&lt;p&gt;最好在使用之前进行一下判断&lt;/p&gt;
+</description>
+        <pubDate>Thu, 28 Sep 2017 00:00:00 +0800</pubDate>
+        <link>DrCBin.com/blog/%E8%BF%91%E6%9C%9F%E5%81%9A%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%BB%E7%BB%93/</link>
+        <guid isPermaLink="true">DrCBin.com/blog/%E8%BF%91%E6%9C%9F%E5%81%9A%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%80%BB%E7%BB%93/</guid>
+        
+        <category>none</category>
+        
+        
+        <category>Tech</category>
+        
+      </item>
+    
+  </channel>
+</rss>

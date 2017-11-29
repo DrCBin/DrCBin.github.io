@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>django学习之进阶--理解和使用中间件</title>
+  <meta name="description" content="django中中间件的理解和使用">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="DrCBin.com/blog/Django%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%BF%9B%E9%98%B6-%E7%90%86%E8%A7%A3%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+  <link rel="alternate" type="application/rss+xml" title="DrCBin-陈斌" href="DrCBin.com/feed.xml">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+  <script defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >django学习之进阶--理解和使用中间件</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#django">django</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">01 Jun 2017</div>
+			</div>
+			<div class="post-content">
+				<p>最近由于需要,接触了django的中间件,一开是开始挺难理解的,后来慢慢的就比较理解一点了.</p>
+
+<p>在了解中间件之前,我们需要先对django处理request和返回response的流程.</p>
+
+<h3 id="django对request的处理流程">django对request的处理流程</h3>
+
+<ol>
+  <li>
+    <p>接受请求.
+ django收到一个请求,先将这个请求包装成request对象.</p>
+  </li>
+  <li>对request的处理:
+ 包装好的request对象,会经由一个叫做<code class="highlighter-rouge">process_request</code>的函数来处理.有两种结果:
+    <ul>
+      <li>返回<code class="highlighter-rouge">HttpResponse</code></li>
+      <li>返回<code class="highlighter-rouge">None</code></li>
+    </ul>
+
+    <p>如果返回<code class="highlighter-rouge">None</code>,则继续经由<code class="highlighter-rouge">process_view</code>函数处理,也有两种结果:</p>
+    <ul>
+      <li>返回<code class="highlighter-rouge">HttpResponse</code></li>
+      <li>返回<code class="highlighter-rouge">None</code></li>
+    </ul>
+
+    <p>如果还返回<code class="highlighter-rouge">None</code>则继续由<code class="highlighter-rouge">process_response</code>函数处理,结果有一种:</p>
+    <ul>
+      <li>返回<code class="highlighter-rouge">HttpResponse</code></li>
+    </ul>
+
+    <p><strong>两点说明</strong>:</p>
+    <ul>
+      <li>如果上述<code class="highlighter-rouge">process_view</code>函数内部发生了异常,这request会由<code class="highlighter-rouge">process_exception</code>处理:两种结果:
+        <ul>
+          <li>返回<code class="highlighter-rouge">None</code>:django内部异常处理机制继续处理这个request</li>
+          <li>返回<code class="highlighter-rouge">HttpResopnse</code></li>
+        </ul>
+      </li>
+      <li>所有返回的<code class="highlighter-rouge">HttpResponse</code>都是传给<code class="highlighter-rouge">process_response</code>的.</li>
+    </ul>
+  </li>
+  <li>
+    <p>中间件的作用:
+ 上面这些函数全部都是定义在中间件里面的.中间件就是一个类,每个中间件都可以同时拥有一个或者多个上述的函数.(1.10中中间件支持函数)</p>
+
+    <p>所以说,对于一个请求,需要经过上面这些函数,所以如果我们自己写这些函数,那么就可以在处理请求的过程中间做一些事情,这就是中间件的作用.</p>
+
+    <p>现在再来说django的处理流程.</p>
+
+    <ul>
+      <li>
+        <ol>
+          <li>先接受一个请求,包装成request对象.</li>
+        </ol>
+      </li>
+      <li>
+        <ol>
+          <li>遍历中间件列表里的左右中间件,从上到下执行一遍中间件里的<code class="highlighter-rouge">process_request</code>.如果某个中间件的<code class="highlighter-rouge">process_request</code>返回了<code class="highlighter-rouge">response</code>,那么直接将跳到().</li>
+        </ol>
+      </li>
+      <li>
+        <ol>
+          <li>如果(2)中所有中间件的<code class="highlighter-rouge">process_request</code>都没有返回<code class="highlighter-rouge">response</code>,那么再一次从上到下,依次执行<code class="highlighter-rouge">process_view</code>.如果某一个<code class="highlighter-rouge">process_view</code>返回了<code class="highlighter-rouge">response</code>,那么直接跳到().如果某一个出现了异常,直接跳到(4).</li>
+        </ol>
+      </li>
+      <li>
+        <ol>
+          <li>如果某个<code class="highlighter-rouge">process_view</code>出现了异常,那么将会按从下到上的顺序执行<code class="highlighter-rouge">process_exception</code>,如果返回了一个response,那么跳到(5),否则将由django框架异常处理来进行处理.</li>
+        </ol>
+      </li>
+      <li>
+        <ol>
+          <li>如果接到一个response,那么django将会从中间件列表中<strong>从下到上</strong>调用<code class="highlighter-rouge">process_response</code>,并将其返回.</li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<p><strong>这些顺序在django.core.handlers.base.py中的BaseHandler中涉及</strong></p>
+
+<p>以上为django中间件的作用和理解</p>
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/python%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80-%E4%BD%BF%E7%94%A8%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/" class="btn-pagination prev" title="python学习之基础–使用虚拟环境
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/Django%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80-%E5%AD%97%E6%AE%B5%E9%80%89%E9%A1%B9choices%E5%92%8Climit_choices_to%E7%9A%84%E4%BD%9C%E7%94%A8%E5%92%8C%E5%8C%BA%E5%88%AB/" class="btn-pagination next" title="Django学习之基础–字段选项choice和limit_choices_to的作用和区别
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=DrCBin.com/blog/Django%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%BF%9B%E9%98%B6-%E7%90%86%E8%A7%A3%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=DrCBin.com/blog/Django%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%BF%9B%E9%98%B6-%E7%90%86%E8%A7%A3%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=DrCBin.com/blog/Django%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%BF%9B%E9%98%B6-%E7%90%86%E8%A7%A3%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=DrCBin.com/blog/Django%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%BF%9B%E9%98%B6-%E7%90%86%E8%A7%A3%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+		
+       	
+        
+        
+		
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:drcbin@google.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/DrCBin" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2017 ChenBin. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?cd1138e3c986773ec07b6dd699f7bec2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>

@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MySql学习笔记,半教程</title>
+  <meta name="description" content="对MySql学习过程的记录，形成笔记，供日后查询。">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="DrCBin.com/blog/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+  <link rel="alternate" type="application/rss+xml" title="DrCBin-陈斌" href="DrCBin.com/feed.xml">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+  <script defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >MySql学习笔记,半教程</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#DB">DB</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">10 Apr 2017</div>
+			</div>
+			<div class="post-content">
+				<p>[TOC]</p>
+<h2 id="安装与配置初次接触数据库">安装与配置，初次接触数据库</h2>
+<ul>
+  <li>在mysql的安装目录下，mysql的配置文件，其中有个用户配置文件叫做my.ini,用户可以修改其来进行自己的配置。</li>
+</ul>
+
+<pre><code class="language-mysql">[client]
+# port: mysql的端口号,默认为3306
+port=3306
+
+[mysql]
+# default-character-set: 默认字符集
+default-character-set=uft8
+
+# mysqld:mysql服务器端的一些配置 
+[mysqld]
+port=3306
+
+# 基础的安装路径
+basedir="xxx"	
+
+# datadir:数据的存放路径
+datadir="xxxx"
+
+# character-set-server:服务器的字符集
+character-set-server=utf8
+</code></pre>
+
+<ul>
+  <li>重启mysql来应用配置
+    <ul>
+      <li>windows: <code class="highlighter-rouge">net start/stop mysql</code></li>
+      <li>linux: <code class="highlighter-rouge">sudo service mysql start/stop</code></li>
+    </ul>
+  </li>
+  <li>登陆mysql
+<code class="highlighter-rouge">mysql [-选项]</code>, eg:<code class="highlighter-rouge">mysql -uroot -p</code>
+    <ul>
+      <li>-D, –database=name 指定数据库名称</li>
+      <li>–delimiter=name 指定分隔符</li>
+      <li>-h, –host=name 服务器名称</li>
+      <li>-p, –password 密码</li>
+      <li>-P, –port=# 端口号</li>
+      <li>–prompt=name  设置提示符</li>
+      <li>-u, –user=name 用户名</li>
+      <li>-V, –version 查看版本号</li>
+    </ul>
+  </li>
+  <li>登出:
+    <pre><code class="language-mysql">mysql&gt;exit;
+mysql&gt;quit;
+mysql&gt;\q;
+</code></pre>
+  </li>
+  <li>修改mysql提示符：
+    <ul>
+      <li>链接服务器的时候修改：
+  <code class="highlighter-rouge">mysql -uusername -ppassword --prompt promptname</code></li>
+      <li>登陆成功后通过命令修改
+  <code class="highlighter-rouge">mysql&gt; prompt promptname;</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>其中<code class="highlighter-rouge">promptname</code>可以是以下参数: eg:<code class="highlighter-rouge">mysql&gt;pormpt \u@\h \d&gt;;</code></p>
+<pre><code class="language-mysql">\D 完整的日期
+\d 当前的数据库
+\h 服务器名称
+\u 当前用户
+</code></pre>
+
+<ul>
+  <li>mysql常用命令
+    <pre><code class="language-mysql"># 显示数据库版本
+SELECT VERSION(); 
+# 显示当前用户
+SELECT USER();
+#显示当前日期
+SELECT NOW();
+</code></pre>
+  </li>
+  <li>MySql语句的规范
+    <ul>
+      <li>关键字与函数全部大写</li>
+      <li>数据库名称，表名称，字段名称全部小写</li>
+      <li>语句必须以‘;’结尾。</li>
+    </ul>
+  </li>
+  <li>创建数据库：<code class="highlighter-rouge">CREATE {DATABAS , ESCHEMA} [IF NOT EXISTS] db_name [DEFAULT] CHARACTER SET [=] charset_name;</code>
+    <ul>
+      <li>{}为必选项，在 , 之间选一个</li>
+      <li>[]为可选项。</li>
+      <li>eg: <code class="highlighter-rouge">CREATE DATABASE t1;</code></li>
+    </ul>
+  </li>
+  <li>
+    <p>查看当前服务器下的数据库:<code class="highlighter-rouge"> SHOW DATABASES;</code></p>
+  </li>
+  <li>使用参数创建数数据库:
+    <ul>
+      <li>我们上面创建了一个叫做 t1 的数据库，如果我们重复执行命令，在创建一个叫做t1的数据亏，这系统会给我们报错。</li>
+      <li>我们加上参数再次创建同名数据库:<code class="highlighter-rouge">CREATE DATABASE  IF NOT EXISTS t1;</code>,此时系统没有给我们报错，返回了OK，只是提示有一个警告。</li>
+      <li>我们可以使用命令<code class="highlighter-rouge">SHOW WARINGS;</code>来查看警告。</li>
+    </ul>
+  </li>
+  <li>查看数据库创建的指令:<code class="highlighter-rouge">SHOW CREATE DATABASE db_name;</code>
+    <ul>
+      <li>这个命令可以显示数据库创建的命令，能看到字符集等。</li>
+    </ul>
+  </li>
+  <li>修改已存在数据库：<code class="highlighter-rouge">ALTER {DATABASE , SCHEMA} [db_name] [DEFAULT] CHARACTER SET [=] charset_name;</code>
+    <ul>
+      <li>eg:<code class="highlighter-rouge">ALTER DATABASE t1 CHARACTER SET = gbk;</code></li>
+    </ul>
+  </li>
+  <li>删除数据库:<code class="highlighter-rouge">DROP {DATABASE , SCHEMA} [IF EXISTS] db_name;</code>
+    <ul>
+      <li>eg: <code class="highlighter-rouge">DROP DATABASES t1;</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="数据类型与操作数据库">数据类型与操作数据库</h2>
+
+<ul>
+  <li>
+    <p>数据类型：</p>
+  </li>
+  <li>整型：
+    <ul>
+      <li><code class="highlighter-rouge">TINYINT</code>: 占一个字节
+        <ul>
+          <li>有符: -128~127 之间(-2^7~2^7-1)</li>
+          <li>无符(UNSIGNED): 0~255</li>
+        </ul>
+      </li>
+      <li><code class="highlighter-rouge">SMALLINT</code>:占2个字节
+        <ul>
+          <li>有符: -32768~32767(-2^15~2^15-1)</li>
+          <li>无符:0~65535</li>
+        </ul>
+      </li>
+      <li><code class="highlighter-rouge">MEDIUMINT</code>:占3个字节
+        <ul>
+          <li>大小为2^24</li>
+        </ul>
+      </li>
+      <li><code class="highlighter-rouge">INT</code>:占4字节
+        <ul>
+          <li>大小:2^32</li>
+        </ul>
+      </li>
+      <li><code class="highlighter-rouge">BIGINT</code>:占8字节
+        <ul>
+          <li>大小:2^64</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>浮点型:
+    <ul>
+      <li><code class="highlighter-rouge">FLOAT[(M,D)]</code>:M:总位数， D:小数点位数。M,D都可以省略，则更具硬件限制来保存值，但精度大约是小数点后7为。</li>
+      <li><code class="highlighter-rouge">DOUBLE</code>:范围大约是但进度的两倍</li>
+    </ul>
+  </li>
+  <li>日期时间类型:
+    <ul>
+      <li><code class="highlighter-rouge">YEAR</code>:年，默认四位</li>
+      <li><code class="highlighter-rouge">TIME</code>:时间，-8385959~8385959</li>
+      <li><code class="highlighter-rouge">DATE</code>:日期，1000.1.1~9999.12.31</li>
+      <li><code class="highlighter-rouge">DATETIME</code>:时间日期，</li>
+      <li><code class="highlighter-rouge">TIMESTAMP</code>:时间戳，1970.1.1-2037</li>
+    </ul>
+  </li>
+  <li>字符型:
+    <ul>
+      <li><code class="highlighter-rouge">CHAR(M)</code>:定长类型，M个字节, 不足的补空格， 0&lt;= M &lt;= 255.</li>
+      <li><code class="highlighter-rouge">VARCHAR(M)</code>:变长类型，村Length+1个字节，Length &lt; M, 0 &lt;= M &lt;= 65535.</li>
+      <li><code class="highlighter-rouge">TINYTEXT</code>: L+1个字节， L &lt; 2^8.</li>
+      <li><code class="highlighter-rouge">TEXT</code>: L+2, L &lt; 2^16.</li>
+      <li><code class="highlighter-rouge">MEDIUMTEXT</code>: L+3, L &lt; 2^24.</li>
+      <li><code class="highlighter-rouge">LONGTEXT</code>: L+4, L &lt; 2^32.</li>
+      <li><code class="highlighter-rouge">ENUM('value1', 'value2', 'value3', .....)</code>:枚举类型，只能选一个，最多65535个值。</li>
+      <li><code class="highlighter-rouge">SET('value1', 'value2', 'value3', ......)</code>:集合类型，可以任选个数，最多64个成员。</li>
+    </ul>
+  </li>
+  <li>数据表：数据库的重要组成，是其他对象的基础。</li>
+</ul>
+
+<p>数据表是一个二维表格，有行和列， 行称为记录，列称为字段。</p>
+
+<ul>
+  <li>
+    <p>打开数据库: <code class="highlighter-rouge">USE db_name;</code></p>
+  </li>
+  <li>
+    <p>查看当前的数据库: <code class="highlighter-rouge">SELECT DATABASE();</code></p>
+  </li>
+  <li>
+    <p>创建数据表:</p>
+  </li>
+</ul>
+
+<pre><code class="language-mysql">CREATE TABLE [IF NOT EXISTS] table_name(
+	column_name data_type,
+	......
+	column_name data_type
+);
+
+eg:
+CREATE TABLE person(
+	username VARCHAR(20),
+	age TINTYINT UNSIGNED,
+	salary FLOAT(6,2) UNSIGNED
+);
+</code></pre>
+
+<ul>
+  <li>查看数据表:<code class="highlighter-rouge">SHOW TABLES [FROM db_name] [LIKE 'pattern', WHERE expression];</code></li>
+</ul>
+
+<pre><code class="language-mysql">eg:
+SHOW TABLES FROM mysql;
+</code></pre>
+
+<ul>
+  <li>
+    <p>查看表结构: <code class="highlighter-rouge">SHOW COLUMNS FROM table_name;</code></p>
+  </li>
+  <li>
+    <p>插入数据:<code class="highlighter-rouge">INSERT [INTO] table_name [(column_name1, column_name2, ...)] VALUES(value1, value2, ...);</code></p>
+  </li>
+</ul>
+
+<pre><code class="language-mysql">eg:
+# 省略column_name,则默认为所有字段赋值
+INSERT person VALUES('Tom', 25, 234.523);
+
+# 只为部分字段赋值
+INSERT person (username, age) VALUES('Tim', 30);
+</code></pre>
+
+<ul>
+  <li>查找: <code class="highlighter-rouge">SELECT expression, .... FROM table_name;</code></li>
+</ul>
+
+<pre><code class="language-mysql">eg:
+SELECT username, age FROM person;
+</code></pre>
+
+<ul>
+  <li>空值与非空:在建表的时候在字段后面加上<code class="highlighter-rouge">NULL</code> or <code class="highlighter-rouge">NOT NULL</code>,默认为NULL,允许为空。</li>
+</ul>
+
+<pre><code class="language-mysql">CREATE TABLE table1(
+	username VARCHAR(20) NOT NULL;
+);
+</code></pre>
+
+<ul>
+  <li>主键:字段后面加上<code class="highlighter-rouge">PRIMARY_KEY</code>
+    <ul>
+      <li>一张表只能存在一个主键</li>
+      <li>主键不能重复，不能空，保证了记录的唯一性</li>
+      <li>主键自动为<code class="highlighter-rouge">NOT NULL</code></li>
+    </ul>
+  </li>
+  <li>自动编号:在建表的时候字段后面加上<code class="highlighter-rouge">AUTO_INCREMENT</code>.
+    <ul>
+      <li>必须与主键组合使用,具有主键的所有特性.</li>
+      <li>必须为数字.</li>
+      <li>默认起始为1， 每次增量为1.</li>
+      <li>可以不为这个字段赋值，他会自动增加.</li>
+    </ul>
+  </li>
+</ul>
+
+<pre><code class="language-mysql">CREATE TABLE table1(
+	id SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY_KEY,
+	username VARCHAR(20) NOT NULL;
+	age SMALLINT UNSIGNED
+);
+</code></pre>
+
+<ul>
+  <li>唯一约束:在字段后面加上<code class="highlighter-rouge">UNIQUE_KEY</code>
+    <ul>
+      <li>可一保证记录的唯一性.</li>
+      <li>一张表可以有多个.</li>
+      <li>唯一约束可以为NULL.多个NULL会被认为是一个 NULL.</li>
+    </ul>
+  </li>
+  <li>默认约束:在字段后面加上<code class="highlighter-rouge">DEFAULT value</code>
+    <ul>
+      <li>当不进行赋值时字段的默认值.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="约束以及修改数据表">约束以及修改数据表</h2>
+<ul>
+  <li>约束:
+    <ul>
+      <li>约束是为了保证数据的完整性和一致性</li>
+      <li>约束还分为表级约束和列级约束
+        <ul>
+          <li>如果约束只针对某一个字段使用，称为列级约束.</li>
+          <li>如果约束针对两个和以上的字段使用，称为表级约束.</li>
+        </ul>
+      </li>
+      <li>约束包括:
+        <ul>
+          <li><code class="highlighter-rouge">NOT NULL</code>(非空约束)</li>
+          <li><code class="highlighter-rouge">PRIMARY KEY</code>(主键约束)</li>
+          <li><code class="highlighter-rouge">UNIQUE KEY</code>(唯一约束)</li>
+          <li><code class="highlighter-rouge">DEFAULT</code>(默认约束)</li>
+          <li><code class="highlighter-rouge">FOREIGN KEY</code>外键约束)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>外键约束:
+    <ul>
+      <li>保持数据一致性，完整性</li>
+      <li>实现一对一或多对一关系</li>
+      <li>父表和子表必须使用相同的存储引擎，禁止使用临时表。
+        <ul>
+          <li>子表：具有外键的表。</li>
+          <li>父表： 相对于子表的参照表。</li>
+        </ul>
+      </li>
+      <li>数据表的存储引擎只能为INNODB
+        <ul>
+          <li>default-storage-engine=INNODB,在配置文件中修改。</li>
+        </ul>
+      </li>
+      <li>子表和父表的字段类型必须同一种或相似类型。
+        <ul>
+          <li>数字型必须完全相同，包括符号</li>
+          <li>字符型可以不同类型。</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>3-3外键的约束，重新学习。</p>
+  </li>
+  <li>添加数据列:<code class="highlighter-rouge">ALTER TABLE table_name ADD [COLUMN] column_name column_definition [FIRST, AFTER col_name]</code>
+    <ul>
+      <li>如果不指定<code class="highlighter-rouge">FIRST</code> or <code class="highlighter-rouge">AFTER</code>, 则默认插在最后。</li>
+      <li>可以同时添加多列，添加的列用()括起来，中间用’,‘隔开</li>
+      <li>添加多列是不能制定添加位置</li>
+    </ul>
+  </li>
+</ul>
+
+<pre><code class="language-mysql">eg:
+ALTER TABLE person ADD height TINYINT UNSIGNED NOT NULL AFTER age;
+</code></pre>
+
+<ul>
+  <li>
+    <p>删除数据列: <code class="highlighter-rouge">ALTER TABLE table_name DROP column_name;</code></p>
+  </li>
+  <li>
+    <p>同时进行多个操作:<code class="highlighter-rouge">ALTER TABLE table_name (DROP, ADD) column_name1, (DROP, ADD) column_name1,  (DROP, ADD) column_name1, ....; </code></p>
+  </li>
+  <li>
+    <p>添加主键约束:<code class="highlighter-rouge">ALTER TABLE table_name ADD [CONSTRAINT [symbol]] PRIMARY KEY [insex_type] (index_col_name, ...)</code></p>
+    <ul>
+      <li>如果加上CONSTRAINT, 则可以为这个约束起名字 symbol.</li>
+    </ul>
+  </li>
+</ul>
+
+<pre><code class="language-mysql">eg:
+ALTER TABLE person ADD CONSTRAINT PK_person_id PRIMARY KEY (id);
+</code></pre>
+
+<ul>
+  <li>
+    <p>添加唯一约束:``ALTER TABLE table_name ADD [CONSTRAINT [symbol]] UNIQUE [INDEX, KEY] [index_name] [index_type] (index_col_name, …);`</p>
+  </li>
+  <li>
+    <p>添加外键约束: <code class="highlighter-rouge">ALTER TABLE table_name ADD [CONSTRAINT [symbol]] FOREGIN KEY [instx_name] (index_col_name, ...) reference_definition;</code></p>
+  </li>
+</ul>
+
+<pre><code class="language-mysql">eg:
+# 设置provinces 表中的id为person表中pid的外键.
+ALTER TABLE person ADD FOREIGN KEY (pid) REFERENCES provinces (id);
+</code></pre>
+
+<ul>
+  <li>添加/删除默认约束:<code class="highlighter-rouge">ALTER TABLE table_name ALTER [COLUMN] column_name {SET DEFAULT literal, DROP DEFAULT}</code></li>
+</ul>
+
+<pre><code class="language-mysql">eg:
+ALTER TABLE person ALTER age SET DEFAULT 15;
+ALTER TABLE person ALTER age DROP DEFAULT;
+</code></pre>
+<ul>
+  <li>
+    <p>删除主键约束: <code class="highlighter-rouge">ALTER TABLE table_name DROP PRIMARY KEY;</code></p>
+  </li>
+  <li>删除唯一约束: <code class="highlighter-rouge">ALTER TABLE table_name DROP UNIQUE KEY {INDEX, KEY} index_name;</code>
+    <ul>
+      <li>查看 index_name: <code class="highlighter-rouge">SHOW INDEXES FROM table_name;</code></li>
+    </ul>
+  </li>
+  <li>删除外键约束: <code class="highlighter-rouge">ALTER TABLE table_name DROP FOREIGN KEY fk_symbol;</code>
+    <ul>
+      <li>查看 fk_symbol: <code class="highlighter-rouge">SHOW CREATW TABLE table_name;</code></li>
+      <li>参数外键后索引 index依然存在，要删除：<code class="highlighter-rouge">ALTER TABLE table_name DROP INDEX index_name;</code></li>
+    </ul>
+  </li>
+  <li>修改列定义:<code class="highlighter-rouge">ALTER TABLE table_name MODIFY [COLUMN] col_name column_definetion [FIRST, AFTER col_name];</code>
+    <ul>
+      <li>由大类型改成小类型可能会造成数据丢失， 如从INT-&gt;TINYINT.</li>
+    </ul>
+  </li>
+  <li>修改列名称:<code class="highlighter-rouge">ALTER TABLE table_name CHANGE [COLUMN] old_column new_column column_definition [FIRST, AFTER col_name];</code>
+    <ul>
+      <li>即可以该名字，也可以改定义.包含了MODIFY的功能.</li>
+    </ul>
+  </li>
+  <li>修改表名称:
+    <ul>
+      <li><code class="highlighter-rouge">ALTER TABLE old_table_name RENAME [TO, AS] new_table_name;</code></li>
+      <li><code class="highlighter-rouge">RENAME TABLE old_table_name1 TO new_table_name1, old_table_name2 TO new_table_name2, .....; </code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>尽量不要更改数据列名字和数据表名字.</p>
+
+<h2 id="操作数据库中的数据">操作数据库中的数据</h2>
+
+<ul>
+  <li>插入之INSERT: <code class="highlighter-rouge">INSERT [INTO] table_name [(col_name1, col_name2,...)] {VALUES, VALUE} ({expression, DEFAULT}, ...), (...), ...;</code>
+    <ul>
+      <li>如果省略了列名， 则所有的字段都必须赋值.</li>
+      <li>对于自增字段，可以有两种方式赋值:
+        <ul>
+          <li>将自增字段赋值为NULL, 其会自动增加.</li>
+          <li>将自增字段赋值为DETAULT, 也可以达到同样效果.</li>
+        </ul>
+      </li>
+      <li>expression为表达式，单个值也是一个表达式。
+        <pre><code class="language-mysql">INSERT person VALUES(5, '张三', 20), (5, '李四', 30-2*5);
+</code></pre>
+      </li>
+    </ul>
+  </li>
+  <li>插入之INSERT-SET:<code class="highlighter-rouge">INSERT table_name SET col_name1={expression}, col_name2={pression}, ...;</code>
+    <ul>
+      <li>较INSERT, 该方法可以使用子查询</li>
+      <li>该方法一次只能插入一个</li>
+      <li>对于有默认值或者可以为NULL的字段，可以不写。</li>
+    </ul>
+  </li>
+</ul>
+
+<p>-插入之INSET-SELECT:<code class="highlighter-rouge">INSERT table_name SELECT select_expression;</code></p>
+
+<pre><code class="language-mysql">INSER person(id,username) SELECT id, username FROM anotherTable WHERE age &gt; 30;
+</code></pre>
+
+<ul>
+  <li>单表更新:<code class="highlighter-rouge">UPDATE [LOW_PRIORITY] [IGNORE] table_name SET col_name1={expression, DEFAULT}, [col_name2={expression, DEFAULT}, ....] [WHERE where_condition];</code>
+    <ul>
+      <li>如果省略 WHERE 条件， 则所有的记录都会被更新.</li>
+    </ul>
+  </li>
+</ul>
+
+<pre><code class="language-mysql">eg:
+# 将所有id为偶数的年龄加10.
+UPDATE person SET age = age + 5 WHERE id % 2 = 0;
+</code></pre>
+
+<ul>
+  <li>
+    <p>多表更新:<code class="highlighter-rouge">UPDATE table_name SET col_name1={expre1, DEFAULT} [, col_name2={expre2, DEFAULT}, ....] [WHERE where_condition];</code></p>
+  </li>
+  <li>
+    <p>多表更新之一步到位:<code class="highlighter-rouge">CERATE TABLE [IF NOT EXISTS] table_name [(create_definition, create_definition1, ...)] select_statement;</code></p>
+  </li>
+</ul>
+
+<pre><code class="language-mysql">CREATE TABLE tdb_goods_brands(
+brands_id TINYINT,
+brand_name VARCHAR(40) NOT NULL
+)
+SELECT brand_name FROM tdb_goods GROUP BY brand_name;
+</code></pre>
+
+<ul>
+  <li>单表删除:<code class="highlighter-rouge">DELECT FROM table [WHERE where_condition];</code>
+    <ul>
+      <li>如果有自增字段，删除后再增加一列，新增列的自增字段不会去补充被删掉的那一列，而是会在最大列的基础上接着增加.</li>
+    </ul>
+  </li>
+  <li>
+    <p>多表删除:</p>
+  </li>
+  <li>select 语句:</li>
+</ul>
+
+<pre><code class="language-mysql">SELECT select_expression1 [[AS] alias_name],select_expression2, ...
+[
+	FROM table_refernces
+	[WHERE where_condition]
+	[GROUP BY {col_name, position} [ASC, DESC], {col_name2, position2} [ASC, DESC], ......]
+	[HAVING having_condition]
+	[ORDER BY {col_name, expression, position} [ASC, DESC], {col_name2, expression2} [ASC, DESC], ......]
+	[LIMIT {[offset,] row_count, row_count OFFSET offset }]
+]
+</code></pre>
+
+<ul>
+  <li>关于别名:AS
+    <ul>
+      <li>可以省略AS，但不推荐。</li>
+    </ul>
+  </li>
+  <li>关于过滤条件:WHERE
+    <ul>
+      <li>WHERE 可以省略，这表示不进行任何的过滤</li>
+      <li>where_condition 表达式中， 可以使用任何MySql支持的函数或运算符.</li>
+    </ul>
+  </li>
+  <li>关于分组:GROUP BY
+    <ul>
+      <li>如果 表达式使用的是position,这表示的是按select_expression 中相应的位置来排序， 不是按照数据表中所有字段的位置。</li>
+      <li>建议直接指定名称，数位置挺麻烦.</li>
+      <li>ASC,默认，升序</li>
+      <li>DESC 降序</li>
+    </ul>
+  </li>
+  <li>限制分组条件:HAVING
+    <ul>
+      <li>HAVING的分组条件必须为一个聚合函数或者出现再select_expresison中的表达式。</li>
+    </ul>
+  </li>
+  <li>对结果排序:ORDER BY:
+    <ul>
+      <li>如果order表达已经足够排序，则会忽略后面的表达式.</li>
+    </ul>
+  </li>
+  <li>限制查询数量:LIMIT
+    <ul>
+      <li><code class="highlighter-rouge">LIMIT row_count</code>: row_count表示要显示的行数，默认从第一行开始</li>
+      <li><code class="highlighter-rouge">LIMIT row_count, start_row</code>: row_count表示总共要显示的行数，start_row表示开始的行号。注意，<strong>行号是从0开始， 不是从1开始</strong>.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="子查询与连接">子查询与连接</h2>
+<ul>
+  <li>子查询: 指出现在其他SQL语句内的SELECT语句。
+    <ul>
+      <li>子查询指嵌套的查询内部的查询，<strong>必须始终出现在()内</strong>.</li>
+      <li>子查询可以包含多个关键字，也是一条正常的查询语句</li>
+      <li>子查询的外层可以是:SELECT, INSERT, UPDATE, SET, DELETE, DO等。</li>
+    </ul>
+  </li>
+  <li>由比较运算符引发的子查询:
+    <ul>
+      <li>由比较运算符可以 引发子查询</li>
+      <li>比较运算符的子查询的结果应该唯一</li>
+      <li>如果子查询返回的加过不唯一，应使用ANY, SOME or ALL 来修饰比较运算符</li>
+    </ul>
+  </li>
+</ul>
+
+<pre><code class="language-mysql"># 返回结果唯一的情况
+SELECT goods_id, goods_name, goods_price  FROM tdb_goods WHERE good_price &gt; (SELECT AVG(goods_price) FROM tdb_goods);
+
+# 返回结果不唯一的情况
+SELECT goods_id, goods_name, goods_price  FROM tdb_goods WHERE good_price &gt; ANY/SOME/ALL (SELECT goods_price FROM tdb_goodsWHERE goods_cate='超极本');
+</code></pre>
+
+<ul>
+  <li>由IN or NOT IN 引发的子查询:
+    <ul>
+      <li>=ANY 运算符与IN等效</li>
+      <li>！=ALL or &lt;&gt;ALL 与NOT IN 等效</li>
+    </ul>
+  </li>
+  <li>
+    <p>有 [NOT] EXISTS 引发的子查询:如果子查询返回任何行， 则EXISTS 返回 TRUE，否则返回FALSE.</p>
+  </li>
+  <li>表之间的连接:
+```mysql
+table_references
+{[INNER, CROSS] JOIN , [LIFT, RIGHT] [OUTER] JOIN}
+table_references
+ON condition_expression</li>
+</ul>
+
+<p>eg:
+UPDATE tdb_goods INNER JOIN tdb_goods_cates ON goods_cate=cate_name SET goods_cate=cate_id;
+```</p>
+
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/django%E5%AE%9E%E7%8E%B0%E7%99%BB%E9%99%86%E5%90%8E%E8%B7%B3%E8%BD%AC%E5%88%B0%E7%99%BB%E9%99%86%E5%89%8D%E9%A1%B5%E9%9D%A2%E7%9A%84%E6%96%B9%E6%B3%95/" class="btn-pagination prev" title="django实现登陆后跳转到登陆前的页面
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/%E4%BA%91%E7%AB%AF%E4%BD%BF%E7%94%A8linux%E7%9A%84%E6%96%B9%E6%B3%95,coding.net/" class="btn-pagination next" title="云端使用linux主机，coding.net
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=DrCBin.com/blog/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=DrCBin.com/blog/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=DrCBin.com/blog/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=DrCBin.com/blog/Mysql%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+		
+       	
+        
+        
+		
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:drcbin@google.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/DrCBin" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2017 ChenBin. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?cd1138e3c986773ec07b6dd699f7bec2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>

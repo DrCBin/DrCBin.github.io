@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>两周学完廖雪峰js教程之第一天--快速入门</title>
+  <meta name="description" content="给自己定下的目标,两周学完廖的js教程">
+
+  <link rel="stylesheet" href="/assets/css/main.css" | prepend: site.baseurl }}">
+  <link rel="canonical" href="DrCBin.com/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E4%B8%80%E5%A4%A9-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">
+  <link rel="alternate" type="application/rss+xml" title="DrCBin-陈斌" href="DrCBin.com/feed.xml">
+  <script src="/assets/js/jquery-1.8.2.min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/jPages.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/script.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/snap.svg-min.js" | prepend: site.baseurl }}"></script>
+  <script src="/assets/js/svg-animation.js" | prepend: site.baseurl }}"></script>
+  <script defer src="https://buttons.github.io/buttons.js"></script>
+</head>
+
+  
+  <body>
+	
+	<div class="main-wrapper">
+		<header id="header">
+  <div class="wrapper">
+    <nav>
+      
+        <a href=" /">Home</a>
+        <a href=" /blog ">Blog</a>
+        <a href=" /feed.xml "><i class="fa fa-rss" aria-hidden="true"></i></a>
+      
+    </nav>
+  </div>
+</header>
+
+		<section id="banner">
+    <div class="wrapper">
+	    <svg id="ice-bear" xmlns="http://www.w3.org/2000/svg"  version="1.1" width="100%" height="100%" viewBox="0 0 800 400">
+		
+            <g id="welcom-text" style="text-shadow: 1px 1px #EFEFEF, 2px 2px #ccc">
+                <text x="50" y="130" fill="#ed5565" font-size="100">W</text>
+                <text x="160" y="180" fill="#f4b350" font-size="100">E</text>
+                <text x="230" y="140" fill="#f2db94" font-size="130">L</text>
+                <text x="310" y="160" fill="#62ddbd" font-size="100">C</text>
+                <text x="400" y="160" fill="#62B3E5" font-size="90">O</text>
+                <text x="480" y="160" fill="#ec87c0" font-size="120">M</text>
+                <text x="600" y="160" fill="#b3aeef" font-size="100">E</text>
+            </g>
+            <g id="bear-head" fill="white">
+                <circle r="20" cx="380" cy="310"/>
+                <circle r="20" cx="500" cy="310"/>
+                <path d="M 360 400 V 355 A30 30 0 0 1 520 360 V 400"/>
+                <circle r="5px" cx="410" cy="330" fill="black"/>
+                <circle r="5px" cx="470" cy="330" fill="black"/>
+                <ellipse rx="15" ry="10" cx="440" cy="340" fill="black"/>
+                <path d="M 430 360 Q 440 370 450 360" stroke="black" stroke-width="2"/>
+            </g>
+            <g id="bear-paw-left">
+                <path d="M 305 410 V 300 A30 30 0 0 1 365 310 V 410"fill="white" stroke="#C4E8F8" stroke-width="1px"/>
+                <g fill="#62B3E5">
+                    <circle r="5" cx="315" cy="305"/>
+                    <circle r="5" cx="355" cy="305"/>
+                    <circle r="5" cx="327" cy="295"/>
+                    <circle r="5" cx="343" cy="295"/>
+                    <ellipse rx="15" ry="10" cx="335" cy="320"/>
+                </g>
+                <!--<animateTransform attributeName="transform" begin="0s" dur="3s" type="rotate" values="-14 340 400;15 340 400;-15 340 400" repeatCount="indefinite"/>-->
+            </g>
+            <g id="sea">
+                <path d="M 60 400 C 70 360 150 360 160 400 C 170 360 250 360 260 400 C 270 360 350 360 360 400 C 370 360 450 360 460 400 C 470 360 550 360 560 400 C 570 360 650 360 660 400 C 670 360 750 360 760 400 Z"  fill="#62B3E5"/>
+            </g>
+            <g id="bear-paw-right">
+                <path d="M 515 440 V 380 A30 30 0 0 1 575 390 V 440"fill="white" stroke="#C4E8F8" stroke-width="1px" transform="rotate(20, 575 390)"/>
+            </g>
+        </svg>
+    </div>
+</section>
+
+			<section style="padding-bottom: 0">
+		<article class="wrapper">
+			<div class="post-header">
+			<h2 class="red-title" >两周学完廖雪峰js教程之第一天--快速入门</h2>
+			<ul class="tags">
+				
+				<li><a href="/tags#js">js</a></li>
+				
+				
+			</ul>
+			<div class="line-highlight">19 May 2017</div>
+			</div>
+			<div class="post-content">
+				<h1 id="第一天">第一天</h1>
+
+<hr />
+
+<p>这已经不是我的第一门内编程语言了,我对这门语言也不陌生,因此前面的一些基础都是很快就能过完的,这里就记录下js和其他语言相比需要注意的地方</p>
+
+<h3 id="数据类型">数据类型</h3>
+
+<ol>
+  <li>js中不区分整数和小数,统一用<code class="highlighter-rouge">Number</code>类型表示</li>
+  <li>js中有两个其他语言没有的<code class="highlighter-rouge">NaN</code>, <code class="highlighter-rouge">Infinity</code>.
+    <ul>
+      <li>对于无法计算出结果的值，用<code class="highlighter-rouge">NaN</code>表示(Not a Number)</li>
+      <li>对于无穷大，超过了js数的表示范围的,用<code class="highlighter-rouge">Infinity</code>表示</li>
+    </ul>
+  </li>
+  <li>对于<code class="highlighter-rouge">NaN</code>的判断
+    <ul>
+      <li><code class="highlighter-rouge">NaN</code>是一个很特殊的变量，他和任意对象都不相等,包括它自己</li>
+      <li>判断<code class="highlighter-rouge">NaN</code>使用<code class="highlighter-rouge">isNaN</code>函数.如果是NaN，返回true(NaN,不是一个数)</li>
+    </ul>
+  </li>
+  <li>对于浮点数的比较
+ 浮点数不精确,尽量不要用计算结果来比较大小</li>
+</ol>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mi">1</span><span class="o">/</span><span class="mi">3</span> <span class="o">==</span> <span class="mi">1</span><span class="o">-</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span>    <span class="c1">// 不一定返回true,因为精度不保证</span>
+
+<span class="nx">abs</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">0.000000001</span>     <span class="c1">// 通过两浮点数的差的绝对值和一个精确读阀值来判断是否可以当做相等</span>
+</code></pre></div></div>
+
+<ol>
+  <li>字符串
+ js中可以使用`xxx`来包裹多行字符串,就像python中的’'’xxx’’’
+ <code class="highlighter-rouge">${varname}</code>:js中的字符串变量替换方式</li>
+</ol>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">name</span> <span class="o">=</span> <span class="s1">'Tom'</span>
+<span class="kd">var</span> <span class="nx">age</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="nx">alert</span><span class="p">(</span><span class="s2">`Hello </span><span class="p">${</span><span class="nx">name</span><span class="p">}</span><span class="s2">, you are </span><span class="p">${</span><span class="nx">age</span><span class="p">}</span><span class="s2"> years old!`</span><span class="p">)</span>   <span class="c1">// 注意，是反引号\`</span>
+</code></pre></div></div>
+
+<h3 id="循环">循环</h3>
+
+<p>js中有三种循环</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">for()</code>:这种循环和其他语言的一样的普通循环,主要用于下表访问和次数控制</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">for...in</code>:这种循环主要是遍历对象的属性</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">for...of</code>:这种循环主要是遍历对象的值</p>
+  </li>
+</ul>
+
+<p>现在也无法很清楚的搞清楚他们三之间的关系,先留个坑，日后补</p>
+
+
+			</div>
+			
+<div class="post-pagination">
+  
+  <a href="/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E4%B8%80%E5%A4%A9-%E5%87%BD%E6%95%B0/" class="btn-pagination prev" title="两周学完廖雪峰js教程之第一天–函数
+"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Prev</a>
+  
+  
+  <a href="/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E4%BA%8C%E5%A4%A9-%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6/" class="btn-pagination next" title="两周学完廖雪峰js教程之第二天–函数进阶
+">Next <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+  
+</div>
+
+			
+<div style="margin-top:30px">
+    <a href="https://twitter.com/intent/tweet?text=DrCBin.com/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E4%B8%80%E5%A4%A9-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" class="share-btn twitter-btn" title="Share on Twitter"><i class="fa fa-fw fa-twitter" aria-hidden="true"></i></a>
+    <a href="https://plus.google.com/share?url=DrCBin.com/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E4%B8%80%E5%A4%A9-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" class="share-btn googleplus-btn" title="Share on Google Plus"><i class="fa fa-fw fa-google-plus" aria-hidden="true"></i></a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=DrCBin.com/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E4%B8%80%E5%A4%A9-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" class="share-btn facebook-btn" title="Share on Facebook"><i class="fa fa-fw fa-facebook" aria-hidden="true"></i></a>
+    <a href="http://v.t.sina.com.cn/share/share.php?title=DrCBin.com/blog/%E4%B8%A4%E5%91%A8%E5%AD%A6%E5%AE%8C%E5%BB%96%E9%9B%AA%E5%B3%B0js%E4%B9%8B%E7%AC%AC%E4%B8%80%E5%A4%A9-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" class="share-btn weibo-btn" title="Share on Sina Weibo"><i class="fa fa-fw fa-weibo" aria-hidden="true"></i></a>
+</div>
+
+
+		</article>
+	</section>
+	<section id="comments">
+    <div class="wrapper">
+        <div class="line-highlight"><i class="fa fa-paw" aria-hidden="true"></i></div>
+		
+		
+       	
+        
+        
+		
+    </div>
+</section>
+
+		
+		<footer id="footer">
+  <div class="footer-border"></div>
+  <div class="footer-content">
+    <div class="social-wrapper text-center">
+      <ul class="social-lists">
+        <li><a class="social-btn btn-white" href="mailto:drcbin@google.com" target="_blank" rel="noopener noreferrer" title="Mail me"><i class="fa fa-fw fa-envelope"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        <li><a class="social-btn btn-white" href="http://github.com/DrCBin" target="_blank" rel="noopener noreferrer" title="Follow me on Github"><i class="fa fa-fw fa-github"></i></a></li>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+    <div class="copyright text-center">Copyright © 2017 ChenBin. Powered by Jekyll.</div>
+  </div>
+  <div id="top" class="btn-top" style="display:none">
+    <a href=" #header "><i class="fa fa-paw" aria-hidden="true"></i></a>
+  </div>
+</footer>
+	</div>
+	
+  </body>
+  <!-- Google analytics -->
+
+
+<!-- Baidu analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?cd1138e3c986773ec07b6dd699f7bec2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+</script>
+
+
+</html>
