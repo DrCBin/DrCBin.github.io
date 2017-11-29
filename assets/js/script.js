@@ -19,24 +19,50 @@ function display () {
 $(document).ready(function () {
 	var tabContainer = $(".posts-tabs");
 	if (tabContainer.length) {
+		$(".tab-three").bind("click", showTabThree);
 		$(".tab-two").bind("click", showTabTwo);
 		$(".tab-one").bind("click", showTabOne);
+
 	}
 	function showTabOne () {
 		$(".tab-one").addClass("active");
 		$(".tab-two").removeClass("active");
-		$(".tab-two-list").addClass("tab-hidden");
+		$(".tab-three").removeClass("active");
+
 		$(".tab-one-list").removeClass("tab-hidden");
-		$(".page-holder-two").addClass("tab-hidden");
+		$(".tab-two-list").addClass("tab-hidden");
+		$(".tab-three-list").addClass("tab-hidden");
+
 		$(".page-holder-one").removeClass("tab-hidden");
+		$(".page-holder-two").addClass("tab-hidden");
+		$(".page-holder-three").addClass("tab-hidden");
+	}
 	}
 	function showTabTwo () {
 		$(".tab-two").addClass("active");
 		$(".tab-one").removeClass("active");
-		$(".tab-one-list").addClass("tab-hidden");
+		$(".tab-three").removeClass("active");
+
 		$(".tab-two-list").removeClass("tab-hidden");
-		$(".page-holder-one").addClass("tab-hidden");
+		$(".tab-one-list").addClass("tab-hidden");
+		$(".tab-three-list").addClass("tab-hidden");
+
 		$(".page-holder-two").removeClass("tab-hidden");
+		$(".page-holder-one").addClass("tab-hidden");
+		$(".page-holder-three").addClass("tab-hidden");
+	}
+	function showTabThree () {
+		$(".tab-three").addClass("active");
+		$(".tab-one").removeClass("active");
+		$(".tab-two").removeClass("active");
+
+		$(".tab-three-list").removeClass("tab-hidden");
+		$(".tab-one-list").addClass("tab-hidden");
+		$(".tab-two-list").addClass("tab-hidden");
+
+		$(".page-holder-three").removeClass("tab-hidden");
+		$(".page-holder-one").addClass("tab-hidden");
+		$(".page-holder-two").addClass("tab-hidden");
 	}
 })
 
@@ -58,6 +84,17 @@ $(function(){
   });
   $("div.page-holder-two").jPages({
       containerID  : "pag-itemContainer-two",
+      previous: "«",
+      next: "»",
+      perPage      : 5,  /* num of items per page */
+      startPage    : 1,
+      startRange   : 1,
+      midRange     : 4,
+      endRange     : 1,
+      direction    : "auto"
+  });
+  $("div.page-holder-three").jPages({
+      containerID  : "pag-itemContainer-three",
       previous: "«",
       next: "»",
       perPage      : 5,  /* num of items per page */
